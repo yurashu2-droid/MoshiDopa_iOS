@@ -24,6 +24,17 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Select Xcode 26.3 with Swift 6.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo xcode-select --switch /Applications/Xcode_26.3.app/Contents/Developer
+          xcodebuild -version
+          xcrun swiftc --version
+          xcrun --sdk iphoneos --show-sdk-version
+
+
+
       - name: Install JavaScript dependencies
         run: npm ci
 
