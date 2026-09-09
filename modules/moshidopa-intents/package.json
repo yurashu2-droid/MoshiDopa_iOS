@@ -2,6 +2,9 @@
   "name": "moshidopa-intents",
   "version": "0.1.0",
   "description": "Native App Intents bridge for Moshidopa",
+  "homepage": "https://github.com/yurashu2-droid/MoshiDopa_iOS",
+  "license": "MIT",
+  "author": "Moshidopa",
   "main": "index.ts",
   "private": true,
   "dependencies": {
