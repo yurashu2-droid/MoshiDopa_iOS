@@ -1,0 +1,120 @@
+name: Build unsigned iOS IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-unsigned-ipa:
+    # Public repositories receive the standard hosted macOS runner.
+    runs-on: macos-14
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Generate the iOS project with Expo CNG
+        run: npx expo prebuild --platform ios --clean --no-install
+
+      - name: Install CocoaPods dependencies
+        working-directory: ios
+        run: pod install --repo-update
+
+      - name: Detect generated workspace and scheme
+        id: xcode
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          workspace="$(find ios -maxdepth 1 -name '*.xcworkspace' -print -quit)"
+          project="$(find ios -maxdepth 1 -name '*.xcodeproj' -print -quit)"
+
+          if [[ -n "$workspace" ]]; then
+            container_kind="workspace"
+            container_path="$workspace"
+            list_json="$(xcodebuild -list -json -workspace "$workspace")"
+          elif [[ -n "$project" ]]; then
+            container_kind="project"
+            container_path="$project"
+            list_json="$(xcodebuild -list -json -project "$project")"
+          else
+            echo 'No generated .xcworkspace or .xcodeproj was found under ios/' >&2
+            exit 1
+          fi
+
+          scheme="$(printf '%s' "$list_json" | python3 -c '
+          import json, sys
+          data = json.load(sys.stdin)
+          section = data.get("workspace") or data.get("project") or {}
+          schemes = section.get("schemes", [])
+          candidates = [s for s in schemes if "Pods" not in s and not s.startswith("React-")]
+          if not candidates:
+              raise SystemExit("No application scheme was found")
+          print(candidates[0])
+          ')"
+
+          echo "container_kind=$container_kind" >> "$GITHUB_OUTPUT"
+          echo "container_path=$container_path" >> "$GITHUB_OUTPUT"
+          echo "scheme=$scheme" >> "$GITHUB_OUTPUT"
+          echo "Detected $container_kind: $container_path"
+          echo "Detected application scheme: $scheme"
+
+      - name: Build unsigned Release app for physical iPhone
+        shell: bash
+        env:
+          CONTAINER_KIND: ${{ steps.xcode.outputs.container_kind }}
+          CONTAINER_PATH: ${{ steps.xcode.outputs.container_path }}
+          SCHEME: ${{ steps.xcode.outputs.scheme }}
+        run: |
+          set -euo pipefail
+
+          container_flag="-workspace"
+          if [[ "$CONTAINER_KIND" == "project" ]]; then
+            container_flag="-project"
+          fi
+
+          # Release makes Expo bundle the JavaScript into the app. This is the
+          # useful Sideloadly artifact; a Development Build would require a
+          # reachable Metro server and is intentionally not produced here.
+          xcodebuild "$container_flag" "$CONTAINER_PATH" -scheme "$SCHEME" -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build
+
+      - name: Package unsigned IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          app_path="$(find ios/build/Build/Products/Release-iphoneos -maxdepth 1 -name '*.app' -print -quit)"
+          if [[ -z "$app_path" ]]; then
+            echo 'The Release-iphoneos build did not produce an .app bundle.' >&2
+            exit 1
+          fi
+
+          rm -rf ipa-staging
+          mkdir -p ipa-staging/Payload
+          cp -R "$app_path" ipa-staging/Payload/MoshiDopa.app
+          ditto -c -k --sequesterRsrc --keepParent ipa-staging/Payload MoshiDopa-unsigned.ipa
+
+          unzip -l MoshiDopa-unsigned.ipa
+          unzip -Z1 MoshiDopa-unsigned.ipa | grep -q '^Payload/MoshiDopa.app/'
+
+      - name: Upload unsigned IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoshiDopa-unsigned-ipa
+          path: MoshiDopa-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
