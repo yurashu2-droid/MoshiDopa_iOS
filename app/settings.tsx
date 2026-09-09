@@ -26,7 +26,11 @@ export default function SettingsScreen() {
     try {
       await setSetting(db, 'hourlyWage', String(value));
       await setSetting(db, 'autoDisplay', String(autoDisplay));
-      nativeIntents.setHourlyWage(value);
+      const nativeWage = nativeIntents.setHourlyWage(value);
+      if (nativeWage == null) {
+        Alert.alert('連携が未完了です', 'アプリ内の設定は保存しましたが、ショートカット連携用のネイティブモジュールが見つかりません。開発ビルドを作成して再試行してください。');
+        return;
+      }
       Alert.alert('保存しました', '次回の計測開始からこの時給が固定されます。', [{text: 'OK', onPress: () => router.back()}]);
     } finally { setSaving(false); }
   };

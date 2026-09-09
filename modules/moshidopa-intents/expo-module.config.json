@@ -1,6 +1,7 @@
 {
   "platforms": ["ios"],
   "ios": {
-    "modules": ["MoshidopaIntentsModule"]
+    "modules": ["MoshidopaIntentsModule"],
+    "podspecPath": "ios/MoshidopaIntents.podspec"
   }
 }

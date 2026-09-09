@@ -1,6 +1,10 @@
 {
   "name": "moshidopa-intents",
   "version": "0.1.0",
+  "description": "Native App Intents bridge for Moshidopa",
   "main": "index.ts",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "expo-modules-core": "*"
+  }
 }
