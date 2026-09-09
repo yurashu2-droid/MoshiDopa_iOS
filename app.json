@@ -10,7 +10,12 @@
       "expo-router",
       "expo-dev-client",
       "expo-sqlite",
-      ["./modules/moshidopa-intents/app.plugin.js", {"deploymentTarget": "16.0"}]
+      [
+        "./modules/moshidopa-intents/app.plugin.js",
+        {
+          "deploymentTarget": "16.0"
+        }
+      ]
     ],
     "ios": {
       "supportsTablet": true,
@@ -24,6 +29,13 @@
     },
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fa7b885d-baa1-4704-b52b-81ab35736895"
+      }
+    },
+    "owner": "yurashu"
   }
 }

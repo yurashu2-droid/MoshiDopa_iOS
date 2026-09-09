@@ -37,3 +37,11 @@ npm run export
 ```
 
 Windows では Xcode を実行できないため、Swift のコンパイル、署名、iPhone 実機挙動は Mac で別途確認してください。
+
+## GitHub Actionsで未署名IPAを作る
+
+公開リポジトリのGitHub Actionsから、macOS runner上でExpo CNGのiOSプロジェクトを生成し、ローカルSwift Expo Moduleを含むRelease `.app`を未署名でコンパイルできます。workflowは [ios-unsigned-ipa.yml](.github/workflows/ios-unsigned-ipa.yml) です。
+
+Actionsの実行後、`MoshiDopa-unsigned-ipa` artifactをダウンロードし、WindowsのSideloadlyへ渡してください。これは`CODE_SIGNING_ALLOWED=NO`で作る未署名IPAなので、Sideloadly側でApple ID・署名・端末登録が必要です。
+
+このworkflowはRelease構成を使い、JavaScriptをアプリへ内包します。Metro接続を前提にするDevelopment Buildは、Actions runner終了後に接続先がなく、Sideloadlyでの最初の起動確認に向かないため生成しません。Development Buildを使う場合は、Mac上でMetroを起動し、別途署名済みの開発ビルドを作成してください。
