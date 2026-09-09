@@ -38,7 +38,12 @@ private struct NativeStoreFile: Codable {
 /// A deliberately small, native-owned append queue.
 /// App Intents may run while React Native/JavaScript is not running, so this file
 /// is the source of truth until the next app launch imports it into SQLite.
-private final class MoshidopaNativeStore {
+///
+/// Every access to the mutable file-backed state is serialized by `lock`. The
+/// unchecked Sendable conformance is intentional: App Intents can invoke this
+/// store from background executors, and the lock is the synchronization
+/// boundary for all stored state and encoder/decoder use.
+private final class MoshidopaNativeStore: @unchecked Sendable {
   static let shared = MoshidopaNativeStore()
 
   private let lock = NSLock()
@@ -289,10 +294,8 @@ public struct MoshidopaOpenLastSessionIntent: AppIntent {
 @available(iOS 16.0, *)
 public struct MoshidopaShortcuts: AppShortcutsProvider {
   public static var appShortcuts: [AppShortcut] {
-    [
-      AppShortcut(intent: MoshidopaStartMeasurementIntent(), phrases: ["もしドパで\(.applicationName)の計測を開始"], shortTitle: "計測開始", systemImageName: "play.circle"),
-      AppShortcut(intent: MoshidopaEndMeasurementIntent(), phrases: ["もしドパで\(.applicationName)の計測を終了"], shortTitle: "計測終了", systemImageName: "stop.circle"),
-      AppShortcut(intent: MoshidopaOpenLastSessionIntent(), phrases: ["\(.applicationName)で最新の明細を開く"], shortTitle: "明細を開く", systemImageName: "doc.text")
-    ]
+    AppShortcut(intent: MoshidopaStartMeasurementIntent(), phrases: ["もしドパで\(.applicationName)の計測を開始"], shortTitle: "計測開始", systemImageName: "play.circle")
+    AppShortcut(intent: MoshidopaEndMeasurementIntent(), phrases: ["もしドパで\(.applicationName)の計測を終了"], shortTitle: "計測終了", systemImageName: "stop.circle")
+    AppShortcut(intent: MoshidopaOpenLastSessionIntent(), phrases: ["\(.applicationName)で最新の明細を開く"], shortTitle: "明細を開く", systemImageName: "doc.text")
   }
 }
