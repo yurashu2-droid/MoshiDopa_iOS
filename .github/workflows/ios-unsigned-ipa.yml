@@ -11,7 +11,7 @@ permissions:
 jobs:
   build-unsigned-ipa:
     # Public repositories receive the standard hosted macOS runner.
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 45
 
     steps:
