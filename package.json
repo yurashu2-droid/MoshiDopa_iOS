@@ -8,6 +8,7 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "web": "expo start --web",
+    "postinstall": "patch-package",
     "typecheck": "tsc --noEmit",
     "export": "expo export --platform ios"
   },
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "patch-package": "^8.0.1",
     "typescript": "~6.0.3"
   }
 }
