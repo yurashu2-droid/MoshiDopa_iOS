@@ -126,6 +126,10 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             try audio.setCategory(.playback, mode: .default, options: [.mixWithOthers])
             try audio.setActive(true)
             audioActive = true
+            var requested = false
+            defer {
+                if !requested { deactivateAudio() }
+            }
             render()
             controller.invalidatePlaybackState()
             guard controller.isPictureInPicturePossible else {
@@ -136,6 +140,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             }
             try log("pip_user_requested")
             pipStatus = "PiP開始要求中"
+            requested = true
             controller.startPictureInPicture()
         }
     }
