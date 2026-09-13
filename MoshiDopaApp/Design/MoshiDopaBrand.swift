@@ -346,6 +346,7 @@ struct MoshiDopaTabBar: View {
         .shadow(color: MoshiDopaBrand.paperShadow, radius: 8, y: -2)
         .padding(.horizontal, 14)
         .padding(.bottom, 2)
+        .background(MoshiDopaBrand.world.ignoresSafeArea(edges: .bottom))
         .accessibilityElement(children: .contain)
     }
 }

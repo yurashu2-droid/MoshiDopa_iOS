@@ -5,12 +5,12 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 ## Current checkpoint
 
 - Android baseline: all 480 recorded hashes and HEAD rechecked unchanged after the visual fixes.
-- P1: at `88cae47`, Simulator build, ten unit tests and unsigned iphoneos Release build succeeded; UI tests passed 5/7. No fully successful native CI run yet. See run 34781229834 below.
+- P1: complete at `03c6996`, run 34783195768: native Simulator build, 13 unit tests, 8 UI tests and unsigned iphoneos Release build all succeeded. Subsequent UI/compact-screen changes still require a new passing run.
 - P2A: sample-data SwiftUI screens implemented. Parent reviewed actual home/settings/real-money PNGs, corrected missing artwork and layout differences; full rendered review awaits the next CI artifacts.
 - P2B: common SessionService/SQLite/real sample-buffer renderer implemented and parent source review completed, including stop retry/recovery, audio cleanup and delegate isolation. Signed-device background behavior remains unverified.
 - Parent owns integration, CI, final image/video review and acceptance. Luna MAX performed the bounded settings refinement; Sol Medium reviewed the PiP/core implementation.
 
-## Parent review checkpoint
+## Parent review checkpoint (historical, before native runs)
 
 - Rechecked all 480 Android baseline hashes and HEAD; no changes found.
 - Reviewed the common amount calculation, monotonic elapsed time, frozen stop retry, SQLite recovery tests, and PiP sheet lifetime/restore handling.
@@ -71,3 +71,20 @@ Additional corrections: remove the history phrase “この今日”; make the l
 The 16.19-second interview recording was inspected at sampled phases; the young character's disconnected rig requires correction. This is not a completed normal-speed motion review. Recording now begins before launch to include the opening; final timing, whole interaction and corrected geometry require the next CI output. Luna MAX owns only the actor rig correction; parent owns integration and visual acceptance. Sol Medium supplied the bounded shared-image evidence change, reviewed by parent.
 
 Artifacts are split into visual evidence, test records and native builds to avoid the previous single archive exceeding the connector's 512 MiB download limit. The unsigned IPA is a build result, not directly installable on a device. Background PiP updates, SNS coexistence and signing remain unverified; see `pip-device-test.md`.
+
+
+## Review work following 03c6996
+
+[Run 34783195768](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34783195768) at `03c69967c89890814e224fc9ce87a73eedb67b3d` completed successfully: 13 unit tests and 8 UI tests passed; unsigned iphoneos Release build succeeded. Parent verified the exact commit and Xcode 26.3/XcodeGen 2.46.0 in the downloaded environment file. Rendered artifact review is ongoing.
+
+A bounded Sol Medium task aligned the interview with Android's 18.7-second camera/actor sequence, latest short-man sheet, self-mic and investment poses. Parent reviewed registration and timing, verified the required source images exist, and added actual SwiftUI-rendered phase PNGs to the test attachments. Parent also pauses the timeline for completed/reduced-motion states and preserves the completed transcript when hiding time. These newer changes still require CI compilation and rendered review.
+
+Parent added selectable SPEND/INVEST and small/normal/large amount previews, plus update time/rate on larger Live Activity surfaces. A compact iPhone SE check reuses the compiled test bundle for two actual navigation tests and captures seven large-value screens. These additions close UI acceptance coverage gaps; they are not yet successful test evidence. Signed-device installation and PiP test steps are now explicit in `native-development.md`.
+
+
+Run 34783195768 artifact IDs: visual `10325797406`, tests `10326246243`, builds `10326211327`. Simulator package is 22,580,033 bytes; unsigned device IPA is 18,236,088 bytes. Logs specifically confirm `testHistoryOpensSelectedReceipt`, `testRealMeasurementIncreasesAndSurvivesRelaunch`, and `testWhatIfSkipReplayAndModeChange` passed. Artifacts are available locally under `artifacts/run-34783195768/` once download/extraction completes. These foreground/navigation results do not establish background PiP acceptance.
+
+
+Parent downloaded and extracted all three run-34783195768 archives. Actual home/settings/history-large PNGs confirm restored ink contrast and the selected-history/PiP navigation tests pass. Scroll content still paints beneath the lower safe area, so the tab bar now provides an opaque world-color background through that area; verification is pending.
+
+Parent inspected all ten exported share PNGs. Four receipts and three statements preserve amount hierarchy, positive INVEST treatment, hidden time/rate and unclipped large values. The three interview exports expose the old tall actor painting beyond its Canvas into the activity label; the new camera-stage clip and registered short-actor implementation address this, awaiting the next rendering. P2A is not yet accepted. Parent checked Apple `GraphicsContext.draw(_:in:style:)` documentation for the Image overload used by the new Canvas (https://developer.apple.com/documentation/swiftui/graphicscontext/draw(_:in:style:)-blhz).

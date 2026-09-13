@@ -47,6 +47,19 @@ final class ShareImageTests: XCTestCase {
         }
     }
 
+    @MainActor func testInterviewPhasePNGEvidence() throws {
+        for mode in MDMode.allCases {
+            let story = try XCTUnwrap(MDWhatIfStory.make(data: MDFixtureData.make(.populated),
+                                                       period: .day, mode: mode))
+            let phases: [TimeInterval] = mode == .spend
+                ? [0, 1.3, 4.25, 8.85, 13.5, 15.83, 18.7] : [4.25, 15.83, 18.7]
+            for elapsed in phases {
+                try attach(MDWhatIfView.previewUIImage(story, elapsed: elapsed, hideTime: false),
+                           name: "interview-phase-\(mode.rawValue)-\(elapsed)")
+            }
+        }
+    }
+
     private func attach(_ image: UIImage?, name: String,
                         file: StaticString = #filePath, line: UInt = #line) throws {
         let image = try XCTUnwrap(image, name, file: file, line: line)

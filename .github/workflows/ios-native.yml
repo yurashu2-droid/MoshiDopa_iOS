@@ -69,6 +69,9 @@ jobs:
           xcrun simctl list devices available -j > artifacts/devices.json
       - name: Simulator tests and screenshots
         run: bash ci/test-simulator.sh
+      - name: Compact iPhone navigation and visual evidence
+        if: ${{ !cancelled() }}
+        run: bash ci/test-compact-simulator.sh
       - name: Unsigned physical-device Release build
         if: ${{ !cancelled() }}
         run: |
@@ -83,6 +86,9 @@ jobs:
           if [[ -d artifacts/Tests.xcresult ]]; then
             xcrun xcresulttool export attachments --path artifacts/Tests.xcresult --output-path artifacts/test-attachments
           fi
+          if [[ -d artifacts/Compact.xcresult ]]; then
+            xcrun xcresulttool export attachments --path artifacts/Compact.xcresult --output-path artifacts/test-attachments-compact
+          fi
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -91,9 +97,11 @@ jobs:
           path: |
             artifacts/screenshots/
             artifacts/test-attachments/
+            artifacts/test-attachments-compact/
             artifacts/whatif-preview.mp4
             artifacts/environment.txt
             artifacts/selected-device.json
+            artifacts/compact-device.json
           if-no-files-found: warn
           retention-days: 14
       - name: Upload test records
@@ -103,6 +111,7 @@ jobs:
           name: ios-tests-${{ github.sha }}
           path: |
             artifacts/Tests.xcresult/
+            artifacts/Compact.xcresult/
             artifacts/*.log
             artifacts/*.txt
             artifacts/*.json
@@ -119,6 +128,7 @@ jobs:
             artifacts/MoshiDopa-unsigned.ipa
             artifacts/environment.txt
             artifacts/selected-device.json
+            artifacts/compact-device.json
           if-no-files-found: warn
           retention-days: 14
   native-gate:

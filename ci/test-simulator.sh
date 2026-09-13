@@ -43,7 +43,7 @@ xcrun simctl io "$UDID" recordVideo --codec=h264 artifacts/whatif-preview.mp4 &
 VIDEO_PID=$!
 sleep 1
 xcrun simctl launch "$UDID" com.moshidopa.app --screen whatif --fixture populated
-sleep 22
+sleep 30
 kill -INT "$VIDEO_PID"
 wait "$VIDEO_PID" || true
 

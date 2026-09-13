@@ -137,12 +137,28 @@ final class VisualFlowTests: XCTestCase {
         capture(app, name: "whatif-invest-completed")
     }
 
+    func testCounterPreviewModeAndSmallAmount() {
+        let app = launch("counter")
+        let invest = app.buttons["preview-mode-invest"]
+        for _ in 0..<4 where !invest.isHittable { app.swipeUp() }
+        invest.tap()
+        app.buttons["preview-amount-0"].tap()
+        let paper = app.buttons["counter-style-paper"]
+        for _ in 0..<3 where !paper.isHittable { app.swipeUp() }
+        XCTAssertTrue(paper.label.contains("自己投資"))
+        XCTAssertTrue(paper.label.contains("¥0.82"))
+        capture(app, name: "counter-invest-small")
+    }
+
     func testLiveActivitySurfacePreviews() {
         let app = launch("counter")
         let delivery = app.buttons["delivery-liveActivity"]
         for _ in 0..<3 where !delivery.isHittable { app.swipeUp() }
         delivery.tap()
-        capture(app, name: "counter-live-activity-selected")
+        let large = app.buttons["preview-amount-2"]
+        for _ in 0..<3 where !large.isHittable { app.swipeUp() }
+        large.tap()
+        capture(app, name: "counter-live-activity-selected-large")
         for page in 1...5 {
             app.swipeUp()
             capture(app, name: "counter-live-activity-surfaces-\(page)")

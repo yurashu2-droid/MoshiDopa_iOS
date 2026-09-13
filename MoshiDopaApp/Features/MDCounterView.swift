@@ -8,9 +8,15 @@ struct MDCounterView: View {
     @State private var delivery: MDCounterDelivery = .pip
     @State private var style: MDCounterStyle = .paper
     @State private var testMessage: String?
+    @State private var previewMode: MDMode = .spend
+    @State private var amountPreset = 1
 
     private var previewAmount: Double {
-        data.fixture == .large ? (data.activities.map(\.amount).max() ?? 842.35) : 842.35
+        switch amountPreset {
+        case 0: return 0.82
+        case 2: return max(1_234_567.89, data.activities.map(\.amount).max() ?? 0)
+        default: return 842.35
+        }
     }
     private var compactAmount: String {
         previewAmount >= 10_000 ? "¥\(Int(previewAmount / 10_000))万" : MoshiDopaBrand.yen(floor(previewAmount))
@@ -31,6 +37,7 @@ struct MDCounterView: View {
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
                 deliveryPicker
+                previewControls
                 Text("この方法のデザイン")
                     .font(.system(size: 21, weight: .black, design: .rounded))
                 Text("選択中：\(style.label)")
@@ -46,10 +53,44 @@ struct MDCounterView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .onAppear {
+                amountPreset = data.fixture == .large ? 2 : 1
                 delivery = data.selectedCounterDelivery
                 style = delivery == .pip ? data.pipStyle : data.liveStyle
             }
         }
+    }
+
+    private var previewControls: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("表示見本").font(.system(size: 16, weight: .bold))
+            HStack(spacing: 8) {
+                ForEach(MDMode.allCases) { mode in
+                    Button { previewMode = mode } label: {
+                        Text((previewMode == mode ? "✓ " : "") + mode.shortTitle)
+                            .font(.system(size: 14, weight: .bold))
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .background(TornPaperShape().fill(previewMode == mode ? MoshiDopaBrand.lime : MoshiDopaBrand.paper))
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(PressScaleButtonStyle())
+                    .accessibilityIdentifier("preview-mode-\(mode.rawValue.lowercased())")
+                }
+            }
+            HStack(spacing: 8) {
+                ForEach(0..<3) { index in
+                    Button { amountPreset = index } label: {
+                        Text((amountPreset == index ? "✓ " : "") + ["少額", "通常", "大きい金額"][index])
+                            .font(.system(size: 13, weight: .bold))
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .background(TornPaperShape().fill(amountPreset == index ? MoshiDopaBrand.lime : MoshiDopaBrand.paper))
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(PressScaleButtonStyle())
+                    .accessibilityIdentifier("preview-amount-\(index)")
+                }
+            }
+        }
+        .foregroundStyle(MoshiDopaBrand.ink)
     }
 
     private var deliveryPicker: some View {
@@ -101,7 +142,7 @@ struct MDCounterView: View {
                 Text(candidate.subtitle)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
-                CounterPreview(style: candidate, delivery: delivery, amount: previewAmount)
+                CounterPreview(style: candidate, delivery: delivery, amount: previewAmount, mode: previewMode)
             }
             .padding(17)
             .background(TornPaperShape().fill(MoshiDopaBrand.paper))
@@ -161,8 +202,10 @@ struct MDCounterView: View {
             HStack {
                 Image(systemName: "yensign.circle.fill")
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("もしドパ · 更新時点の金額").font(.caption)
+                    Text("もしドパ · \(previewMode.shortTitle)").font(.caption)
                     Text(MoshiDopaBrand.yen(previewAmount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 28, weight: .black, design: .monospaced))
+                    Text("9:41更新 · 時給 \(MoshiDopaBrand.yen(data.hourlyRate ?? 1_800))/h")
+                        .font(.caption2).foregroundStyle(MoshiDopaBrand.mutedInk)
                 }
                 Spacer()
             }
@@ -187,9 +230,10 @@ struct MDCounterView: View {
                 .accessibilityIdentifier("live-preview-minimal")
             Text("Dynamic Island · 展開")
             VStack(alignment: .leading, spacing: 12) {
-                Label("もしドパ", systemImage: "yensign.circle.fill").foregroundStyle(islandAccent)
+                Label("もしドパ · \(previewMode.shortTitle)", systemImage: "yensign.circle.fill").foregroundStyle(islandAccent)
                 Text(MoshiDopaBrand.yen(previewAmount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 30, weight: .black, design: .monospaced))
-                Text("更新時点の金額").font(.caption).foregroundStyle(.white.opacity(0.7))
+                Text("9:41更新 · 時給 \(MoshiDopaBrand.yen(data.hourlyRate ?? 1_800))/h")
+                    .font(.caption).foregroundStyle(.white.opacity(0.7))
             }
             .frame(maxWidth: .infinity, alignment: .leading).padding(20)
             .foregroundStyle(.white).background(.black, in: RoundedRectangle(cornerRadius: 32))
@@ -209,6 +253,8 @@ struct CounterPreview: View {
     let style: MDCounterStyle
     let delivery: MDCounterDelivery
     var amount: Double = 842.35
+    var mode: MDMode = .spend
+    private var activityTitle: String { mode == .invest ? "自己投資" : "アプリ名" }
 
     var body: some View {
         ZStack {
@@ -253,7 +299,7 @@ struct CounterPreview: View {
         case .paper:
             PaperCard(padding: 11) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Label("アプリ名", systemImage: "play.fill")
+                    Label(activityTitle, systemImage: mode == .invest ? "chart.bar.fill" : "play.fill")
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                     Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                         .font(.system(size: 30, weight: .black, design: .monospaced))
@@ -265,7 +311,7 @@ struct CounterPreview: View {
                 Image(systemName: "play.fill")
                 Divider().frame(height: 30).overlay(Color.white.opacity(0.2))
                 VStack(alignment: .leading, spacing: 1) {
-                    Text("アプリ名").font(.system(size: 11, weight: .bold, design: .rounded))
+                    Text(activityTitle).font(.system(size: 11, weight: .bold, design: .rounded))
                     Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 24, weight: .black, design: .monospaced))
                 }
             }
@@ -275,7 +321,7 @@ struct CounterPreview: View {
             .background(RoundedRectangle(cornerRadius: 14).fill(MoshiDopaBrand.ink))
         case .frost:
             VStack(alignment: .leading, spacing: 1) {
-                Label("アプリ名", systemImage: "play.fill")
+                Label(activityTitle, systemImage: mode == .invest ? "chart.bar.fill" : "play.fill")
                     .font(.system(size: 11, weight: .bold, design: .rounded))
                 Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                     .font(.system(size: 27, weight: .black, design: .monospaced))
@@ -287,7 +333,7 @@ struct CounterPreview: View {
         case .sticker:
             ZStack(alignment: .topTrailing) {
                 VStack(alignment: .leading, spacing: 1) {
-                    Label("アプリ名", systemImage: "play.fill")
+                    Label(activityTitle, systemImage: mode == .invest ? "chart.bar.fill" : "play.fill")
                         .font(.system(size: 11, weight: .bold, design: .rounded))
                     Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                         .font(.system(size: 27, weight: .black, design: .monospaced))

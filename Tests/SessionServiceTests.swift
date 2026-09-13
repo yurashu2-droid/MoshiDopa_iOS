@@ -21,7 +21,7 @@ private enum TestFailure: Error { case injected }
 
 final class SessionServiceTests: XCTestCase {
     @MainActor func testBundledAndroidArtworkLoadsByRuntimeName() {
-        for name in ["home_wordmark", "home_mascot_coin", "home_receipt_fiber", "paper_mascot_history", "paper_mascot_settings", "session_receipt_paper_texture", "whatif_part_old_normal", "whatif_part_young_body"] {
+        for name in ["home_wordmark", "home_mascot_coin", "home_receipt_fiber", "paper_mascot_history", "paper_mascot_settings", "session_receipt_paper_texture", "whatif_part_old_normal", "whatif_part_young_body", "whatif_old_short_sheet_v2", "whatif_part_old_self_mic_v3", "whatif_interviewer_poses", "whatif_young_poses"] {
             XCTAssertNotNil(UIImage(named: name), "Missing runtime artwork: \(name)")
         }
     }
