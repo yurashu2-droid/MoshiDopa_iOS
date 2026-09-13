@@ -33,3 +33,13 @@ CI dispatch checkpoint: authentication blocker resolved. [Initial run 3477918832
 - [ ] Device-only conditions clearly unverified if no device is available.
 
 No App Store submission or main merge is included. Old Expo data remains untouched; migration is a later integration stage. Mock UI data must never enter the PiP store.
+
+## CI review: run 34779516989
+
+At `fa280ad`, the Simulator app compiled and all nine core tests passed. Three of seven UI tests passed; four failed. This run is not accepted as successful CI, and the device build was skipped.
+
+Parent downloaded the xcresult and attachments. Accessibility dumps show receipt/onboarding screen identifiers on ScrollView rather than Other; tests now query identifiers across element types. Real foreground money increased; the saved history row was below the lazy List viewport, so the test now scrolls to check it before and after relaunch.
+
+Parent inspected the home screenshot: missing wordmark, mascots and paper texture. Runtime logs confirm named-image lookup failures. The unchanged PNG artwork is now packaged into named asset-catalog image sets. Visual acceptance awaits a new rendered comparison.
+
+PiP delegate callbacks now use a lock-protected playback snapshot for synchronous queries and main-actor tasks for UI state. Tests and device concurrency behavior require rerun. CI now attempts screenshots after test failures and independently attempts the unsigned device build, preserving failed test status.

@@ -69,6 +69,7 @@ jobs:
       - name: Simulator tests and screenshots
         run: bash ci/test-simulator.sh
       - name: Unsigned physical-device Release build
+        if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
           xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build/device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee artifacts/device-build.log

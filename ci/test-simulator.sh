@@ -17,10 +17,12 @@ PY
 xcrun simctl boot "$UDID" || true
 xcrun simctl bootstatus "$UDID" -b
 xcrun simctl status_bar "$UDID" override --time '9:41' --batteryState charged --batteryLevel 100
+TEST_STATUS=0
 xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Debug \
   -destination "platform=iOS Simulator,id=$UDID" -derivedDataPath build/simulator \
   -resultBundlePath artifacts/Tests.xcresult -parallel-testing-enabled NO \
-  CODE_SIGNING_ALLOWED=NO test 2>&1 | tee artifacts/simulator-tests.log
+  CODE_SIGNING_ALLOWED=NO test 2>&1 | tee artifacts/simulator-tests.log || TEST_STATUS=$?
+printf '%s\n' "$TEST_STATUS" > artifacts/simulator-test-exit-code.txt
 APP=build/simulator/Build/Products/Debug-iphonesimulator/MoshiDopa.app
 ditto -c -k --sequesterRsrc --keepParent "$APP" artifacts/MoshiDopa-simulator.zip
 xcrun simctl install "$UDID" "$APP"
@@ -39,3 +41,6 @@ VIDEO_PID=$!
 sleep 22
 kill -INT "$VIDEO_PID"
 wait "$VIDEO_PID" || true
+
+# Preserve test failures even when evidence capture succeeds.
+exit "$TEST_STATUS"

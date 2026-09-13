@@ -9,7 +9,7 @@ final class VisualFlowTests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["--screen", screen, "--fixture", fixture]
         app.launch()
-        XCTAssertTrue(app.otherElements["screen-\(screen)"].waitForExistence(timeout: 10), "Missing screen \(screen)")
+        XCTAssertTrue(app.descendants(matching: .any)["screen-\(screen)"].waitForExistence(timeout: 10), "Missing screen \(screen)")
         return app
     }
 
@@ -40,13 +40,13 @@ final class VisualFlowTests: XCTestCase {
     func testTabNavigationAndCounterSettings() {
         let app = launch()
         app.buttons["tab-history"].tap()
-        XCTAssertTrue(app.otherElements["screen-history"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-history"].waitForExistence(timeout: 3))
         app.buttons["tab-settings"].tap()
-        XCTAssertTrue(app.otherElements["screen-settings"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-settings"].waitForExistence(timeout: 3))
         let counter = app.buttons["open-counter"]
         if !counter.isHittable { app.swipeUp() }
         counter.tap()
-        XCTAssertTrue(app.otherElements["screen-counter"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-counter"].waitForExistence(timeout: 3))
         capture(app, name: "counter-from-settings")
     }
 
@@ -55,7 +55,7 @@ final class VisualFlowTests: XCTestCase {
         let invest = app.buttons["start-invest"]
         if !invest.isHittable { app.swipeUp() }
         invest.tap()
-        XCTAssertTrue(app.otherElements["screen-measurement"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-measurement"].waitForExistence(timeout: 3))
         // The INVEST-only form is evidence of mode preservation, beyond a highlighted tab.
         XCTAssertTrue(app.textFields["例：個人開発"].exists)
         capture(app, name: "measurement-invest-entry")
@@ -75,12 +75,14 @@ final class VisualFlowTests: XCTestCase {
         waitForExpectations(timeout: 8)
         capture(app, name: "pip-real-inline-money")
         app.buttons["pip-stop-session"].tap()
+        for _ in 0..<5 where !app.staticTexts["保存済み"].firstMatch.exists { app.swipeUp() }
         XCTAssertTrue(app.staticTexts["保存済み"].firstMatch.waitForExistence(timeout: 5))
         app.terminate()
         app.launch()
         let reopened = app.buttons["open-pip"]
         for _ in 0..<5 where !reopened.isHittable { app.swipeUp() }
         reopened.tap()
+        for _ in 0..<5 where !app.staticTexts["保存済み"].firstMatch.exists { app.swipeUp() }
         XCTAssertTrue(app.staticTexts["保存済み"].firstMatch.waitForExistence(timeout: 5))
         capture(app, name: "pip-saved-after-relaunch")
     }
@@ -94,7 +96,7 @@ final class VisualFlowTests: XCTestCase {
             next.tap()
             if step < 6 { app.swipeDown() }
         }
-        XCTAssertTrue(app.otherElements["screen-home"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-home"].waitForExistence(timeout: 5))
     }
 
     func testHistoryOpensSelectedReceipt() {
@@ -105,7 +107,7 @@ final class VisualFlowTests: XCTestCase {
         for _ in 0..<6 where !row.isHittable { app.swipeUp() }
         XCTAssertTrue(row.exists)
         row.tap()
-        XCTAssertTrue(app.otherElements["screen-receipt"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["screen-receipt"].waitForExistence(timeout: 5))
         let preview = app.otherElements["receipt-preview"]
         XCTAssertTrue(preview.label.contains("Instagram"), "Receipt must match the selected history row")
         capture(app, name: "receipt-selected-instagram")

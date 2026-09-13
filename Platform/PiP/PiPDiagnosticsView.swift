@@ -42,11 +42,45 @@ final class PiPEventStore {
     }
 }
 
+/// AVKit's synchronous queries can arrive outside the main actor.
+/// Every access to these two playback flags is protected by the same lock.
+private final class PiPPlaybackState: @unchecked Sendable {
+    private let lock = NSLock()
+    private var hasContent = false
+    private var presentationPaused = false
+
+    func setHasContent(_ value: Bool) {
+        lock.lock()
+        defer { lock.unlock() }
+        hasContent = value
+    }
+
+    func setPresentationPaused(_ value: Bool) {
+        lock.lock()
+        defer { lock.unlock() }
+        presentationPaused = value
+    }
+
+    func isPresentationPaused() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return presentationPaused
+    }
+
+    func isPlaybackPaused() -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return !hasContent || presentationPaused
+    }
+}
+
 @MainActor
 final class PiPDiagnosticsModel: NSObject, ObservableObject {
     static let shared = PiPDiagnosticsModel()
     @Published var hourlyRateText = "1800"
-    @Published private(set) var snapshot: SessionRecord?
+    @Published private(set) var snapshot: SessionRecord? {
+        didSet { playbackState.setHasContent(snapshot != nil) }
+    }
     @Published private(set) var history: [SessionRecord] = []
     @Published private(set) var pipStatus = "PiP未開始"
     @Published private(set) var possible = false
@@ -63,7 +97,11 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
     private let renderer = MoneyFrameRenderer()
     private var attached = false
     private var audioActive = false
-    private var presentationPaused = false
+    nonisolated private let playbackState = PiPPlaybackState()
+    private var presentationPaused: Bool {
+        get { playbackState.isPresentationPaused() }
+        set { playbackState.setPresentationPaused(newValue) }
+    }
     private var lastCheckpoint = -Double.infinity
 
     override init() {
@@ -234,47 +272,66 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
 }
 
 extension PiPDiagnosticsModel: AVPictureInPictureSampleBufferPlaybackDelegate {
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, setPlaying playing: Bool) {
+    nonisolated func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, setPlaying playing: Bool) {
         // OS pause affects presentation only; measurement continues using its own clock.
-        presentationPaused = !playing
-        perform { try log("pip_set_playing", detail: "\(playing)") }
-        pictureInPictureController.invalidatePlaybackState()
+        playbackState.setPresentationPaused(!playing)
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.perform { try self.log("pip_set_playing", detail: "\(playing)") }
+            self.controller?.invalidatePlaybackState()
+        }
     }
-    func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
+    nonisolated func pictureInPictureControllerTimeRangeForPlayback(_ pictureInPictureController: AVPictureInPictureController) -> CMTimeRange {
         CMTimeRange(start: .zero, duration: .positiveInfinity)
     }
-    func pictureInPictureControllerIsPlaybackPaused(_ pictureInPictureController: AVPictureInPictureController) -> Bool { snapshot == nil || presentationPaused }
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
-        perform { try log("pip_render_size", detail: "\(newRenderSize.width)x\(newRenderSize.height)") }
+    nonisolated func pictureInPictureControllerIsPlaybackPaused(_ pictureInPictureController: AVPictureInPictureController) -> Bool { playbackState.isPlaybackPaused() }
+    nonisolated func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {
+        let detail = "\(newRenderSize.width)x\(newRenderSize.height)"
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.perform { try self.log("pip_render_size", detail: detail) }
+        }
     }
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, skipByInterval skipInterval: CMTime, completion completionHandler: @escaping @Sendable () -> Void) { completionHandler() }
+    nonisolated func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, skipByInterval skipInterval: CMTime, completion completionHandler: @escaping @Sendable () -> Void) { completionHandler() }
 }
 
 extension PiPDiagnosticsModel: AVPictureInPictureControllerDelegate {
-    func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        pipStatus = "PiP表示中 · 背景更新は実機で検証"
-        perform { try log("pip_started") }
-    }
-    func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        pipStatus = "PiP停止 · 計測は停止・保存まで継続"
-        perform { try log("pip_stopped") }
-        deactivateAudio()
-    }
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
-        pipStatus = "PiP開始失敗"
-        perform { try log("pip_start_failed", detail: error.localizedDescription) }
-        errorMessage = error.localizedDescription
-        deactivateAudio()
-    }
-    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping @Sendable (Bool) -> Void) {
-        let reply = PiPRestoreReply(completionHandler)
-        let callback: (Bool) -> Void = { restored in
-            Task { @MainActor in reply.reply(restored) }
+    nonisolated func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.pipStatus = "PiP表示中 · 背景更新は実機で検証"
+            self.perform { try self.log("pip_started") }
         }
-        NotificationCenter.default.post(name: Notification.Name("MoshiDopaRestorePiP"), object: nil,
-            userInfo: ["completion": callback])
-        // Never report success if no host actually restored the UI.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { reply.reply(false) }
+    }
+    nonisolated func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.pipStatus = "PiP停止 · 計測は停止・保存まで継続"
+            self.perform { try self.log("pip_stopped") }
+            self.deactivateAudio()
+        }
+    }
+    nonisolated func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        let detail = error.localizedDescription
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.pipStatus = "PiP開始失敗"
+            self.perform { try self.log("pip_start_failed", detail: detail) }
+            self.errorMessage = detail
+            self.deactivateAudio()
+        }
+    }
+    nonisolated func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping @Sendable (Bool) -> Void) {
+        Task { @MainActor in
+            let reply = PiPRestoreReply(completionHandler)
+            let callback: (Bool) -> Void = { restored in
+                Task { @MainActor in reply.reply(restored) }
+            }
+            NotificationCenter.default.post(name: Notification.Name("MoshiDopaRestorePiP"), object: nil,
+                userInfo: ["completion": callback])
+            // Never report success if no host actually restored the UI.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { reply.reply(false) }
+        }
     }
 }
 
