@@ -1,0 +1,2248 @@
+{
+  "capturedAt": "2026-09-14T03:41:33.8390962+09:00",
+  "androidRoot": "C:\\Users\\raito\\AndroidStudioProjects\\TimeCostView",
+  "androidHead": "c6252f8778e94eb269fafa3c5f63d752eb4c2e2f",
+  "status": [
+    " M .gitignore",
+    "AM .idea/vcs.xml",
+    " M README.md",
+    " M app/build.gradle.kts",
+    " M app/src/androidTest/java/com/example/timecostview/MvpFlowTest.kt",
+    " M app/src/androidTest/java/com/example/timecostview/StatementNavigationTest.kt",
+    " M app/src/main/AndroidManifest.xml",
+    " M app/src/main/java/com/example/timecostview/MainActivity.kt",
+    " M app/src/main/java/com/example/timecostview/data/Store.kt",
+    " M app/src/main/java/com/example/timecostview/domain/SessionReceipt.kt",
+    " M app/src/main/java/com/example/timecostview/domain/Statement.kt",
+    " M app/src/main/java/com/example/timecostview/overlay/PriceTag.kt",
+    " M app/src/main/java/com/example/timecostview/overlay/SessionReceiptOverlay.kt",
+    " M app/src/main/java/com/example/timecostview/share/ReceiptRenderer.kt",
+    " M app/src/main/java/com/example/timecostview/share/SessionReceiptRenderer.kt",
+    " M app/src/main/java/com/example/timecostview/tracking/TrackingService.kt",
+    " M app/src/main/java/com/example/timecostview/ui/Brand.kt",
+    " M app/src/main/java/com/example/timecostview/ui/PageUi.kt",
+    " M app/src/main/java/com/example/timecostview/ui/SessionReceiptPaper.kt",
+    " M app/src/main/java/com/example/timecostview/ui/history/HistoryScreen.kt",
+    " M app/src/main/java/com/example/timecostview/ui/history/HistoryScrollView.kt",
+    " M app/src/main/res/drawable/ic_launcher_background.xml",
+    " M app/src/main/res/drawable/ic_launcher_foreground.xml",
+    " M app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+    " M app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+    " M app/src/main/res/mipmap-hdpi/ic_launcher.webp",
+    " M app/src/main/res/mipmap-hdpi/ic_launcher_round.webp",
+    " M app/src/main/res/mipmap-mdpi/ic_launcher.webp",
+    " M app/src/main/res/mipmap-mdpi/ic_launcher_round.webp",
+    " M app/src/main/res/mipmap-xhdpi/ic_launcher.webp",
+    " M app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp",
+    " M app/src/main/res/mipmap-xxhdpi/ic_launcher.webp",
+    " M app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp",
+    " M app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp",
+    " M app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp",
+    " M app/src/main/res/values-night/themes.xml",
+    " M app/src/main/res/values/themes.xml",
+    " M app/src/test/java/com/example/timecostview/SessionReceiptTest.kt",
+    "?? android-dev.cmd",
+    "?? android-dev.ps1",
+    "?? app/src/androidTest/java/com/example/timecostview/CounterStylesTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/HistoryDeletionTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/HomeDashboardTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/PaperBottomBarTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/PaperRefreshTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/ReleaseReadinessTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/SeedMonthDataTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/SessionReceiptVisualTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/UnifiedHistoryTest.kt",
+    "?? app/src/androidTest/java/com/example/timecostview/WhatIfVisualTest.kt",
+    "?? app/src/main/assets/privacy-policy.json",
+    "?? app/src/main/assets/third-party-licenses.txt",
+    "?? app/src/main/java/com/example/timecostview/PrivacyPolicyActivity.kt",
+    "?? app/src/main/java/com/example/timecostview/ThirdPartyLicensesActivity.kt",
+    "?? app/src/main/java/com/example/timecostview/WhatIfActivity.kt",
+    "?? app/src/main/java/com/example/timecostview/domain/CounterStyle.kt",
+    "?? app/src/main/java/com/example/timecostview/domain/HomeSummary.kt",
+    "?? app/src/main/java/com/example/timecostview/domain/ReportSummary.kt",
+    "?? app/src/main/java/com/example/timecostview/domain/WhatIf.kt",
+    "?? app/src/main/java/com/example/timecostview/overlay/CounterView.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/AppSelectionCategories.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/AppSelectionDialog.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/HomeDashboard.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/HomeLightSurface.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/PaperBottomBar.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/PaperCraft.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/PaperUi.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/ReportOverview.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfActors.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfBubble.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfCard.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfLegacyActors.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfMotion.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfPerformance.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfSpring.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/WhatIfStage.kt",
+    "?? app/src/main/java/com/example/timecostview/ui/history/HistoryPeriodChart.kt",
+    "?? app/src/main/res/drawable-nodpi/home_mascot_coin.png",
+    "?? app/src/main/res/drawable-nodpi/home_mascot_rest.png",
+    "?? app/src/main/res/drawable-nodpi/home_receipt_fiber.png",
+    "?? app/src/main/res/drawable-nodpi/home_wordmark.png",
+    "?? app/src/main/res/drawable-nodpi/ic_launcher_art.webp",
+    "?? app/src/main/res/drawable-nodpi/paper_mascot_history.png",
+    "?? app/src/main/res/drawable-nodpi/paper_mascot_settings.png",
+    "?? app/src/main/res/drawable-nodpi/session_receipt_paper_texture.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_interview.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_interviewer_poses.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_old_short_sheet.jpg",
+    "?? app/src/main/res/drawable-nodpi/whatif_old_short_sheet_v2.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_arm.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_body.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_normal.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_point.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_self_mic.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_self_mic_v2.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_self_mic_v3.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_old_talk.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_young_arm.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_young_body.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_young_normal.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_young_shock.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_part_young_talk.png",
+    "?? app/src/main/res/drawable-nodpi/whatif_young_poses.png",
+    "?? app/src/main/res/drawable/home_invest.xml",
+    "?? app/src/main/res/drawable/home_play.xml",
+    "?? app/src/main/res/drawable/paper_icon_apps.xml",
+    "?? app/src/main/res/drawable/paper_icon_bell.xml",
+    "?? app/src/main/res/drawable/paper_icon_document.xml",
+    "?? app/src/main/res/drawable/paper_icon_info.xml",
+    "?? app/src/main/res/drawable/paper_icon_rate.xml",
+    "?? app/src/main/res/values-night-v29/themes.xml",
+    "?? app/src/main/res/values-v29/themes.xml",
+    "?? app/src/main/res/values/ids.xml",
+    "?? app/src/test/java/com/example/timecostview/domain/CounterStyleTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/HomeSummaryTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/ReportSummaryTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/WhatIfMotionTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/WhatIfPerformanceTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/WhatIfSpringTest.kt",
+    "?? app/src/test/java/com/example/timecostview/domain/WhatIfTest.kt",
+    "?? docs/assets/moshidopa-header-logo-v1.png",
+    "?? docs/assets/moshidopa-header-logo-v1.prompt.txt",
+    "?? docs/assets/paper-screen-mascots.prompts.md",
+    "?? docs/assets/whatif-expressions/prompts.json",
+    "?? docs/counter-styles.md",
+    "?? docs/design/overlay-counter-concepts-20260912/README.md",
+    "?? docs/design/overlay-counter-concepts-20260912/a-paper-tag.png",
+    "?? docs/design/overlay-counter-concepts-20260912/b-ink-meter.png",
+    "?? docs/design/overlay-counter-concepts-20260912/c-frosted-label.png",
+    "?? docs/design/overlay-counter-concepts-20260912/d-ghost-sticker.png",
+    "?? docs/design/overlay-counter-concepts-20260912/prompts.md",
+    "?? docs/design/sticker-concepts/01-white-v2.png",
+    "?? docs/design/sticker-concepts/02-uncle-v2.png",
+    "?? docs/design/sticker-concepts/03-raimu-v2.png",
+    "?? docs/design/sticker-concepts/04-white-uncle-v2.png",
+    "?? docs/design/sticker-concepts/05-white-raimu-v2.png",
+    "?? docs/design/sticker-concepts/README.md",
+    "?? docs/design/sticker-concepts/prompts-v2.md",
+    "?? docs/design/sticker-concepts/prompts.md",
+    "?? docs/home-blue-paper.md",
+    "?? docs/home-paper-collage.md",
+    "?? docs/home-reference-match.md",
+    "?? docs/home-visual-refinement.md",
+    "?? docs/launcher-icon-generated-source.png",
+    "?? docs/paper-bottom-navigation.md",
+    "?? docs/paper-ui-refresh.md",
+    "?? docs/play-console-draft.md",
+    "?? docs/release-audit.md",
+    "?? docs/release-checklist.md",
+    "?? docs/release-readiness-qa.md",
+    "?? docs/release-setup.md",
+    "?? docs/sample-month-data.md",
+    "?? docs/screenshots/app-2026-09-14.zip",
+    "?? docs/screenshots/app-2026-09-14/01-home.png",
+    "?? docs/screenshots/app-2026-09-14/02-measurement-spend.png",
+    "?? docs/screenshots/app-2026-09-14/03-measurement-invest.png",
+    "?? docs/screenshots/app-2026-09-14/04-measurement-invest-details.png",
+    "?? docs/screenshots/app-2026-09-14/05-settings.png",
+    "?? docs/screenshots/app-2026-09-14/06-app-selection.png",
+    "?? docs/screenshots/app-2026-09-14/07-hourly-rate.png",
+    "?? docs/screenshots/app-2026-09-14/08-counter-designs.png",
+    "?? docs/screenshots/app-2026-09-14/09-counter-designs-bottom.png",
+    "?? docs/screenshots/app-2026-09-14/10-display-notifications.png",
+    "?? docs/screenshots/app-2026-09-14/11-display-notifications-bottom.png",
+    "?? docs/screenshots/app-2026-09-14/12-about.png",
+    "?? docs/screenshots/app-2026-09-14/13-about-bottom.png",
+    "?? docs/screenshots/app-2026-09-14/14-privacy-policy.png",
+    "?? docs/screenshots/app-2026-09-14/15-licenses.png",
+    "?? docs/screenshots/app-2026-09-14/16-onboarding-01-welcome.png",
+    "?? docs/screenshots/app-2026-09-14/17-onboarding-02-rate.png",
+    "?? docs/screenshots/app-2026-09-14/18-onboarding-03-usage-access.png",
+    "?? docs/screenshots/app-2026-09-14/19-onboarding-04-apps.png",
+    "?? docs/screenshots/app-2026-09-14/20-onboarding-05-overlay.png",
+    "?? docs/screenshots/app-2026-09-14/21-onboarding-06-ready.png",
+    "?? docs/screenshots/app-2026-09-14/22-history-day.png",
+    "?? docs/screenshots/app-2026-09-14/23-history-week.png",
+    "?? docs/screenshots/app-2026-09-14/24-history-month.png",
+    "?? docs/screenshots/app-2026-09-14/25-history-invest.png",
+    "?? docs/screenshots/app-2026-09-14/26-history-details.png",
+    "?? docs/screenshots/app-2026-09-14/27-statement-day.png",
+    "?? docs/screenshots/app-2026-09-14/28-statement-month.png",
+    "?? docs/screenshots/app-2026-09-14/29-whatif-day.png",
+    "?? docs/screenshots/app-2026-09-14/30-whatif-month.png",
+    "?? docs/screenshots/app-2026-09-14/31-whatif-invest.png",
+    "?? docs/screenshots/app-2026-09-14/32-history-calendar.png",
+    "?? docs/screenshots/app-2026-09-14/README.md",
+    "?? docs/screenshots/app-2026-09-14/index.html",
+    "?? docs/screenshots/collage-debug.png",
+    "?? docs/screenshots/counter-styles/counter-frost.png",
+    "?? docs/screenshots/counter-styles/counter-ink.png",
+    "?? docs/screenshots/counter-styles/counter-paper.png",
+    "?? docs/screenshots/counter-styles/counter-settings-paper.png",
+    "?? docs/screenshots/counter-styles/counter-settings-sticker.png",
+    "?? docs/screenshots/counter-styles/counter-sticker.png",
+    "?? docs/screenshots/home-blue-paper.png",
+    "?? docs/screenshots/home-light-refined.png",
+    "?? docs/screenshots/home-match-round1.png",
+    "?? docs/screenshots/home-native-final.png",
+    "?? docs/screenshots/home-native-round1.png",
+    "?? docs/screenshots/home-native-round2.png",
+    "?? docs/screenshots/home-native-round3.png",
+    "?? docs/screenshots/home-paper-collage.png",
+    "?? docs/screenshots/home-paper-depth.png",
+    "?? docs/screenshots/home-paper-irregular.png",
+    "?? docs/screenshots/home-wordmark.png",
+    "?? docs/screenshots/paper-navigation/navigation-history.png",
+    "?? docs/screenshots/paper-navigation/navigation-home.png",
+    "?? docs/screenshots/paper-navigation/navigation-settings.png",
+    "?? docs/screenshots/paper-refresh/auto-overlay.png",
+    "?? docs/screenshots/paper-refresh/auto-ready-redesign.png",
+    "?? docs/screenshots/paper-refresh/history.png",
+    "?? docs/screenshots/paper-refresh/manual-live.png",
+    "?? docs/screenshots/paper-refresh/manual.png",
+    "?? docs/screenshots/paper-refresh/onboarding-welcome.png",
+    "?? docs/screenshots/paper-refresh/paper-display.png",
+    "?? docs/screenshots/paper-refresh/paper-history.png",
+    "?? docs/screenshots/paper-refresh/paper-home.png",
+    "?? docs/screenshots/paper-refresh/paper-manual.png",
+    "?? docs/screenshots/paper-refresh/paper-rate.png",
+    "?? docs/screenshots/paper-refresh/paper-receipt-invest.png",
+    "?? docs/screenshots/paper-refresh/paper-receipt.png",
+    "?? docs/screenshots/paper-refresh/paper-report-invest.png",
+    "?? docs/screenshots/paper-refresh/paper-report-month.png",
+    "?? docs/screenshots/paper-refresh/paper-report-week.png",
+    "?? docs/screenshots/paper-refresh/paper-settings.png",
+    "?? docs/screenshots/paper-refresh/paper-share.png",
+    "?? docs/screenshots/paper-refresh/passbook-day-preview.png",
+    "?? docs/screenshots/paper-refresh/passbook-invest-preview.png",
+    "?? docs/screenshots/paper-refresh/rate.png",
+    "?? docs/screenshots/paper-refresh/receipt.png",
+    "?? docs/screenshots/paper-refresh/report-week.png",
+    "?? docs/screenshots/paper-refresh/session-receipt-overlay.png",
+    "?? docs/screenshots/paper-refresh/settings.png",
+    "?? docs/screenshots/release-readiness/about-font150.png",
+    "?? docs/screenshots/release-readiness/about.png",
+    "?? docs/screenshots/release-readiness/onboarding-03.png",
+    "?? docs/screenshots/release-readiness/onboarding-04.png",
+    "?? docs/screenshots/release-readiness/onboarding-next.png",
+    "?? docs/screenshots/release-readiness/onboarding-rate.png",
+    "?? docs/screenshots/release-readiness/policy-font150.png",
+    "?? docs/screenshots/release-readiness/release-after-update.png",
+    "?? docs/screenshots/release-readiness/release-small.png",
+    "?? docs/screenshots/release-readiness/settings-final.png",
+    "?? docs/screenshots/release-readiness/settings.png",
+    "?? docs/screenshots/unified-history/compact-history.png",
+    "?? docs/screenshots/unified-history/unified-history.png",
+    "?? docs/screenshots/whatif/android-borderless-final.png",
+    "?? docs/screenshots/whatif/android-borderless-talk.png",
+    "?? docs/screenshots/whatif/android-closer-opening.png",
+    "?? docs/screenshots/whatif/android-closer-talk.png",
+    "?? docs/screenshots/whatif/android-face-old.png",
+    "?? docs/screenshots/whatif/android-face-opening.png",
+    "?? docs/screenshots/whatif/android-face-talk.png",
+    "?? docs/screenshots/whatif/android-final-hold.png",
+    "?? docs/screenshots/whatif/android-invest.png",
+    "?? docs/screenshots/whatif/android-shock-shrink.png",
+    "?? docs/screenshots/whatif/android-shock-spring.png",
+    "?? docs/screenshots/whatif/android-spring-compress.png",
+    "?? docs/screenshots/whatif/android-spring-gentle.png",
+    "?? docs/screenshots/whatif/android-spring-peak.png",
+    "?? docs/screenshots/whatif/anticipation.png",
+    "?? docs/screenshots/whatif/day.png",
+    "?? docs/screenshots/whatif/expression-preview.mp4",
+    "?? docs/screenshots/whatif/expressions/INVEST-300-full.png",
+    "?? docs/screenshots/whatif/expressions/INVEST-300.png",
+    "?? docs/screenshots/whatif/expressions/INVEST-30000-full.png",
+    "?? docs/screenshots/whatif/expressions/INVEST-30000.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-100000-full.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-100000.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-20000-full.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-20000.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-300-full.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-300.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-3000-full.png",
+    "?? docs/screenshots/whatif/expressions/SPEND-3000.png",
+    "?? docs/screenshots/whatif/invest.png",
+    "?? docs/screenshots/whatif/month.png",
+    "?? docs/screenshots/whatif/motion-ending.png",
+    "?? docs/screenshots/whatif/motion-item.png",
+    "?? docs/screenshots/whatif/motion-lab/editor-ready.png",
+    "?? docs/screenshots/whatif/motion-lab/fading.png",
+    "?? docs/screenshots/whatif/motion-lab/impact.png",
+    "?? docs/screenshots/whatif/motion-lab/reaction.png",
+    "?? docs/screenshots/whatif/motion-lab/resolution.png",
+    "?? docs/screenshots/whatif/motion-lab/settle.png",
+    "?? docs/screenshots/whatif/motion-preview.mp4",
+    "?? docs/screenshots/whatif/motion-screen.png",
+    "?? docs/screenshots/whatif/motion-speaker.png",
+    "?? docs/screenshots/whatif/quiet.png",
+    "?? docs/screenshots/whatif/screen.png",
+    "?? docs/tasks.md",
+    "?? docs/third-party-license-sources.json",
+    "?? docs/unified-history.md",
+    "?? docs/whatif-interview.md",
+    "?? docs/whatif-motion-lab.md",
+    "?? privacy-site/",
+    "?? tools/build-privacy-site.mjs",
+    "?? tools/initialize-release-signing.ps1",
+    "?? tools/seed-month-data.cmd",
+    "?? tools/seed-month-data.ps1",
+    "?? tools/whatif-motion-lab/app.js",
+    "?? tools/whatif-motion-lab/assets/ga-n.png",
+    "?? tools/whatif-motion-lab/assets/interviewer.png",
+    "?? tools/whatif-motion-lab/assets/preview-scene.json",
+    "?? tools/whatif-motion-lab/assets/wa.png",
+    "?? tools/whatif-motion-lab/assets/young.png",
+    "?? tools/whatif-motion-lab/build-preview.py",
+    "?? tools/whatif-motion-lab/build.py",
+    "?? tools/whatif-motion-lab/check.cjs",
+    "?? tools/whatif-motion-lab/editor.js",
+    "?? tools/whatif-motion-lab/engine.js",
+    "?? tools/whatif-motion-lab/export-android-parts.py",
+    "?? tools/whatif-motion-lab/motion-lab.html",
+    "?? tools/whatif-motion-lab/preview-check.cjs",
+    "?? tools/whatif-motion-lab/preview-dialogue.json",
+    "?? tools/whatif-motion-lab/preview-motion.js",
+    "?? tools/whatif-motion-lab/preview-render.js",
+    "?? tools/whatif-motion-lab/preview-template.html",
+    "?? tools/whatif-motion-lab/template.html"
+  ],
+  "files": [
+    {
+      "path": "app/build.gradle.kts",
+      "sha256": "76c93b62f49c2855e8e80a69d359eb4101f336424c1868ae69123e395aef802d"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/CounterStylesTest.kt",
+      "sha256": "67665da4c73c29d6c0c524452870d0add769bcf024f50ceb716f6a17ecdf8ac9"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/ExampleInstrumentedTest.kt",
+      "sha256": "094479b5e64ae3838e3bd76430f98b51ff8c7677d63f8a8bcc5f24bbb6d69dfa"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/HistoryDeletionTest.kt",
+      "sha256": "79d089aae06cf901612af64dac45866dd684ecb22d159b00adbcf483bee0fc82"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/HomeDashboardTest.kt",
+      "sha256": "a4189dc7b7da4be97a90f33d9adcabfb611a499d11f58c725044cda6434b3428"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/MvpFlowTest.kt",
+      "sha256": "d7fed0b016a489c09910ae13a962d17022652438cdb10c941bba98f32916f277"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/PaperBottomBarTest.kt",
+      "sha256": "a1d3de1e7edf55c220aa3ce624a724416ca47e9a7322dcb08fa23691067f0737"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/PaperRefreshTest.kt",
+      "sha256": "10068d97a413e2dd2e3816756d9e7dc7ce6f2d17a4db239bb3c391a99e2f03e1"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/ReleaseReadinessTest.kt",
+      "sha256": "9b5f25a1058b19b8c07d1e162650b2f9c499ef204f0a8cb107bf16ca1bdc8611"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/SeedMonthDataTest.kt",
+      "sha256": "98e7a7b671a2bbc098010aff0cb47b61861f1b062f39a5a39ad9cf2bcfbb21d4"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/SessionReceiptVisualTest.kt",
+      "sha256": "8b128f91e149532a4a3ee41674503cd20f60fee996cb557a182f6ff63f1f8461"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/StatementNavigationTest.kt",
+      "sha256": "669ae351a1353c576d9bfae04472db35d737acbb26ee0e8210a8e7b44999a779"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/StoreTransactionTest.kt",
+      "sha256": "a9f7f2a20dee764d10361dfe0e9b56c1088c145010856a38917e2b30fafef7ca"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/UnifiedHistoryTest.kt",
+      "sha256": "39e40d4402d6b5d3894455f0dd67ab042ab219cbe1c6e33d7533f36f4de834d7"
+    },
+    {
+      "path": "app/src/androidTest/java/com/example/timecostview/WhatIfVisualTest.kt",
+      "sha256": "858f93b45dc0cf3c65c18f71d0fea3d35e6cc1db639c1053e4325f161426e41e"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "sha256": "bf5a92f8998be6463bdab439549cb53a2a59d716b1eda6710d3310f48ca26ebb"
+    },
+    {
+      "path": "app/src/main/assets/privacy-policy.json",
+      "sha256": "0100ab0e5cc115ebd746d5a4f17a9256e531963cd91a57a5df491b5efd9197e9"
+    },
+    {
+      "path": "app/src/main/assets/third-party-licenses.txt",
+      "sha256": "674055063fdc4ddf55e3a49282774cd758258532488712f67c3bc8a3020de3ed"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/data/Store.kt",
+      "sha256": "08d248a8f93d45fb7412e9974924366107105b2b2b4fcf31cfeab71c65c91387"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/Cost.kt",
+      "sha256": "625d6276b0472c7659880f9866c2e0754f0e44cd5321fbc55fed9f7ec2e37608"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/CounterStyle.kt",
+      "sha256": "2e8bc5dd8409adb3d0b6cd678ba3368726a773fae0041308ecb08f86a1bf2c28"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/DaySegments.kt",
+      "sha256": "cbaa8809859d91315a11f97acd404d6274c34c075002bf563f24efb81aa6b84a"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/Feedback.kt",
+      "sha256": "ae351b638c5ae460441b3c313f10605219ff60a535da472825782ac77e819910"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/HistorySummary.kt",
+      "sha256": "acaa48acb8d210f2950d1d5ead4d9bb2a24eefaaa4029a62c034472e657e9d7d"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/HistoryWindow.kt",
+      "sha256": "89995d4086332bb90cb2367bb8c2d46206941f3adff5101d7ee38c4f6290a194"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/HomeSummary.kt",
+      "sha256": "83f0cd16f24d3b43b228070ea997eb383cc575599c7f3a3f8a355b10a128f9c9"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/MoneyDropScheduler.kt",
+      "sha256": "7927cb50dca8699f1083f80c5ec8683bc202a34438d662100c5aa1986fa9739f"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/RecordRepository.kt",
+      "sha256": "10747c60f6da9b4ee0338b5447cdf9c5b2b9cd6e25ed5d5b9b2363be8bf07e10"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/ReportSummary.kt",
+      "sha256": "8a23003612db76b6767c0404b3ce974fab7cba99fcd68f26ce809dd8b8f5751d"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/SessionReceipt.kt",
+      "sha256": "d226114a5bb4ebb055e655ba191a232eed87215e712462b131704db933016fb6"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/Statement.kt",
+      "sha256": "9d865432ebc41700d2a08dc9398d3097b4fe40257aa1950f49effdd989deb9a0"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/TrackingSession.kt",
+      "sha256": "82cd491d189e3a42fcabb7539828a32acd99a1dedbfee660730411532bb93101"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/domain/WhatIf.kt",
+      "sha256": "1fff91fcd8796d26c155163863339d5dcb1c313001cd5c4368692968a52608df"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/MainActivity.kt",
+      "sha256": "d9a33aa559910a4da6069ddce7292958203731c08c7db76db911d163f06ba3eb"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/CounterView.kt",
+      "sha256": "251af5e8759e31731b7ed0a219d72926f024fb38a2ac6606f3a2f7b12c49a06c"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/MilestoneView.kt",
+      "sha256": "2548613c73d92e400ef7c5c2b12dbf311c17bb2ac52d99c8c674f49ededf42ed"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/PayslipAmount.kt",
+      "sha256": "d34ad779cc4b6d93bd73ebe8bd19b5aa188a8eb907e4222c893e412b9d8db040"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/physics/FallingWorld.kt",
+      "sha256": "91701c92cd7f2acbc415ee3f809dc67ed58ca73435a4e869839fa4cd2eac7ae7"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/physics/ItemShape.kt",
+      "sha256": "c16636f13c9db9228a2e761f95b9dfce1200d2b298b06d51b6cc798ef1ac16af"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/PriceTag.kt",
+      "sha256": "79dcf04c471c9c51fc57df054843522ee77736696e795719f730715c51f732fb"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/overlay/SessionReceiptOverlay.kt",
+      "sha256": "0c6c49f67da2aa772c4504e6e339f8c80141b624971a7100464687810cf199c9"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/PrivacyPolicyActivity.kt",
+      "sha256": "a96a12e5ee2d7c502a91d8a585bf367041741262eccdba82c3bec51f065ebcf6"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/share/ReceiptRenderer.kt",
+      "sha256": "099bea51f0874aabc7aa0004bdd9e868a68a815a61d0e9752d4d5db5e2c2a30e"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/share/SessionReceiptRenderer.kt",
+      "sha256": "b2e183726a8d7d400098dd7c6d70637bea0c37a7cbda06241f8d36750cd65633"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ThirdPartyLicensesActivity.kt",
+      "sha256": "3cc57d8c8eee30fc888a4e842cbe5b1c4cd7ee1d4c4da50b35a59cd97bcb5e21"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/tracking/Access.kt",
+      "sha256": "34c0074a7c158e6374da9e7fc79fc1b2428c20b1e6f0149272d667534df83b68"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/tracking/TrackingService.kt",
+      "sha256": "343772a951b83ec8221e648680ad2360de14ce525601c9b2aeb3fc7499e2b27a"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/AppSelectionCategories.kt",
+      "sha256": "778af26b4f8c716aed36dcedbcc0927952af72872835f206d1f00eb462fd3989"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/AppSelectionDialog.kt",
+      "sha256": "e8624ff39d91d23839129e1365f9408ee661b46024163b46e7c7aed860f67514"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/Brand.kt",
+      "sha256": "32ae794cb084e6d13e186504d6c3fa2e7f3ac12b5102be3ab1fb583cd594d65d"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/history/HistoryPeriodChart.kt",
+      "sha256": "2fec9d449103062f3346e1adacd080c07cf16c19325d5e7f68d556a2bbed52d8"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/history/HistoryScreen.kt",
+      "sha256": "663c89118f8b5944951b2c2b5deeb2df1f159a6868c2af6d5d2831c1f39fb9a9"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/history/HistoryScrollView.kt",
+      "sha256": "57b71c9c063e51916bcbb29eec84a0a1c3eb5f23c639ee0216e65c70f852647f"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/HomeDashboard.kt",
+      "sha256": "1273bd1ea372eb5b52a4e5c98bf070d022ff5d9f964327265c84cd3aff605b7d"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/HomeLightSurface.kt",
+      "sha256": "45acf5f4dcd9ac77a3fc1488482d70fa21de3fa6d57c2b3540cd3b78d1e1312a"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/PageUi.kt",
+      "sha256": "ce0b6279c9376bf276d33cca24d0951ab6d63f0704b43a56fbaee0c131d1872c"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/PaperBottomBar.kt",
+      "sha256": "a3b31a40604cc5b137cc9a2472b03041272e59e188d2f5683cb4ba32c3c32a36"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/PaperCraft.kt",
+      "sha256": "84de8b66709b71b8b0ba3bcd2cdcda172c291d875ae67bcaad13c18c2fac84d6"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/PaperUi.kt",
+      "sha256": "8036157f53e95f19b454ce6d17047af348f3ea4366ad9e9dcd5220abd56ba9f9"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/ReportOverview.kt",
+      "sha256": "7bf770897c9a06ab3a4bceb5e0093fb5eb94c2d1301b04143f71bb1c1bd7b13f"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/SessionReceiptPaper.kt",
+      "sha256": "822c75b501cb2af78e9c872e8a39da5054a82999e34e3b23c9a0d767a11d2ea7"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfActors.kt",
+      "sha256": "e7c5f4ef29916f1906141733045fea606f9424be03a1531e01af4b2bbfeceb19"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfBubble.kt",
+      "sha256": "3106c242363cb905d9ba746071b8732b0910219df5c5625b9990c8db4d3f4c87"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfCard.kt",
+      "sha256": "ea56ea2a2bb791e7b72935f8e38094a07a4b54b91184dba16b75ab868d48d8b0"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfLegacyActors.kt",
+      "sha256": "83c88f55a7e86d5583f9add513942028425cfd0c353efb12ec2c069c2ae6c62b"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfMotion.kt",
+      "sha256": "6df9ae81b48b1bf8e6dd37267014869751d3a525e65a095fdbc8ebcb0831b70b"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfPerformance.kt",
+      "sha256": "140e614712d87480ce41600fe550dd71fab5806d1cfc46c85170cddf415013c2"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfSpring.kt",
+      "sha256": "d55a0a2f3f9baad7ea0b6bc55423fea0f6c4e2acddba825dc04be1b27f9b20cc"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/ui/WhatIfStage.kt",
+      "sha256": "3ff8b9f1229199e81bb97eb2d3002a8d8c5702c471f0adc911c3788d27ae3dd2"
+    },
+    {
+      "path": "app/src/main/java/com/example/timecostview/WhatIfActivity.kt",
+      "sha256": "96e5f1633d2c2c1377f53be6b5be4a57fa3d5ec1cfcff8461cb36d8bf87dd2f6"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/home_mascot_coin.png",
+      "sha256": "556e3319017785d376b27d3f9fb253de6f7ec30332ef3d3b4a62a447de899e53"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/home_mascot_rest.png",
+      "sha256": "c9e099a286d11918acc982c2d1c5ffc9c914477ae84f88cf93962f58f97016d0"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/home_receipt_fiber.png",
+      "sha256": "27c82a663eeedbcd4877a40ee7cf327c3c278853cb5c101b5fa8b6e5ad31f3bc"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/home_wordmark.png",
+      "sha256": "e3d50010b92be89cd5fcd685f05730dbb7a57d2c28de05b174c174a4b2e72ab1"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/ic_launcher_art.webp",
+      "sha256": "6221368bcbcfe45a5cd88bff20259095a934285dc1f1c601662bf6641b73948e"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/paper_mascot_history.png",
+      "sha256": "75ee03641d100775c0a2bdfed7908b56681451384d72e2e65d8d7c659b4e6346"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/paper_mascot_settings.png",
+      "sha256": "7df05f65b5ab3802295521588a6dd9e06cbeed78ce844e8bff4b3fe028857a2c"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/session_receipt_paper_texture.png",
+      "sha256": "ec95e2a31968f3181b743c0452584d2e803321832f2f1dd3a2b01993b465093b"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_interview.png",
+      "sha256": "a79533d35c44a5470a7826ce2d1c83ef029f425286b09d4efc94b0435541f783"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_interviewer_poses.png",
+      "sha256": "7ef6d1046439c8ee20185315f830d46c13d10035532cdc908334c9a78c762f08"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_old_short_sheet_v2.png",
+      "sha256": "7f4e25f61e7152ef6e82cbb19a64ad7e89c14c44b237fecaecbdd51aeaa93748"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_old_short_sheet.jpg",
+      "sha256": "9b39411d2eab0024c93730079a42a36d8635c67ae5c92a8e4b0c7d344f1d9d4d"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_arm.png",
+      "sha256": "860a6019071a9bd00a32f0d48f419ec8b71d354ab223c293a3263a414b2b14b3"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_body.png",
+      "sha256": "43f502cca4da85f973c8b19d10ee1f7ac3e0f2347fcedf56ea916bfd5a020112"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_normal.png",
+      "sha256": "0f64a4cc5df3a57551944789cc458d05cacd74940754f2a975d22d7bfd0aa8bc"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_point.png",
+      "sha256": "4c21441258ecf090a3030cfc78b8abd1c2b53b19f4da997995a4fe879192b0eb"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_self_mic_v2.png",
+      "sha256": "442cd0ead6897373bf2ff62d1c845ad09c01d19ab26db139e072b56bf454d7e9"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_self_mic_v3.png",
+      "sha256": "2bc4a07cbdbe204f214048f15ae4ddf372fe1f13d8bba37c1e34ab47be456095"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_self_mic.png",
+      "sha256": "d7d22c80be2cfca0925c5dae2731015f5b39739e494d392fc7aae7d92de29fa7"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_old_talk.png",
+      "sha256": "027dee9cd447ba1fc77f78b6ee448499fda11a89d2c22e12bc52afbab6531a64"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_young_arm.png",
+      "sha256": "fdb1e4db19de481cdee45e258b65c917183484e446712ffd835fbd632252da9b"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_young_body.png",
+      "sha256": "56684e086efc59ab1c3d88a26f18b41d9eec45bae20e48132bdd6eea3c67ca3c"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_young_normal.png",
+      "sha256": "5646d8f885595843da0ce9582d02c086a661751df45c8748952d87e26e0c0b04"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_young_shock.png",
+      "sha256": "d45b3440832b964c2ae427b08b44b6f1cb542d5274a2ab3dc75aacfd154072ec"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_part_young_talk.png",
+      "sha256": "861e26fdb1ea8bc91aa4e119afdb954b941ea7b98b242b61ef2c7b5f56354ff0"
+    },
+    {
+      "path": "app/src/main/res/drawable-nodpi/whatif_young_poses.png",
+      "sha256": "0a38420eca8f96e0454db93fad7651c300105857173366465b8345a4f7abfdf9"
+    },
+    {
+      "path": "app/src/main/res/drawable/home_invest.xml",
+      "sha256": "9a64947d2b01006ac9110292dc808d67d537c4ee64b7249a9044cdbe8f64151c"
+    },
+    {
+      "path": "app/src/main/res/drawable/home_play.xml",
+      "sha256": "66b7b4b2b31dd510787aa3e0feed51e0d02f87b242de42f2ca12adf586c79cc3"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_candy.xml",
+      "sha256": "59d2c403ca174d525768ae3a6b178f3ab5a06aa04cab5c4ebdd136bc71c4560c"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_chocolate.xml",
+      "sha256": "72336ee567c7cced26ecd5ce8efc5e63cf6cb6b5f400a2ea2eef5c7666226bc0"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_coffee.xml",
+      "sha256": "118d19aa47472e402a61f64fc15a19000151063ce0d24dc18beadb6254b3a5f9"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_background.xml",
+      "sha256": "04c5dc85926a32f3f936dd20183fa066f4082f1861b8f2c423c809d7ddcb4029"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_launcher_foreground.xml",
+      "sha256": "94eabda85b2e5555a5ecab34133ea4dfeb4ce5097f01eccd9df4caa6136fb698"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_nav_history.xml",
+      "sha256": "9698bd7a9d717722783a75f6efd4a2e46e1862e75aa56b7d4313f123d79e8cc3"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_nav_settings.xml",
+      "sha256": "1afc5f3dc8a22785b925603ca00a2ffcda9a755c02f565b6a0a90cb33a33557e"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_nav_timer.xml",
+      "sha256": "1a26d1fbc1ce64c713f9d1a483143545a20e36a0db5c3b98cb1daba62ce834c5"
+    },
+    {
+      "path": "app/src/main/res/drawable/paper_icon_apps.xml",
+      "sha256": "b32747771a3ff8aa2fd554aaf49711d9e29adebbe4bf80011fd014235f35182b"
+    },
+    {
+      "path": "app/src/main/res/drawable/paper_icon_bell.xml",
+      "sha256": "3fb9d094ae80e0d67a8bfcab56f0209e1c05603d49819bd57e794242ae235837"
+    },
+    {
+      "path": "app/src/main/res/drawable/paper_icon_document.xml",
+      "sha256": "78dd6c1d447e71b2d65fdebf0ebf5100e95fc13f40d0a21dd2fdf6af1ff8ea94"
+    },
+    {
+      "path": "app/src/main/res/drawable/paper_icon_info.xml",
+      "sha256": "969cc52f81755a9a103e74d4f115e16d6beac9da566a5cba0f43d914db2c6059"
+    },
+    {
+      "path": "app/src/main/res/drawable/paper_icon_rate.xml",
+      "sha256": "2c9e77488853256d1028bd2304106ff3d6773e6e3179f281b7305a08f8b1118b"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "sha256": "1c832bf194d8eecd439a92bcced0df144c9f566b934b3d7865e983d8ee8dbdeb"
+    },
+    {
+      "path": "app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "sha256": "1c832bf194d8eecd439a92bcced0df144c9f566b934b3d7865e983d8ee8dbdeb"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher_round.webp",
+      "sha256": "dc3793adafc19439a714b660e832fbb58a5f829976510333427b69ab9a289140"
+    },
+    {
+      "path": "app/src/main/res/mipmap-hdpi/ic_launcher.webp",
+      "sha256": "0d052a7f6b72a0359f4075b1bada0727e3c1a2a8f2f7c5f96c534d57ed04a6c9"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher_round.webp",
+      "sha256": "2e8ff0b58bcd9382e026d22c78a7653a0f9207af282c14850cbc19cf75324d4b"
+    },
+    {
+      "path": "app/src/main/res/mipmap-mdpi/ic_launcher.webp",
+      "sha256": "b7183b26c83e5865ed950c0421f8d8fb86dc1a37eaff5db75c13a6f04d045d28"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp",
+      "sha256": "8233d8871a5db5e6b567542620b8fa4da026ded8ef93e7015d2d69c71cf5c4a3"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xhdpi/ic_launcher.webp",
+      "sha256": "bceae61573db36760907db20672eed5c96524b06830cf211922bb0f4500ae472"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp",
+      "sha256": "daa60ce5f5a5ea10e8dbd1d578c2da271a134a7adcaaedf286b66643c84d5a54"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxhdpi/ic_launcher.webp",
+      "sha256": "98d79b5719f50935bc2111363991a6bc33ab7e601965f286d8b01dcfe468b6df"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp",
+      "sha256": "a92c36d1176d927724692a7652140d9d08bc91d1484c4522ff3b9405b1e1b9f0"
+    },
+    {
+      "path": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp",
+      "sha256": "ef3d070aa25556f8baba2c26ecbbcd604584ae6091326d9f19e9c27dbbe36ef6"
+    },
+    {
+      "path": "app/src/main/res/values-night-v29/themes.xml",
+      "sha256": "7af448d6224e4f2553cf7361e7f88d6753aa7aaaf3e6cd1f3983364c5c0ac501"
+    },
+    {
+      "path": "app/src/main/res/values-night/themes.xml",
+      "sha256": "370157ea24016792472caeba8ad6a91ee0c77735a6bb10c5bb0fdf6570f190fd"
+    },
+    {
+      "path": "app/src/main/res/values-v29/themes.xml",
+      "sha256": "7af448d6224e4f2553cf7361e7f88d6753aa7aaaf3e6cd1f3983364c5c0ac501"
+    },
+    {
+      "path": "app/src/main/res/values/colors.xml",
+      "sha256": "b5626527d503417f0d8e5b1e08f338de7b31173bf0e122815f03e64932adbd88"
+    },
+    {
+      "path": "app/src/main/res/values/ids.xml",
+      "sha256": "cf4cc61338f0c7f9a1b5b1fe4bde3ce207542b017014b8491c35300dbd883d8b"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "sha256": "2ec3961d801bcca1c26d2a50e1470ebe2b3df87b0e171526e2c387bbeaa977f3"
+    },
+    {
+      "path": "app/src/main/res/values/themes.xml",
+      "sha256": "370157ea24016792472caeba8ad6a91ee0c77735a6bb10c5bb0fdf6570f190fd"
+    },
+    {
+      "path": "app/src/main/res/xml/backup_rules.xml",
+      "sha256": "58682cf10f55cea095ccf737fcd4529b517996db9f8aba84dd939209aa6893a8"
+    },
+    {
+      "path": "app/src/main/res/xml/data_extraction_rules.xml",
+      "sha256": "d8be4199bf0141fc6970e5aa0680ce42fc4d44383e297eb778acd7afcbe9a098"
+    },
+    {
+      "path": "app/src/main/res/xml/receipt_paths.xml",
+      "sha256": "951200f72cdef3e5ece4222eb163b50320790942cadd52d51b99e3142a4e40e4"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/CostTest.kt",
+      "sha256": "e874a97b17332ce1b22922262de6935e8e57e3e198b1930d9e766261d728394b"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/CounterStyleTest.kt",
+      "sha256": "510c4849502d61530800968d06c426808dc80ca5e14bf2d680833ded8255f17c"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/HomeSummaryTest.kt",
+      "sha256": "0053d85ab5e51ab41799df2a05a7977abeb3152ba2b908c6cc501ef6290769a0"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/ReportSummaryTest.kt",
+      "sha256": "4974c0d71a17613a969f4dcea7119791deaf666226e5fef026f695c0fb921fae"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/WhatIfMotionTest.kt",
+      "sha256": "528511002f08a1e790b738a8ebae4950d8ff684fb53a9f12f8d0701d3ba37b45"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/WhatIfPerformanceTest.kt",
+      "sha256": "0265518aba5b95bd37494ceea521f393d204ac827d3f3965c923d459d8a9ff50"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/WhatIfSpringTest.kt",
+      "sha256": "da5e14984c7163646977fb98ba345216b21e88d5796ee1e44a9cb33d596e6aa9"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/domain/WhatIfTest.kt",
+      "sha256": "9220d758373dfb19156e58b85d5038814460844735454e6fd72b6e21686d9e77"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/ExampleUnitTest.kt",
+      "sha256": "1cf95358c0edf15668479a35dbca5a7c016ace7f17a4f00713ea18a5706b9188"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/FallingWorldTest.kt",
+      "sha256": "a754739e9e81d47b3f1cb9596d7ff0066312dbb3d2b1b91c7062439ab92346e0"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/FeedbackTest.kt",
+      "sha256": "24af1ad689964a6e70e9931d202a169cbc39712a19e5faabbf441ea3a0091919"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/HistorySummaryTest.kt",
+      "sha256": "872b46f4095da0a96e6b673d8d37d20393a721853122ce4b83e4af57932e380a"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/HistoryWindowTest.kt",
+      "sha256": "231f800c7ffba4815d933dccf9718bbd394341ea6a0d7e44e818613fb7c1a198"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/SessionReceiptTest.kt",
+      "sha256": "b986ecfff5226e8214489c3308291daf4b84b5c64102e6c291814d47070d47f9"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/StatementTest.kt",
+      "sha256": "97d6e10a582ac1ab50dd0146f294f5de1090104898dea34faef19da5a20357dd"
+    },
+    {
+      "path": "app/src/test/java/com/example/timecostview/TrackingSessionTest.kt",
+      "sha256": "14d6e9dd2599e1a3fece7833d00994a9824064cde1ae69cf10d2cd701cd6b60b"
+    },
+    {
+      "path": "docs/assets/moshidopa-header-logo-v1.png",
+      "sha256": "e3d50010b92be89cd5fcd685f05730dbb7a57d2c28de05b174c174a4b2e72ab1"
+    },
+    {
+      "path": "docs/assets/moshidopa-header-logo-v1.prompt.txt",
+      "sha256": "4182b2bcd2d1cc421901c1ced64d4c79e04b4094590c7a96c159c51c4256ec1a"
+    },
+    {
+      "path": "docs/assets/paper-screen-mascots.prompts.md",
+      "sha256": "6195b47a31e9ee807ab7a1a17edcac701d98668c4f268a09289968589aa8d381"
+    },
+    {
+      "path": "docs/assets/whatif-expressions/prompts.json",
+      "sha256": "85cbbfb1ebb409655ed5ce3c2382c183be5c733339b6664c249d3aae4429aeb5"
+    },
+    {
+      "path": "docs/counter-styles.md",
+      "sha256": "8aa08c9564cd0851a539862243716477caeefb679eca7d09bb587b54a19494a4"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/a-paper-tag.png",
+      "sha256": "5cfc768bfb8a109666ff76942d4edb03dd489b7c5f374f6556dee5f2e39c5b68"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/b-ink-meter.png",
+      "sha256": "11418ffd3a81a60be0dc1dd0cf6e2b3eb952a7b9c81f2a83b5b7457fe5c14ab6"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/c-frosted-label.png",
+      "sha256": "ee011c0bbe00602cfff5cdf64440622e3347c3c385affd8efde479e4dbe8ae29"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/d-ghost-sticker.png",
+      "sha256": "b486a7b5bf4ae013fa4ae703ed3a6d6d11070be6823afe1211153e0562b6ea2b"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/prompts.md",
+      "sha256": "77dc5745d3ad60809e0486d9dde3d6355149e065aef56655c28f58810eb0aaca"
+    },
+    {
+      "path": "docs/design/overlay-counter-concepts-20260912/README.md",
+      "sha256": "4b3ae3a37f005071a9705b00bc9bbe2042006f82de9cb42ecbe273a063ab330b"
+    },
+    {
+      "path": "docs/design/sticker-concepts/01-white-v2.png",
+      "sha256": "37f26d8666496f481192d45f024b1cb92b07f8294ad4131a7b0ec613e595e291"
+    },
+    {
+      "path": "docs/design/sticker-concepts/02-uncle-v2.png",
+      "sha256": "88277d461cfe28936a61448d405ce731c5467a69e700d9d2573be4ed0debcec8"
+    },
+    {
+      "path": "docs/design/sticker-concepts/03-raimu-v2.png",
+      "sha256": "946ba4fb0638ec251cab4cac665be9e010d0c8f0b9a1eb37e02b23e87962dde9"
+    },
+    {
+      "path": "docs/design/sticker-concepts/04-white-uncle-v2.png",
+      "sha256": "2ad7e0da2ffd96c8335582c19e351235459c026fe44e0883cee16339a0ee72fe"
+    },
+    {
+      "path": "docs/design/sticker-concepts/05-white-raimu-v2.png",
+      "sha256": "e48ac4a41bd69938e5e17e8d4d0d702be6dd71c5ca98a53d0fd53706081ced3f"
+    },
+    {
+      "path": "docs/design/sticker-concepts/prompts-v2.md",
+      "sha256": "a696b962ba29df459f25c2bd0d54150b93ce45545418461c1beed3fe7a2309f6"
+    },
+    {
+      "path": "docs/design/sticker-concepts/prompts.md",
+      "sha256": "59a571d9c6c35353c73687bb6bdc7ed5ec32b16c898238de80b15cede33eb310"
+    },
+    {
+      "path": "docs/design/sticker-concepts/README.md",
+      "sha256": "d2239ec7d25428282fc8115e20b1bc72c8b55fc32f561d153dfe103918c1cbe5"
+    },
+    {
+      "path": "docs/history-restored-passbook.md",
+      "sha256": "8d6e40a0280302c3a1203fb519dc3d15b0d858afa56f5ed95caa24e7a9954fcc"
+    },
+    {
+      "path": "docs/home-blue-paper.md",
+      "sha256": "83a12b560f72cc73e71d30cf2ccae10fd2fe91193ef00e4c7e7206695607071b"
+    },
+    {
+      "path": "docs/home-paper-collage.md",
+      "sha256": "59b7b8d5773cb47cbcb5d613b60f41320785f769b5ea7ccd709fcac41b85727c"
+    },
+    {
+      "path": "docs/home-reference-match.md",
+      "sha256": "fdf538edff9dcb8b469c616aefae3393564baddc1a59acdec449dbce571fbf0f"
+    },
+    {
+      "path": "docs/home-visual-refinement.md",
+      "sha256": "cec82bd1c079ee99935d953923c8953cc308a600617552abc887e12500c8e324"
+    },
+    {
+      "path": "docs/impact-fix.md",
+      "sha256": "af78405b48054a9cf80973f1c99c54f17c929e695ad65b995049f93ebba10609"
+    },
+    {
+      "path": "docs/launcher-icon-generated-source.png",
+      "sha256": "1295464fb4f10f5655a0890a2d7a20708440732406564a4f64232fd0f254bf75"
+    },
+    {
+      "path": "docs/LUNA_MAX_IMPACT_IMPLEMENTATION.md",
+      "sha256": "743b823c823c60bfd74948c06824fef0bea6997e65edfec53cc6e3af23ba871c"
+    },
+    {
+      "path": "docs/moshidopa-design.md",
+      "sha256": "ebf525b1a2474c9504b65535fc8e71d664a22d855632f767355982399b21aba6"
+    },
+    {
+      "path": "docs/navigation-history-update.md",
+      "sha256": "dbcbef7a0ef3972667c1c383a8f7dc07b65413452b62d31b52efae17dbfc19b1"
+    },
+    {
+      "path": "docs/paper-bottom-navigation.md",
+      "sha256": "15494010e684d604b0f5fd5af4a167e061e012c9a80325885c3cf0bbae888d7e"
+    },
+    {
+      "path": "docs/paper-ui-refresh.md",
+      "sha256": "b1f275d28bc16f228b68c9e78736aa9c5b9da4b1760530a099a8a26250cfd6ae"
+    },
+    {
+      "path": "docs/payslip-feedback.md",
+      "sha256": "ad12a62f44ff38db6875cac9626eb7fa29809b1c9562d96e0c42bf757a3551a1"
+    },
+    {
+      "path": "docs/play-console-draft.md",
+      "sha256": "41563e2791fee081f462ec73495289ffb939ca7b3d171c1bc2d4c2da425d7450"
+    },
+    {
+      "path": "docs/refactoring.md",
+      "sha256": "57d6f2279c6f4e00a05d95ccd228565d93d95f5685d407ee0bba06551da9b224"
+    },
+    {
+      "path": "docs/release-audit.md",
+      "sha256": "d1f50f335036d5813402b8ac6358b44a9cdbef3afb8e7f03f9773cb0f876acd7"
+    },
+    {
+      "path": "docs/release-checklist.md",
+      "sha256": "2f80564d8a1a8453a24978a0fb384ec2c6a6f49a35cd18590cf058bc5fb1ae49"
+    },
+    {
+      "path": "docs/release-readiness-qa.md",
+      "sha256": "93af306045c628226c56875216b80f5db6a9afa8e199275774f8cfd258333e48"
+    },
+    {
+      "path": "docs/release-setup.md",
+      "sha256": "1ad6346854077245f3f26dff66cf0e1bd426f86eddcd886006231846427916a8"
+    },
+    {
+      "path": "docs/sample-month-data.md",
+      "sha256": "3094162e26fd4803c85f593e1ae554fe3682be7bcf1c8b5499c4bd0cd0359bce"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14.zip",
+      "sha256": "680de0a111630fc45051b8054aaefab63bfc708723319f67fe535224a8ebc66b"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/01-home.png",
+      "sha256": "7ae4ed855db7a77ddb0cfcd3fd7b298d1deb4ced8fa40d2a9bf66274a808394e"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/02-measurement-spend.png",
+      "sha256": "76889354379f33d87f1080c61e1a8cab5e55e5911cd72c1c1ccda7a32664e5c9"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/03-measurement-invest.png",
+      "sha256": "8bf16e8ff963d700adef68f1b84162da2471a4fb4bf56eaa0b687b71fdd96671"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/04-measurement-invest-details.png",
+      "sha256": "3f072d075cd1750a37b6ef9a33b4b56e5ab3045d09d72a7d7d7a73abad3b4ba3"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/05-settings.png",
+      "sha256": "8368ecd3787ff4de9c2c69b20d4e69c794a7c98b88618ed98ee534cef8a0108e"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/06-app-selection.png",
+      "sha256": "b8f3ea51a8d496915d535ffde88c17c04b48478b62f39cf1c00797d0fa6c13f8"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/07-hourly-rate.png",
+      "sha256": "7212f964678dd45fb11bf1f6760d24dfcdc00eae51a3903a5980ae72d05c63c5"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/08-counter-designs.png",
+      "sha256": "ae0bcc82562bfe1cda83de8f890c624104d7233c7144a02582e29370fb38e7e5"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/09-counter-designs-bottom.png",
+      "sha256": "8e06abaec2e6a05b3eb008cb05734feae13435c76c38308cf38df24e02febad2"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/10-display-notifications.png",
+      "sha256": "ae416fcc9adfd3111f783372f9d4b27e3962b2a222b0972b47986b679bb7c06e"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/11-display-notifications-bottom.png",
+      "sha256": "4bdcf6fdf21636f4beec3bf6196c68177ac1afc06a7ed908801317fac080376d"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/12-about.png",
+      "sha256": "eae96c784c8923b6dc392ffeefad54a45d04dbd499090c64b354e79b76bc2753"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/13-about-bottom.png",
+      "sha256": "a9070f2110deda11fc8e63c1164bd7377a79f99f640be10121bcc00029751854"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/14-privacy-policy.png",
+      "sha256": "e84009a14bcc1c9a230258bb4f4e28c1264244b0a6382ab87993955c84c10264"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/15-licenses.png",
+      "sha256": "a159ab1ab681bca25adf839d50c13cb36fae875dc39cb8622002a760906e67c9"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/16-onboarding-01-welcome.png",
+      "sha256": "54c6657d80c90bf210b6858ebaddee39df9ada80e759d713f89fe2ed63237ec6"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/17-onboarding-02-rate.png",
+      "sha256": "f36ebecbd6bf91361478d50e4501733e2fd458859e3c2d239653f2585a76d9e2"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/18-onboarding-03-usage-access.png",
+      "sha256": "42da897948b93fb25cccc361031d8673547690c2aff6f1cb251d26176e439ebb"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/19-onboarding-04-apps.png",
+      "sha256": "09cf0a1cf5e147623564b3cc1ad33cb2ff28b7115ce5098f2d7f9dec8e76980c"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/20-onboarding-05-overlay.png",
+      "sha256": "94d75006409be46b2cbbfcd07fecb0d666e1fdb238576e8b75945c794ff08bbc"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/21-onboarding-06-ready.png",
+      "sha256": "08aeb19592e30325f30f1570991863aa2ba927257754263a2092be61dde47a09"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/22-history-day.png",
+      "sha256": "c56e499a1ab428a1030e2d4ed8a22699ed7a00cc7bf55f5c883cbb11b45d43c2"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/23-history-week.png",
+      "sha256": "61cdaea8720638d5c9deecb5e4aff1fe95cc0c2c5a5272274f8877be3443b6a0"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/24-history-month.png",
+      "sha256": "d432e1edca84ad3e21a5bc136902885f51432ee6d885462305e2aed18432288f"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/25-history-invest.png",
+      "sha256": "9e8a1fc6c1cf2a64233df7d97bd59ddbc86d2ffa3d07b2e84e33b90229f77b83"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/26-history-details.png",
+      "sha256": "7e45507e9eda6f4d065048462cbc1d9aa6ad06298f196640e39b4e347b8ee559"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/27-statement-day.png",
+      "sha256": "94f3d3499ee9a2a67e1273e813d7859a7478f494b8cfb8abca1cd205f13359c6"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/28-statement-month.png",
+      "sha256": "8486b03dc78890e768553402f10d347066c7e0fb59617852a2231dff28189fdf"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/29-whatif-day.png",
+      "sha256": "49ee858438459969f515bec80e9cf44f1ad0503fdafdc65fd3860a0b15810115"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/30-whatif-month.png",
+      "sha256": "4795cfc48c9f984a80539837de7f8b6fd897b653c3df149de072d8cc41cc9edc"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/31-whatif-invest.png",
+      "sha256": "a978a38a2084477c0f334c1580ee572a41d77389574555574e38e97289e50cd2"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/32-history-calendar.png",
+      "sha256": "42787ec80311196a0d09ff9ecaf158f77fda0b58c79fa3678306a6e877a2fb5e"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/index.html",
+      "sha256": "9e1170b6ecfe42b006350236941ec30b403109eec8e802477cf5917858488b88"
+    },
+    {
+      "path": "docs/screenshots/app-2026-09-14/README.md",
+      "sha256": "8e79575e7bb70cbb0706e0e2b4dba64e54a42d380b97a7bbb3bb59321ee2e7f9"
+    },
+    {
+      "path": "docs/screenshots/app-now.png",
+      "sha256": "665711cee8ac3d4ff499d05576a8fc9d2da8b5fb5fc480bab4a6fb22be277f20"
+    },
+    {
+      "path": "docs/screenshots/auto-overlay.png",
+      "sha256": "207d44fa2c3c69189a3dce0b5900a5244a4215fff58df4ee16644084c2620f6e"
+    },
+    {
+      "path": "docs/screenshots/collage-debug.png",
+      "sha256": "2aba5830d03b40979f8789133f6a336e523d15c51f57260cded058aac50a8bed"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-frost.png",
+      "sha256": "9c816fbf9eb7fdb5aae719bae57b77639aec1e81f8b70f899c197015170465b7"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-ink.png",
+      "sha256": "f4cd1ce347aef010cf42a15cb4ca798720acc3fcbc8e8ea82dc03c8cb584d682"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-paper.png",
+      "sha256": "2f01c5fc73069a6896f91df3d774d3e6b82141ce2410ed18beebf9a0156a1ab7"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-settings-paper.png",
+      "sha256": "f85a763447380708988b186bd63eb8631ac9328b5a2d7bfa90db4109561a1209"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-settings-sticker.png",
+      "sha256": "a40b7daff90b929ae91e66e57284d820aae6cf144df9ca057d50359044ac4952"
+    },
+    {
+      "path": "docs/screenshots/counter-styles/counter-sticker.png",
+      "sha256": "8380264cb606eea0ed99a385c3a4cbb7a1d5f46f058f1ec13dfb0c3b049623b3"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/auto-overlay.png",
+      "sha256": "b9476a935e9310b862c7b37081a8a78ebd38cbb0f96923fdbe98d42b16baceec"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/manual-live.png",
+      "sha256": "34e9ac9bd36af320f8facdb5185d17f12248b5fe8d8c28f0b8c1793e8f215a9a"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/milestone-contact.png",
+      "sha256": "1f9757a377ec7f45b913def845531abbc96a553b68ee0047c5194983ef388a9e"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/milestone-fall.png",
+      "sha256": "6f49ec02125085009973fe2ff2cca65748a25b7ad4ac93890a06c56ce291a416"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/milestone-hold.png",
+      "sha256": "dba9373612ad6e7bc5926592c3bbff7415be09187e0a35de2076238ec4a5e96d"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/milestone-quiet.png",
+      "sha256": "66464bbe3e2daad384751a0ee03e06f0a0dafcdd7c7848bb709cc7c6008a4767"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/payslip-preview.png",
+      "sha256": "27c3a7394ee45406cbd1876c306a7f1d138dd0203c994d76a98187a26ab2756d"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/receipt.png",
+      "sha256": "46e3ccdbbabcf67f658da40d42948b8173d588a15a518cdcca69954265b5e4fa"
+    },
+    {
+      "path": "docs/screenshots/feedback/files/share-card.png",
+      "sha256": "cd35386587d3b43a9dfbeb88e68d056c98b3426900aad8982d4fac609b51bf62"
+    },
+    {
+      "path": "docs/screenshots/feedback/time-cost-feedback.mp4",
+      "sha256": "fd8b50aa0806ef59dc4f14ee33a763cdc77902286d7f63e49a3669878431b2ec"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-day-preview.png",
+      "sha256": "8fab11df914cad05dd71989f7919789c12dbb5a449511ee706456408693cec5f"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-invest-long.png",
+      "sha256": "7928abe30f5c22cba3db16aaf1997546b79ac39137163feaf83dca2d8ff07caf"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-invest-month.png",
+      "sha256": "3d3899c15a1001a00f6316daf09f14749144eb8f3aa3e44d460072c085697b01"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-invest-preview.png",
+      "sha256": "0c70aeaf2682a10dcbf8b9cc81045f9f514869f2ead0c736433ad7daf37f62d7"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-spend-day.png",
+      "sha256": "b2c009987ebd8866bb2f95005b2c6a0392a74c15b60d5daebc1bd7ae1985a4d8"
+    },
+    {
+      "path": "docs/screenshots/history-restored/passbook-spend-month.png",
+      "sha256": "1893179e1bbbc58b7b0a08f92b8bab88a907314a2c071ce7dc2b9fa09a0f0ad1"
+    },
+    {
+      "path": "docs/screenshots/history-restored/restored-history.png",
+      "sha256": "688cd2a87bf70bd9c1c64e8a6f2f88109e34db0667c69ad7cfacac153062f114"
+    },
+    {
+      "path": "docs/screenshots/home-blue-paper.png",
+      "sha256": "ae0ec07ea4007ff68898e8a287544296b13d685ad7aa74c64aaa689b24ae1feb"
+    },
+    {
+      "path": "docs/screenshots/home-light-refined.png",
+      "sha256": "0359b9735e033b609fb53c5622b79d2ecc37f6d428fc53509a74eaf69c4af5a7"
+    },
+    {
+      "path": "docs/screenshots/home-match-round1.png",
+      "sha256": "920c0805795e2113141a97c97f010aefaa6aa6f859e96b101ac10b0c2f62505b"
+    },
+    {
+      "path": "docs/screenshots/home-native-final.png",
+      "sha256": "4736d33a65b4c30298f68cb41c94d561604c2467a937005f8932e617cc4e258f"
+    },
+    {
+      "path": "docs/screenshots/home-native-round1.png",
+      "sha256": "b4d98c9913b63e93f57076585a6a379e64b786a0742a5ca30590058802c22d01"
+    },
+    {
+      "path": "docs/screenshots/home-native-round2.png",
+      "sha256": "379ecc77aad41af34f9114ef232a289e510c103250ad5b5dc80ca6a0bd39feea"
+    },
+    {
+      "path": "docs/screenshots/home-native-round3.png",
+      "sha256": "c439ef79e71fe07a60b98962f5f87c298de359cee79296966775649d821f7e4f"
+    },
+    {
+      "path": "docs/screenshots/home-paper-collage.png",
+      "sha256": "79b003aaa03b3f2abc2a632d8c2529bf8abc758df332c6678d950c9a0f3ff741"
+    },
+    {
+      "path": "docs/screenshots/home-paper-depth.png",
+      "sha256": "d8d7e6ec7f0354f06acae19b0ee4ec8667d1939a5ef67a4a5d487f67820fcd4b"
+    },
+    {
+      "path": "docs/screenshots/home-paper-irregular.png",
+      "sha256": "61f8838930eef99105b7635bfdaad9c6a675b269d7478598db4aeb9b2f4a6fe2"
+    },
+    {
+      "path": "docs/screenshots/home-wordmark.png",
+      "sha256": "67253b4eef1b7c5d5d118548123d59d09afbe04dbee9ff8b26caad842b1ff84a"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/auto-candy-10s.png",
+      "sha256": "0a3123f00c85b5acd0a9f4f04575b11c9d21b5d3594c26318ee406689bd3d7f0"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/auto-candy-20yen.png",
+      "sha256": "49e838b81c049c22b2982624639da8b622aab0e2029c85269f4315a1249da167"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/auto-chocolate-100yen.png",
+      "sha256": "4f6e2fe19c974a8128eb0decdea8000a81b40fc3a0eae1b53567ac7ff8ecafb3"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/auto-coffee-100yen.png",
+      "sha256": "bea538517ddb7e93bb524f6e0098169fa274975f828817efac6f7e5ebdef6cee"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/auto-overlay.png",
+      "sha256": "648a84676d3f8bc215af83c5a5563dbcb530d02fa4502f083b8bf4289f48901b"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/impact-before.png",
+      "sha256": "84fbe3bcf81037028f1698917c31c82e3b2075ae37e23a32b193813d3a811d0a"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/impact-peak.png",
+      "sha256": "b03099c1b9b2d7f1e3653b432bf9c93c8c91a4fe729858ea8fffcd2d30529c86"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/impact-resolution.png",
+      "sha256": "84fbe3bcf81037028f1698917c31c82e3b2075ae37e23a32b193813d3a811d0a"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/manual-live.png",
+      "sha256": "34e9ac9bd36af320f8facdb5185d17f12248b5fe8d8c28f0b8c1793e8f215a9a"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/milestone-contact.png",
+      "sha256": "2049d65d20f4497789fec759a52e3e7928469aaf82ac79e1a9ef840cfe045f1d"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/milestone-fall.png",
+      "sha256": "0ab8f1bdabd1b3ff006ccbb67c16fc9cbc278338648d008692cf5eb6ef62a0be"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/milestone-hold.png",
+      "sha256": "52df38fcb495db40f0798e0313aa98d6cab90780ff408ff662523357271aeab7"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/milestone-quiet.png",
+      "sha256": "4862508a4d4ea83f5e73695e8d3af189f597268a4c8431e055dfef162ed43473"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/overlay-drag.png",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/payslip-preview.png",
+      "sha256": "9454389aac34ec6f81b810fa2108f00fa2f57f750305f9b3c3a039d13ad4bdcd"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/receipt.png",
+      "sha256": "46e3ccdbbabcf67f658da40d42948b8173d588a15a518cdcca69954265b5e4fa"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/share-card.png",
+      "sha256": "cd35386587d3b43a9dfbeb88e68d056c98b3426900aad8982d4fac609b51bf62"
+    },
+    {
+      "path": "docs/screenshots/impact-fix/timecost-impact-fix.mp4",
+      "sha256": "146dbc7e8ea1429cfed8ce4e122b448d72be2c0c4da4425e4b25656fdfb82fe9"
+    },
+    {
+      "path": "docs/screenshots/luna-max/auto-candy-20yen.png",
+      "sha256": "49e838b81c049c22b2982624639da8b622aab0e2029c85269f4315a1249da167"
+    },
+    {
+      "path": "docs/screenshots/luna-max/auto-chocolate-100yen.png",
+      "sha256": "4f6e2fe19c974a8128eb0decdea8000a81b40fc3a0eae1b53567ac7ff8ecafb3"
+    },
+    {
+      "path": "docs/screenshots/luna-max/milestone-contact.png",
+      "sha256": "4862508a4d4ea83f5e73695e8d3af189f597268a4c8431e055dfef162ed43473"
+    },
+    {
+      "path": "docs/screenshots/luna-max/milestone-fall.png",
+      "sha256": "0ab8f1bdabd1b3ff006ccbb67c16fc9cbc278338648d008692cf5eb6ef62a0be"
+    },
+    {
+      "path": "docs/screenshots/luna-max/milestone-hold.png",
+      "sha256": "4862508a4d4ea83f5e73695e8d3af189f597268a4c8431e055dfef162ed43473"
+    },
+    {
+      "path": "docs/screenshots/luna-max/milestone-quiet.png",
+      "sha256": "4862508a4d4ea83f5e73695e8d3af189f597268a4c8431e055dfef162ed43473"
+    },
+    {
+      "path": "docs/screenshots/manual-live.png",
+      "sha256": "85a21dcdfdce9a85983e83872900446fe717cad2d9a73d3a9b375f0a24ffb817"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/auto-candy-10s.png",
+      "sha256": "0a3123f00c85b5acd0a9f4f04575b11c9d21b5d3594c26318ee406689bd3d7f0"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/auto-candy-20yen.png",
+      "sha256": "49e838b81c049c22b2982624639da8b622aab0e2029c85269f4315a1249da167"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/auto-chocolate-100yen.png",
+      "sha256": "4f6e2fe19c974a8128eb0decdea8000a81b40fc3a0eae1b53567ac7ff8ecafb3"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/auto-coffee-100yen.png",
+      "sha256": "bea538517ddb7e93bb524f6e0098169fa274975f828817efac6f7e5ebdef6cee"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/auto-overlay.png",
+      "sha256": "38ce032de62b26107458474549fcb9b79c87fcf28e3d0a9cddccaa210d5dc0e0"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/brand-home.png",
+      "sha256": "dd635b9716621ab6ea14c0940cc96296d01599b6c0150e8a10f0b49110c67cb2"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/brand-rate.png",
+      "sha256": "366166b183c53f064687b031d928e0450fac0b23ae16069401960ac8243925fd"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/brand-welcome.png",
+      "sha256": "cebe19d340d75739b4db1afce9c0a19cf2b173f78ac5d2b82a822d887d124993"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/impact-before.png",
+      "sha256": "f1826b7ae6c122b96e4bc1a7b5cf7feef9c3ddb57ea86e51b0345583559c3ef3"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/impact-peak.png",
+      "sha256": "a55a999a70f4a4c73f528e82272251a38a099afec5db793d88cd38a4fd11b09c"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/impact-resolution.png",
+      "sha256": "089b50d8301b04bd99402154132bb051d2d4ed89e07092c8168dbdd07956e2b3"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/manual-live.png",
+      "sha256": "353ffabe2f54850adf603001e0ea49c609aa6e523d37f5e0a994f8f8a3c607b8"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/milestone-contact.png",
+      "sha256": "042c6e1633c92d1d88ad6d7e5d351c7273568a862c3f886d4996968d98b2a067"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/milestone-fall.png",
+      "sha256": "1117c0e06eff719d51e5d9f7f47e801c5ca9576b9ff7a15a7e7aee10e9c2547f"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/milestone-hold.png",
+      "sha256": "1e10f147b43ba2e031df4921bb0a54c7169369044d3ac2e97e84ab7955f3694f"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/milestone-quiet.png",
+      "sha256": "294dd1f49d0392264ff61afb054e6fb554781610622c19d9f2c613fb1054334f"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-apps.png",
+      "sha256": "edfe197063c6d821869dbea4577c8377da384fc40ebcbafcef820b10ac42274d"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-home.png",
+      "sha256": "d7ac5f23169e5bcd9aacfde5e5cf671410f02befde3648d00c8488d2079a9c0a"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-overlay.png",
+      "sha256": "d2b1e5dc8882ae7a706480bcec7a01e5298b16fbe5214a2718685a7c90bd54d2"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-rate.png",
+      "sha256": "a04a3b83425bfa605497852434d12931cfe285efd00add883af695a8da5b08ce"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-ready.png",
+      "sha256": "c4666655c699df107e3c0996df3f976670b28feba1d620ae24f9e1aff8d0369d"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-usage.png",
+      "sha256": "4531c9a4839abb99dba0481fd8628153bca50365d81f8a724deda18aa0360e4e"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/onboarding-welcome.png",
+      "sha256": "09ddea1524990c540ae77c49f0bd900911d85d03697dbf9d6920976b55265924"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/overlay-drag.png",
+      "sha256": "f525a9b920fa7679cdd26bd040e279394b83e5825addea0359c0d413de6e37e7"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/payslip-preview.png",
+      "sha256": "e9535dd7b6f18cbd32ef4cab52b81913bc1bb7ba9f5e43ada4909332d7a0789e"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/receipt.png",
+      "sha256": "c1341056f6cf9931f652f64a7e1cb79d7824deb28fdc2f141f0080163be80c0a"
+    },
+    {
+      "path": "docs/screenshots/moshidopa-final/share-card.png",
+      "sha256": "3d69a0ee40faa4ba0341350a1ffd237da9310d5d6eb430c484600028e8477509"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/brand-home.png",
+      "sha256": "f4fdf22b5f3ff8644ad47a718278107f6e9e88f9c038a50cef103b50610b7fd1"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/brand-rate.png",
+      "sha256": "6b83b00bd2a6aa59f058f23d01609ea70fac14f500f2868b15ee5f920032e408"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/brand-welcome.png",
+      "sha256": "a6083748a2f48baf31ee17570a14c630dd87c15779048658979a3eeb5deaf3f2"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/impact-before.png",
+      "sha256": "f02c9f261942ea5527a54e33bafd767ed18aa3b64f4aea91189ef2cf55182d62"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/manual-live.png",
+      "sha256": "a652fecaa1a29276e7849424c77810570a8a0821cf07b06efc0180dcec82e7ef"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/milestone-contact.png",
+      "sha256": "b6d3224c6b0a44adb22b7058b92ee746cdb50d0f129193b24384908724cf8a95"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/milestone-fall.png",
+      "sha256": "9c0f2facd70b9850f7b74abf77f7ae2d6d20593ffff5436fded71aeb73b23bac"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/milestone-hold.png",
+      "sha256": "8ab6a52bb1687cc6fadd9fa8b7f075fe5c8b7343c1c26e28ce486dc34124a676"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/milestone-quiet.png",
+      "sha256": "17fbd3e12fd2405615559a2ceefa85bb66ea3b162d9cf1dfbb7a52dfe6dcbd66"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/receipt.png",
+      "sha256": "12ab430ab4b60428cf154198fe3ee73d7b2df21a59610aab73982660688634d2"
+    },
+    {
+      "path": "docs/screenshots/moshidopa/share-card.png",
+      "sha256": "91eda837469906728aba8560a9aeb4d225fad9a38022f6f9fd2817b24927de5a"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-candy-10s.png",
+      "sha256": "0a3123f00c85b5acd0a9f4f04575b11c9d21b5d3594c26318ee406689bd3d7f0"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-candy-20yen.png",
+      "sha256": "49e838b81c049c22b2982624639da8b622aab0e2029c85269f4315a1249da167"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-chocolate-100yen.png",
+      "sha256": "4f6e2fe19c974a8128eb0decdea8000a81b40fc3a0eae1b53567ac7ff8ecafb3"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-coffee-100yen.png",
+      "sha256": "bea538517ddb7e93bb524f6e0098169fa274975f828817efac6f7e5ebdef6cee"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-overlay.png",
+      "sha256": "f0d4e6f3d18200ee3b4ff3be2834451a04c408cbb5171d8bf417f5080c6dff15"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/auto-ready-redesign.png",
+      "sha256": "0ce146b1e9030403520e6a7e717a2782588a539f8746f4a28f5014f5e27d1337"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/brand-home.png",
+      "sha256": "dd635b9716621ab6ea14c0940cc96296d01599b6c0150e8a10f0b49110c67cb2"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/brand-rate.png",
+      "sha256": "366166b183c53f064687b031d928e0450fac0b23ae16069401960ac8243925fd"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/brand-welcome.png",
+      "sha256": "cebe19d340d75739b4db1afce9c0a19cf2b173f78ac5d2b82a822d887d124993"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/history-expanded.png",
+      "sha256": "be8adc698b0abb8c7da60433ebf9700c350ce80f0aabd86494dd9e9c9cd9eda6"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/history-grouped.png",
+      "sha256": "c07ff6b2b4e8b1dd048f8e90048014b0619b7cf026ca9350b11010a5edd90161"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/impact-before.png",
+      "sha256": "f1826b7ae6c122b96e4bc1a7b5cf7feef9c3ddb57ea86e51b0345583559c3ef3"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/impact-peak.png",
+      "sha256": "a55a999a70f4a4c73f528e82272251a38a099afec5db793d88cd38a4fd11b09c"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/impact-resolution.png",
+      "sha256": "089b50d8301b04bd99402154132bb051d2d4ed89e07092c8168dbdd07956e2b3"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/manual-live.png",
+      "sha256": "353ffabe2f54850adf603001e0ea49c609aa6e523d37f5e0a994f8f8a3c607b8"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/milestone-contact.png",
+      "sha256": "042c6e1633c92d1d88ad6d7e5d351c7273568a862c3f886d4996968d98b2a067"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/milestone-fall.png",
+      "sha256": "1117c0e06eff719d51e5d9f7f47e801c5ca9576b9ff7a15a7e7aee10e9c2547f"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/milestone-hold.png",
+      "sha256": "1e10f147b43ba2e031df4921bb0a54c7169369044d3ac2e97e84ab7955f3694f"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/milestone-quiet.png",
+      "sha256": "294dd1f49d0392264ff61afb054e6fb554781610622c19d9f2c613fb1054334f"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-apps.png",
+      "sha256": "edfe197063c6d821869dbea4577c8377da384fc40ebcbafcef820b10ac42274d"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-home.png",
+      "sha256": "d7ac5f23169e5bcd9aacfde5e5cf671410f02befde3648d00c8488d2079a9c0a"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-overlay.png",
+      "sha256": "d2b1e5dc8882ae7a706480bcec7a01e5298b16fbe5214a2718685a7c90bd54d2"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-rate.png",
+      "sha256": "e3f16153ed8292151bbf746b38b13abd1f9710bf86d84d0a955086fd990d96f6"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-ready.png",
+      "sha256": "c4666655c699df107e3c0996df3f976670b28feba1d620ae24f9e1aff8d0369d"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-usage.png",
+      "sha256": "95442233d9ccdd038b08bd6ac34fc29c9c16265fe17181c110e85c0d951a3e36"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/onboarding-welcome.png",
+      "sha256": "5af574710b7eb5eae3332d035de380890847ebf8fc5347c52ce78dc1c680bfff"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/overlay-drag.png",
+      "sha256": "f525a9b920fa7679cdd26bd040e279394b83e5825addea0359c0d413de6e37e7"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/payslip-preview.png",
+      "sha256": "61910b9c99f3df161b03e9829641b08d893fc38bf7b867a2cfb84675d1478c76"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/receipt.png",
+      "sha256": "c1341056f6cf9931f652f64a7e1cb79d7824deb28fdc2f141f0080163be80c0a"
+    },
+    {
+      "path": "docs/screenshots/navigation-history/share-card.png",
+      "sha256": "3d69a0ee40faa4ba0341350a1ffd237da9310d5d6eb430c484600028e8477509"
+    },
+    {
+      "path": "docs/screenshots/overlay-check.png",
+      "sha256": "98019cecbed6e4ff869fb1c92e730f4fc0ce9db694448173519558bfcf959312"
+    },
+    {
+      "path": "docs/screenshots/paper-navigation/navigation-history.png",
+      "sha256": "5085f58ab38cfa0fa621eef26c02cfbe1d19006ef625bcd7455feb5075948740"
+    },
+    {
+      "path": "docs/screenshots/paper-navigation/navigation-home.png",
+      "sha256": "dfc257ff2ebb08e41abc15aee8a89f978d3ebb4c2578a60fbd596fac743cafe5"
+    },
+    {
+      "path": "docs/screenshots/paper-navigation/navigation-settings.png",
+      "sha256": "93824ac8cfb65844499f578a1d615aa8a146dfc33ad6940850fff0b9fa9ad1c0"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/auto-overlay.png",
+      "sha256": "22be94eb5d550c3c2e27a2f85157019c929d4ae58f9176a3676963faa9bb32aa"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/auto-ready-redesign.png",
+      "sha256": "9a74eca0e70592a16cd8b48c8fb287eb6fd86e8e695222d4f2027a199c0078a0"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/history.png",
+      "sha256": "254f309b856bf186a1a0205f293ef087eeb6a4d50a7f7b62d4c1c5e837dbbaec"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/manual-live.png",
+      "sha256": "d25ce0f39ec5eb509d63061ec1d19dbb98b3b4f832fa4923955d76e8bf40cf13"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/manual.png",
+      "sha256": "822d7c730054009020b256ba4c5cdb9f8e40f0defe3090b4025796e87839a27b"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/onboarding-welcome.png",
+      "sha256": "ce27fe5c13d0523449d83974060d7d6cfded3cca66b29106d2437af413fe4a42"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-display.png",
+      "sha256": "253fb785bfef4eca050bb98768841b6048809507f8fa7d4a788eca754293a66a"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-history.png",
+      "sha256": "3259d9e59929905d60634b3d497fd48febf06bf33324cea7ef6b6183938aafbf"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-home.png",
+      "sha256": "a4dace256cc7cd07da7dc28c2e65d13273fc6503b2dd8ab8b67821f9aa1d3e3f"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-manual.png",
+      "sha256": "59bc571d0a1f06d01de641827effdf2d0896878393799f925d96f4b9b4de2c50"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-rate.png",
+      "sha256": "4ddb6bd42bcfe857ccf7d35a9ef609c2b7a139637b4ece73e7e5831f070cb4e5"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-receipt-invest.png",
+      "sha256": "8a71b43112fd49d9344a21532f4da3d335a137dcb58c6cb945657782cd80306e"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-receipt.png",
+      "sha256": "2b9772c3cfc02968da88378e1d122f265c6754e16841c8a6917131959d184507"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-report-invest.png",
+      "sha256": "e218d23d6cca694856ac244db7356f79f1ab99c2fe91b919744559191995ab0a"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-report-month.png",
+      "sha256": "b5f8d65fb628cf4f67b79b01870191c643d6e20e61f6ab87d3b3f054f4ec10f3"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-report-week.png",
+      "sha256": "d45c4bfec253a86ed7faf7595169f499167785faa525c61ec21210e93a6985c9"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-settings.png",
+      "sha256": "d91c0e76a843b3a38a5df111999212358f196ba0e63f8640fe1a754069783699"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/paper-share.png",
+      "sha256": "ac4e191f71f1653090820bb9bd4b229fd3f8cfea794ce383051f392941c14804"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/passbook-day-preview.png",
+      "sha256": "ac26b328c96bf712a3c780bdf2aaa6dcb23bc8095227175cdfdae4afae45f145"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/passbook-invest-preview.png",
+      "sha256": "156040d9fb27a55a5f4b7a696bd0951caa03386cb4b7d53640d626af73817163"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/rate.png",
+      "sha256": "41dceb6cceb8a07b7a68ece3fde7481c0c37561db9af53754f067944859b1d1a"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/receipt.png",
+      "sha256": "4103e6e5a4341fb81724253a14639999b7781591517a3d1d142e0754dc4b6bd3"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/report-week.png",
+      "sha256": "5f1c30781154a4d031119574520d9a64e5eede7fb667cbf409a444ef5c5233e2"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/session-receipt-overlay.png",
+      "sha256": "7ad1100f04ca2e488e8ea492011225e9761ff1f65b925bcfba55ffcb197256ae"
+    },
+    {
+      "path": "docs/screenshots/paper-refresh/settings.png",
+      "sha256": "d5a67fe33c392f61b837132453848083e3c1b57b5b04b63959129d4b8ead16eb"
+    },
+    {
+      "path": "docs/screenshots/physics/auto-candy-10s.png",
+      "sha256": "0a3123f00c85b5acd0a9f4f04575b11c9d21b5d3594c26318ee406689bd3d7f0"
+    },
+    {
+      "path": "docs/screenshots/physics/auto-coffee-100yen.png",
+      "sha256": "bea538517ddb7e93bb524f6e0098169fa274975f828817efac6f7e5ebdef6cee"
+    },
+    {
+      "path": "docs/screenshots/physics/milestone-contact.png",
+      "sha256": "6befc6ba4a168b0fb71ec7ec1325afcbb3c7c929f31bdc7ea8594891bcc4226d"
+    },
+    {
+      "path": "docs/screenshots/physics/milestone-fall.png",
+      "sha256": "d99588707294364a59c8a90e76ce6f4cab6faf6f22e600a927e658e5b3ad7f76"
+    },
+    {
+      "path": "docs/screenshots/physics/milestone-hold.png",
+      "sha256": "4e3bc1d2c48f44fb22027ba00b15d5802d5f3b8ff517e1e9a8f042d5db589ad0"
+    },
+    {
+      "path": "docs/screenshots/physics/milestone-quiet.png",
+      "sha256": "1ca25670f609cecaa30322cbac1e8c826c21815024b3ffdd49b1e3e9856f61cc"
+    },
+    {
+      "path": "docs/screenshots/physics/overlay-drag.png",
+      "sha256": "33bdd1194a9261184bd646dc18233d18397175a2c52e084ecf59a3d035afb869"
+    },
+    {
+      "path": "docs/screenshots/physics/settings-contact-foreground.png",
+      "sha256": "a87a273997620e75e2cc1395727f2a42e190a2753244b86d857217ceec2d3408"
+    },
+    {
+      "path": "docs/screenshots/physics/settings-contact.png",
+      "sha256": "f9283231a48b1ed10f29faedc45fc225e58346cf70e80afe176c97f1c29c1be4"
+    },
+    {
+      "path": "docs/screenshots/physics/settings-hold-foreground.png",
+      "sha256": "a87a273997620e75e2cc1395727f2a42e190a2753244b86d857217ceec2d3408"
+    },
+    {
+      "path": "docs/screenshots/physics/settings-hold.png",
+      "sha256": "f9283231a48b1ed10f29faedc45fc225e58346cf70e80afe176c97f1c29c1be4"
+    },
+    {
+      "path": "docs/screenshots/physics/settings-quiet.png",
+      "sha256": "6c9caf3cfcc0f5b5ebb38b6328cd4cf504aa38c7c09d47c30a70f40473b05552"
+    },
+    {
+      "path": "docs/screenshots/physics/time-cost-auto-candy-final.mp4",
+      "sha256": "de62d6d99ff7e2a72ca0255c754005a469a440dd9921705608494e28ecfc262a"
+    },
+    {
+      "path": "docs/screenshots/physics/time-cost-auto-coffee-final.mp4",
+      "sha256": "4e86c1248eff174e76c61e26b85485dbc4a407a2349732af3be29f30ef13c4a9"
+    },
+    {
+      "path": "docs/screenshots/physics/time-cost-physics.mp4",
+      "sha256": "06f91cc921f477cd4e5fa6aac5cb4e902efd642dd71d3e6930a0f6470949fd6d"
+    },
+    {
+      "path": "docs/screenshots/physics/time-cost-settings-touch.mp4",
+      "sha256": "432a1c083a60a2343208bb4a3a871506b3d4a9101b399297565d6f8ed57b4eec"
+    },
+    {
+      "path": "docs/screenshots/physics/time-cost-youtube-motion.mp4",
+      "sha256": "33efd3c85b3972fde9f9abd239c380797a72ec319e128ae159a70adecfbc2d5c"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-contact.png",
+      "sha256": "d4b9bfffe716316e3fc83abf97652ed9365dd59ac8710c1ea52f5eeee2e31ca6"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-fall.png",
+      "sha256": "c2403a69f68152ba44a800fa9457ceb2c619f8a7f0de7f161e6231169170c37d"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-hold-after-swipe.png",
+      "sha256": "2c9f414467febd4843b9af9bb67ae6454919bb93299def38a578d741ae24a1b5"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-hold-after-tap.png",
+      "sha256": "73745762ac9ca37b7896364cc36b2ef414f03a77196892ca85fa8690dd06ca87"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-hold.png",
+      "sha256": "2c9f414467febd4843b9af9bb67ae6454919bb93299def38a578d741ae24a1b5"
+    },
+    {
+      "path": "docs/screenshots/physics/youtube-quiet.png",
+      "sha256": "5a5d1afdb8313a18a842db8668a31584a9627e498b1870a18c749de7b40546e0"
+    },
+    {
+      "path": "docs/screenshots/receipt.png",
+      "sha256": "ab56396877f26b96cbb02d06d97c3f663abc027cef26498ce2a07a2cb804ac78"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/about-font150.png",
+      "sha256": "0985114ad81f171d0d64b25fc2fb4807fe8ccfe31e786df2588ae97a3d590981"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/about.png",
+      "sha256": "2a7bdd2a8b02ccc071bf2d0a5a7bead962499de878e7f90059d183026fee8405"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/onboarding-03.png",
+      "sha256": "f38ffc9a7151152815a9305af726cec2538f548db4feb2607ec9c94f46db7b1c"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/onboarding-04.png",
+      "sha256": "fbe8fb09e55538b16f301cd2b908163ddb3f1633c1875e506457f66d8143a084"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/onboarding-next.png",
+      "sha256": "5807d03fc8be800645cdf46feede10224e860335c3a0d554c3d126ff7695ac86"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/onboarding-rate.png",
+      "sha256": "a038637d7db7bfab85412b32a5068bff9dc502b09e25c5d16b0e4de7d1964b74"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/policy-font150.png",
+      "sha256": "cf3ee31cf987de21ad6d41b5cecda31062ce0f34017bda2fd911db2037fd0e0c"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/release-after-update.png",
+      "sha256": "9fd72b9dd2127a7a011cfb6fd7fa46820951e460dd4ca5f6b181b2dc25aaca1b"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/release-small.png",
+      "sha256": "e84d1e46d0c3782263ff809ab423db535ef968d242cfb1cdf5d7d74ad2e3dd9f"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/settings-final.png",
+      "sha256": "4bd963d27f12e7378627b4cbe053e38263a099301ebf9e7152b9cf21168812d8"
+    },
+    {
+      "path": "docs/screenshots/release-readiness/settings.png",
+      "sha256": "e4fe42eeb448edc58dda3c1b60757c26b7e941b2db31a41dea5e5de2d354d221"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-amount.png",
+      "sha256": "f9edafd36b7046e9bcb9abce487a4786ab76155a309e32bb91014930d2c9f4ab"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-complete.png",
+      "sha256": "42285913c6cfc57fff4f85eaf1ff79496f47e3b35bff03c08df384c12d86f023"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-current.png",
+      "sha256": "d665c803b4cef8f6bb2aeb354abf581d673cf6ca24876248bcf987ddd4fab35f"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-detail.png",
+      "sha256": "cc5978820dc67f6c840c4abda70ad305abed508b3a3e91a5ac530b62ad8816da"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-enter.png",
+      "sha256": "e1ec3f8e54fdea3bd1586599a2f87f39b17ac1fa6b511fa461d36280336faed3"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-home.png",
+      "sha256": "525dc0bff0567a47b477852dff104f8d777f4c7c74608bc0e96a7cc814bae4ce"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-invest.png",
+      "sha256": "0660319dfce5787f5c7d0e9ac31e11f766eb05230ab13208214f6774eb2f4cdf"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-late.png",
+      "sha256": "bef780f3661f94f796597c0e56ad416e9a65bd69c104ea9f4806140b4e4cb182"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-outside-tap.png",
+      "sha256": "651a8fa631905f740b1417ad0ce27529f8f6b58b961a921799cee764217b0d4c"
+    },
+    {
+      "path": "docs/screenshots/session-receipt-share.png",
+      "sha256": "286c01d2918fddd31c8ea24d91b1f0554c0e7cfbc26d72eb614c4b13f1791176"
+    },
+    {
+      "path": "docs/screenshots/share-card.png",
+      "sha256": "a444405917c1e270797ef658927d43eae75a8aab9f515885c469a7c1341ab46b"
+    },
+    {
+      "path": "docs/screenshots/unified-history/compact-history.png",
+      "sha256": "41c5540b4badac78cbba071e73c2f010047922ea37016450ef82320eeb9f62e8"
+    },
+    {
+      "path": "docs/screenshots/unified-history/unified-history.png",
+      "sha256": "d425db16e3c46fb00b6ee3479b80ac0afc71b3cad448997fa9db859a05c6b111"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-borderless-final.png",
+      "sha256": "027bedbd625c5ae738cee02632c87d69049f30c57c112ad846656c66e8b1b063"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-borderless-talk.png",
+      "sha256": "e037ddafebbec5175ec29fc46c8cf663b37fbe0e3b8877c24e42ebb9f144c07e"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-closer-opening.png",
+      "sha256": "45ed0e7c256a9dc4a7de2f54d7c880cf85ae7fb1cfbc8635706966f2417fdb75"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-closer-talk.png",
+      "sha256": "82087c9f21475c3449126b3277ca359c386e0222d88c4281f5b8370b7ce96843"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-face-old.png",
+      "sha256": "68ccd0c8f9ad87ae6c03c655c4f9b3c3128759577f70541e8f4def6046aeb149"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-face-opening.png",
+      "sha256": "6ceaf3fe753ff394ca11647af83dbba070102fe6115faeeef1e97d742e4c6334"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-face-talk.png",
+      "sha256": "3868736ebcedc9762739080abfb263011ee0b3a8460d754f35e11557f4019b35"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-final-hold.png",
+      "sha256": "21a0fdfd7a59036eaf0d0a531e8063130b96009495758ab7cf806fa155e8f9ad"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-invest.png",
+      "sha256": "df716a870e9e1d359007206ddcb23ddc6904a074707ba0738b1ff66f415ea01e"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-shock-shrink.png",
+      "sha256": "eb4f1bfeca0948b967645ac86445fe9d3c18e0ad2be8695dd4b2b6eebd25bfa3"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-shock-spring.png",
+      "sha256": "ec1dca04271a03374af2c12f91a5fb30888ff5808ad68350d20b756b1e050507"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-spring-compress.png",
+      "sha256": "1adf5c277e751ea57b914882cabc6e8c28ee11b2383668fbcf43e24c7607051b"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-spring-gentle.png",
+      "sha256": "1cca11a25b0a1166d037513c05b7c733b05cbcaa95134f07bfb698d58fc57d13"
+    },
+    {
+      "path": "docs/screenshots/whatif/android-spring-peak.png",
+      "sha256": "e46eefd3918e7982b2fe8ae568d6009b72ca68ba861e885d5f25e8aae1161ff1"
+    },
+    {
+      "path": "docs/screenshots/whatif/anticipation.png",
+      "sha256": "72868f5800419556c18c5e8e47385c86e6c9716d823f80dd82d104affa6c6d9a"
+    },
+    {
+      "path": "docs/screenshots/whatif/day.png",
+      "sha256": "930bb1f303a51b5450e0cd077445f7f3cdbdd3ca1e501ce790630111ca2192e3"
+    },
+    {
+      "path": "docs/screenshots/whatif/expression-preview.mp4",
+      "sha256": "faad6663a30f5e41136663bd92a6b92db80ec09bdd26d66a3ee0455175e3e421"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/INVEST-300-full.png",
+      "sha256": "e43eea85161075250d5d9e7fdb1fabaefdc02a01aeae2dbd34e8d88d3635ed7f"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/INVEST-300.png",
+      "sha256": "fd9961552896c19daf109549df522549954f48da08da3f4215c02cb3d0078907"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/INVEST-30000-full.png",
+      "sha256": "0351a8dde9fc4e51b907cbece70365fddffff51f1f436dfeece20593624dbe5d"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/INVEST-30000.png",
+      "sha256": "806eee221b5cc45e7c830b10bae1319c019ba58931cf1e934aba3cfec4711aed"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-100000-full.png",
+      "sha256": "5dcf321b555b369d2869462b02cb3dbcc4eac6f51a262b3d19bb17a1f220847b"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-100000.png",
+      "sha256": "167df7811c2f7aa8eec2481ca25d259b0475b2b1d78666ac3af20af8288699e8"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-20000-full.png",
+      "sha256": "537bb0f7254984ebbe83e3f089b0e34272588c05448183952dc7cc623ce18941"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-20000.png",
+      "sha256": "1295f09e5bd4f51f2e1759d2dcb2bac8905efa82495a369d9b63010b5e863309"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-300-full.png",
+      "sha256": "3680012e9335b65628bbec741a7fa32c1e023169eadd6a3879bddd2fe7f2f6a8"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-300.png",
+      "sha256": "7006c0fc7e051a12853892b553865d16133c3a66b7f2452122d10f7700554638"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-3000-full.png",
+      "sha256": "6e4a155af960d2272f90f828f072ad019196265d57b31e0dcdaef852b5504497"
+    },
+    {
+      "path": "docs/screenshots/whatif/expressions/SPEND-3000.png",
+      "sha256": "13f4db1bbdb700c42eff10411fc933b777adaec5c182989fca2ee205ee7a80ab"
+    },
+    {
+      "path": "docs/screenshots/whatif/invest.png",
+      "sha256": "824251ac98b53a6cafd68703ee179c8d2b3e0c4e4943c63b325bf7d0e54bb341"
+    },
+    {
+      "path": "docs/screenshots/whatif/month.png",
+      "sha256": "37fde34a931c9fc8f7ae7f0fdd21caae3a0006c2eaaf5a207f2bc2b659f952fe"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-ending.png",
+      "sha256": "c0ae9139bf8e3bf485d7af033f33ee5a91e6a02326190aaa8e6bf25fcb97b6b4"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-item.png",
+      "sha256": "5670d3fe40943bbfb543d3399bf08060cc8cccf63e5df8ce7b96f38425beea00"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/editor-ready.png",
+      "sha256": "c9cbf25725eb82bb4f3574642341a4706b5e47289af6fca4a5b2f403e08c7104"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/fading.png",
+      "sha256": "1b158e9b7033642dedd84ced36270eef39d1e86cecf60d8c3cc5d9def0d13d5f"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/impact.png",
+      "sha256": "6a81a866098554026e9bcd891fefdd63d35f02f2259d942502cdd4fa84708712"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/reaction.png",
+      "sha256": "409f4bdeafd26769560b05c13645c408a2ca0ef41807c0b8c0dcfe9cbe7a5939"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/resolution.png",
+      "sha256": "a71025697e7b179228b78c18aa3ee7ce8a7ee9dcadad72433ec7eedf1ae06783"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-lab/settle.png",
+      "sha256": "2056bb0ad3d04fc16521b62874c459374a6fbc3ce2af66936c54d2074d128bd1"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-preview.mp4",
+      "sha256": "ee10f5b64610999ab723c956c064035d8f72c27fd0c1595b3aecc13ae4ef1103"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-screen.png",
+      "sha256": "eee7aeef7c62ec0409d50810c7d34479754b2241b49bce9e44a1115446b2f109"
+    },
+    {
+      "path": "docs/screenshots/whatif/motion-speaker.png",
+      "sha256": "0f1d3744a9debca3aa43efb86640886ac71a8c75ceb52b0b9f4d569ec29fdf77"
+    },
+    {
+      "path": "docs/screenshots/whatif/quiet.png",
+      "sha256": "1df5d0e9362b340f66df84e585e781d7a9ab51b90c2acb8c17d6bcfbdd590c31"
+    },
+    {
+      "path": "docs/screenshots/whatif/screen.png",
+      "sha256": "2a991d6078e8a2d75b5201199c766b41dc21e22749c2b4baf59a1988203689df"
+    },
+    {
+      "path": "docs/tasks.md",
+      "sha256": "a4ad1d42569ebce55c424b69fe8235de38347f449be81c04591c40a851f8abd1"
+    },
+    {
+      "path": "docs/third-party-license-sources.json",
+      "sha256": "af9a7335626e32a7436202901c2b1b728329c9d38c152eda6d9bd3b185ce5607"
+    },
+    {
+      "path": "docs/unified-history.md",
+      "sha256": "fb13d8d38051ee9e50b8188c59605ca19c8f3acdad30fe82cd6f7d6f359baee5"
+    },
+    {
+      "path": "docs/whatif-interview.md",
+      "sha256": "ca2c269fbc1d8e13272793ab63077248039c476fc4ad731a787bd39f40f915d3"
+    },
+    {
+      "path": "docs/whatif-motion-lab.md",
+      "sha256": "40080d6f2789683a78ce54a166e26f84a5971cdb5f09a9197daf0bd1077c7ee1"
+    },
+    {
+      "path": "README.md",
+      "sha256": "1e93882ac86366c99cce3cfcc6362e3defafe9aeb25dbcac497503738ed98b90"
+    }
+  ]
+}
