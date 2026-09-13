@@ -16,6 +16,9 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 - Reviewed the common amount calculation, monotonic elapsed time, frozen stop retry, SQLite recovery tests, and PiP sheet lifetime/restore handling.
 - Added a UI integration test for actual foreground money increase, explicit stop/save, and saved-history visibility after app relaunch. This test does not assert background PiP behavior and has not yet run.
 - Requested fixes for misleading Live Activity availability copy, missing display-surface previews, and incorrect tab destinations. These remain subject to rendered-image review.
+- Integrated explicit receipt selection, period-aware history buckets, September/August fixtures for all story modes, and four distinct Live Activity preview surfaces. UI compilation and visual fidelity remain unverified.
+- Sol Medium independently reviewed Core/Platform/tests/project/CI and found a PiP preparation failure path that retained the audio session when diagnostic logging threw. Parent fixed this with deferred audio cleanup in `ed3349d` and reviewed the error paths. Xcode tests have not run.
+- Latest implementation checkpoint: `ed3349d` on local `codex/ios-native-ui-pip`. Repeated push attempts were rejected for missing workflow scope. Remaining acceptance work requires authorized GitHub workflow push and successful CI, followed by artifact download, parent image/video comparison, corrections, and rerun. Device-only PiP acceptance remains separately unverified.
 
 ## Evidence required before completion
 
