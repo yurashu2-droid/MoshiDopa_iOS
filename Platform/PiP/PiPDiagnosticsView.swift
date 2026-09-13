@@ -350,4 +350,3 @@ struct PiPDiagnosticsView: View {
         }
     }
 }
-

@@ -163,12 +163,12 @@ struct MDFixtureData {
                              pipStyle: .paper, liveStyle: .paper)
     }
 
-    private static func date(_ day: Int, _ hour: Int, _ minute: Int = 0) -> Date {
+    private static func date(_ day: Int, _ hour: Int, _ minute: Int = 0, month: Int = 9) -> Date {
         var components = DateComponents()
         components.calendar = Calendar(identifier: .gregorian)
         components.timeZone = TimeZone(identifier: "Asia/Tokyo")
         components.year = 2026
-        components.month = 9
+        components.month = month
         components.day = day
         components.hour = hour
         components.minute = minute
@@ -188,14 +188,21 @@ struct MDFixtureData {
                        startedAt: date(12, 7, 30), duration: 2_400, hourlyRate: 1_800,
                        project: "学び", note: ""),
             MDActivity(id: UUID(), appName: "YouTube", activityName: "音楽を聴く", mode: .spend,
-                       startedAt: date(11, 21, 0), duration: 3_180, hourlyRate: 1_800, project: "", note: "")
+                       startedAt: date(11, 21, 0), duration: 3_180, hourlyRate: 1_800, project: "", note: ""),
+            MDActivity(id: UUID(), appName: "TikTok", activityName: "TikTok", mode: .spend,
+                       startedAt: date(12, 8, 0), duration: 2_100, hourlyRate: 1_800, project: "", note: ""),
+            MDActivity(id: UUID(), appName: "Instagram", activityName: "先月の写真を見る", mode: .spend,
+                       startedAt: date(20, 13, 0, month: 8), duration: 3_000, hourlyRate: 1_800, project: "", note: ""),
+            MDActivity(id: UUID(), appName: "手動記録", activityName: "先月の個人開発", mode: .invest,
+                       startedAt: date(18, 19, 0, month: 8), duration: 5_400, hourlyRate: 1_800,
+                       project: "先月の制作", note: "積み上げた時間")
         ]
     }
 
     private static func makeLargeActivities() -> [MDActivity] {
         let titles = ["YouTubeを見る", "Instagram", "TikTok", "ニュースを読む", "メッセージ", "デザイン調査",
                       "個人開発", "プロトタイプを磨く", "読書", "運動", "長いINVEST活動名でも紙からこぼれないか確認", "大きな金額の表示確認"]
-        return titles.enumerated().map { index, title in
+        let generated = titles.enumerated().map { index, title in
             let mode: MDMode = index % 3 == 0 ? .spend : (index % 2 == 0 ? .invest : .spend)
             let day = index >= 10 ? 13 : 1 + (index % 13)
             let isLargeValue = index == titles.count - 1
@@ -207,6 +214,18 @@ struct MDFixtureData {
                               project: mode == .invest ? "生活のアップデート計画" : "",
                               note: mode == .invest ? "毎日少しずつ進める" : "")
         }
+        return generated + [
+            MDActivity(id: UUID(), appName: "YouTube", activityName: "昨日の動画", mode: .spend,
+                       startedAt: date(12, 8), duration: 1_800, hourlyRate: 2_200, project: "", note: ""),
+            MDActivity(id: UUID(), appName: "手動記録", activityName: "昨日の自己投資", mode: .invest,
+                       startedAt: date(12, 20), duration: 4_200, hourlyRate: 2_200,
+                       project: "昨日の制作", note: "サンプルの制作メモ"),
+            MDActivity(id: UUID(), appName: "Instagram", activityName: "先月の写真", mode: .spend,
+                       startedAt: date(20, 13, month: 8), duration: 2_400, hourlyRate: 2_200, project: "", note: ""),
+            MDActivity(id: UUID(), appName: "手動記録", activityName: "先月の長いINVEST記録", mode: .invest,
+                       startedAt: date(18, 19, month: 8), duration: 7_200, hourlyRate: 2_200,
+                       project: "大きな計画", note: "サンプルの制作メモ")
+        ]
     }
 }
 

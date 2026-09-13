@@ -19,6 +19,8 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 
 ## Evidence required before completion
 
+CI dispatch checkpoint: local implementation commit `bb83b56` was created, but GitHub rejected the push because the current Git credential lacks `workflow` scope for `.github/workflows/ios-native.yml`. No native Actions run or artifact exists yet. The user has been asked to update the Git authentication; never treat the local commit as CI success.
+
 - [ ] Successful native Simulator build and tests at a named commit/run.
 - [ ] Successful unsigned iphoneos Release build and downloadable artifact.
 - [ ] Actual PNGs / xcresult / motion video downloaded and reviewed by parent.

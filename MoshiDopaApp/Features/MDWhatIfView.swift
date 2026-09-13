@@ -236,8 +236,8 @@ private struct MDWhatIfStory {
     let itemSymbol: String?
     let itemPrice: Int?
 
-    static let animationDuration: TimeInterval = 17.9
-    var animationDuration: TimeInterval { Self.animationDuration }
+    static let animationLength: TimeInterval = 17.9
+    var animationDuration: TimeInterval { Self.animationLength }
     var title: String { period == .day ? "昨日のもしも" : "先月のもしも" }
     var periodLabel: String {
         let formatter = DateFormatter()
@@ -339,7 +339,7 @@ private struct MDWhatIfStoryCard: View {
     let hideTime: Bool
     let showAll: Bool
 
-    private var completed: Bool { showAll || elapsed >= MDWhatIfStory.animationDuration }
+    private var completed: Bool { showAll || elapsed >= MDWhatIfStory.animationLength }
     private var visibleDialogue: [String] {
         if completed { return story.dialogue(hideTime: hideTime) }
         let count: Int
@@ -516,11 +516,5 @@ private struct MDWhatIfActorCanvas: View {
         }
         .drawingGroup()
         .accessibilityLabel("もしも便のインタビュー。二人の会話")
-    }
-}
-
-private extension CGFloat {
-    static func sin(_ value: TimeInterval) -> CGFloat {
-        CGFloat(Foundation.sin(value))
     }
 }

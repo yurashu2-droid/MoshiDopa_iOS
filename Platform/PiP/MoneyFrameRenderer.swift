@@ -61,4 +61,3 @@ final class MoneyFrameRenderer {
         (text as NSString).draw(in: rect, withAttributes: [.font: font, .foregroundColor: UIColor(red: 0.16, green: 0.2, blue: 0.17, alpha: 1)])
     }
 }
-
