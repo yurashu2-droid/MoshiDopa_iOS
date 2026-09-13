@@ -11,5 +11,5 @@
 
 未検証:
 
-- Windows では iOS の Xcode/Simulator を実行できないため、最終レイアウト・Dynamic Type・VoiceOver は未確認。親の次回CI画像で確認する。
+- 本調査時点の最終レイアウト・Dynamic Type・VoiceOverは未確認。以後の親によるSimulator画像レビューは [検証記録](native-verification.md) に記載。実機のDynamic Type・VoiceOver確認は未実施。
 - Android 側は読み取り専用。実データ接続、対象アプリ名の動的取得、PiP 実機動作はこの変更の対象外。

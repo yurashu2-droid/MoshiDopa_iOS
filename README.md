@@ -2,6 +2,8 @@
 
 SwiftUIによる全面刷新を作業ブランチで進めています。[ネイティブ版の開発・CI](docs/native-development.md)、[設計](docs/ios-redesign-plan.md)、[実装進捗](docs/implementation-progress.md)を参照してください。新ターゲットは `project.yml` から生成します。
 
+実際に成功したビルド、画像レビュー、未実施の実機試験は [検証記録](docs/native-verification.md) にまとめています。通常画面の固定サンプルと、PiP検証画面の実計測・保存は別の経路です。
+
 以下は旧Expo版の説明です。新ネイティブ版のビルドには使用しません。
 
 ## 旧Expo技術検証

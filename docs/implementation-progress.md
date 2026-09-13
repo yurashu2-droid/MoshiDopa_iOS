@@ -5,8 +5,8 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 ## Current checkpoint
 
 - Android baseline: all 480 recorded hashes and HEAD rechecked unchanged after the visual fixes.
-- P1: complete at `03c6996`, run 34783195768: native Simulator build, 13 unit tests, 8 UI tests and unsigned iphoneos Release build all succeeded. Subsequent UI/compact-screen changes still require a new passing run.
-- P2A: sample-data SwiftUI screens implemented. Parent reviewed actual home/settings/real-money PNGs, corrected missing artwork and layout differences; full rendered review awaits the next CI artifacts.
+- P1: complete at `3d8d4b9`, run 34785720445: Simulator build, 14 unit tests, 9 primary UI tests, 2 compact UI tests and unsigned iphoneos Release build succeeded. All artifacts downloaded.
+- P2A: sample-data SwiftUI screens and parent rendered review complete for this Goal. Corrections include artwork packaging, ink contrast, hit targets, safe-area clipping and interview actor/camera registration. Scope and evidence are recorded in [native-verification.md](native-verification.md).
 - P2B: common SessionService/SQLite/real sample-buffer renderer implemented and parent source review completed, including stop retry/recovery, audio cleanup and delegate isolation. Signed-device background behavior remains unverified.
 - Parent owns integration, CI, final image/video review and acceptance. Luna MAX performed the bounded settings refinement; Sol Medium reviewed the PiP/core implementation.
 
@@ -20,19 +20,21 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 - Sol Medium independently reviewed Core/Platform/tests/project/CI and found a PiP preparation failure path that retained the audio session when diagnostic logging threw. Parent fixed this with deferred audio cleanup in `ed3349d` and reviewed the error paths. Xcode tests have not run.
 - The user completed Git authentication and the branch was pushed. Remaining acceptance work requires successful native CI, artifact download, parent image/video comparison, corrections, and rerun. Device-only PiP acceptance remains separately unverified.
 
-## Evidence required before completion
+## Completion evidence (historical dispatch notes follow)
 
 CI dispatch checkpoint: authentication blocker resolved. [Initial run 34779188320](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34779188320) at `c594cad` incorrectly skipped native verification because the filter inspected only the final documentation commit. This is **not** a successful native build. Parent corrected the filter to inspect the full push and new branches in `dd3678f`. [Run 34779218511](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34779218511) is executing native verification; results pending.
 
-- [ ] Successful native Simulator build and tests at a named commit/run.
-- [ ] Successful unsigned iphoneos Release build and downloadable artifact.
-- [ ] Actual PNGs / xcresult / motion video downloaded and reviewed by parent.
-- [ ] UI references: home, history, settings, counter, receipt, statement, onboarding, whatif, measurement; empty/populated/large states.
-- [ ] Navigation and meaningful state interactions verified.
-- [ ] PiP core/tests reviewed; real device trial instructions and build ready.
-- [ ] Device-only conditions clearly unverified if no device is available.
+- [x] Successful native Simulator build and tests at a named commit/run.
+- [x] Successful unsigned iphoneos Release build and downloadable artifact.
+- [x] Actual PNGs / xcresult / motion video downloaded and reviewed by parent.
+- [x] UI references: home, history, settings, counter, receipt, statement, onboarding, whatif, measurement; empty/populated/large states.
+- [x] Navigation and meaningful state interactions verified.
+- [x] PiP core/tests reviewed; unsigned build/source and signing/device-trial instructions ready.
+- [x] Device-only conditions clearly unverified; no device acceptance claimed.
 
 No App Store submission or main merge is included. Old Expo data remains untouched; migration is a later integration stage. Mock UI data must never enter the PiP store.
+
+Final acceptance: [run 34785720445](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34785720445) at `3d8d4b9d99e0a5517458d40ebfca68c0a7dfe840` is green. Parent downloaded all artifacts and confirmed the last viewport/headroom fixes in actual PNGs. The following sections are chronological findings, including failures and then-pending checks; [native-verification.md](native-verification.md) is the final consolidated status. P2B device behavior remains unverified as expressly permitted for this Goal's source/build/test-procedure handoff.
 
 ## CI review: run 34779516989
 

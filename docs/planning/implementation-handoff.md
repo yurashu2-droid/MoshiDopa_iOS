@@ -1,6 +1,6 @@
 # 次の実装Goalへの引き継ぎ
 
-設計段階の成果物。ここに書いた作業は未実施。
+設計段階で作成したGoalの仕様。以後の実装・CI・親レビューの進捗は [検証記録](../native-verification.md) を参照する。下記の実機試験は引き続き未実施。
 
 ## 最初のGoal用プロンプト
 
@@ -43,7 +43,7 @@ App Store提出とmainへのマージはこのGoalに含めません。
 
 | 記録項目 | 現時点 |
 |---|---|
-| commit / Actions URL / artifact | 未実装 |
+| commit / Actions URL / artifact | [検証記録](../native-verification.md) に未署名CI成果物を記載。署名した実機試験の対象は未確定 |
 | iPhone機種 / OS / SNS各バージョン | 未確認 |
 | Apple署名Team / profile / 導入経路 | 未確認（秘密値は文書に書かない） |
 | 前面PiP開始→SNS 15分 / 60分 | 未実施 |

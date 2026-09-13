@@ -12,9 +12,11 @@ The interview asks the saved past self a question, follows the answer with a cam
 - Stage is a fixed 1080×800 viewport corresponding to Android y230…1030. Bottom silhouettes fade in the y790…1030 paper zone. The prop uses Android world registration and item landing deformation.
 - Current and previous captions stay outside the camera. The opening has no question until 0.65; punchline starts at 12.6; final SPEND caption is the ellipsis at 15. Money reveals at 13.5 within space reserved from the first frame. Skip/reduced motion preserve the full transcript and final result; static share rendering uses the same final clock.
 
-## Phase checks required in CI
+## Diagnostic phase plan
 
 Render 0, 0.65, 1.3, 3.6, 4.25, 6.65, 7.7, 8.2, 8.85, 10.4, 11.05, 13.25, 13.5, 15, 15.65, 15.83, 16.3, 17.3, 17.95 and 18.7 seconds. Inspect actor seams, the old neck and mic hand, young shock pivot, item landing, camera overshoot/settling, plus INVEST proud/cheer final artwork. Inspect normal-speed playback and compact-screen wrapping. Render acceptance is pending: this Windows workspace has no Xcode/simulator.
+
+The above was the implementation handoff's diagnostic plan. Parent's executed review used the ten decisive XCTest phase PNGs (SPEND 0/1.3/4.25/8.85/13.5/15.83/18.7 and INVEST 4.25/15.83/18.7), three shared cards and normal-speed playback of the actual run-34784373373 video. Not every suggested timestamp was exported separately. The 19.88-second recording includes the natural full-transcript ending. This review found and corrected INVEST closing-wide head cropping: its native viewport now uses (480,320,1.38×0.952), interpolated through the same camera path. Other poses remain unchanged. Parent verified the corrected final phase and shared INVEST image in successful run 34785720445 at `3d8d4b9`; rendered acceptance for this Goal is complete. Signed-device animation performance, VoiceOver and Dynamic Type remain separate checks. See [final evidence](native-verification.md).
 
 ## Remaining intentional native differences
 
