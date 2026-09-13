@@ -47,11 +47,15 @@ struct TornPaperShape: Shape {
         // Fine irregular fibres, with slower undulations between tears.
         // Deterministic geometry keeps fixtures stable between captures.
         func edge(_ phase: Double) -> [CGFloat] {
-            (0...128).map { index in
+            var points: [CGFloat] = []
+            for index in 0...128 {
                 let t = Double(index)
-                return CGFloat(0.44 + 0.19 * sin(t * 0.37 + phase)
-                    + 0.13 * sin(t * 1.91 + phase) + 0.09 * sin(t * 4.17 + phase))
+                let broad: Double = 0.19 * sin(t * 0.37 + phase)
+                let medium: Double = 0.13 * sin(t * 1.91 + phase)
+                let fine: Double = 0.09 * sin(t * 4.17 + phase)
+                points.append(CGFloat(0.44 + broad + medium + fine))
             }
+            return points
         }
         let top = edge(0.2)
         let bottom = edge(1.7)

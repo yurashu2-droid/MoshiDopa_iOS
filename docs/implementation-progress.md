@@ -55,3 +55,7 @@ Luna MAX refined only the settings top-level hierarchy and sizing; parent review
 ## Foreground frame observation
 
 Parent inspected `artifacts/run-34779516989/test-attachments/EBFBDAD2-809D-4E42-B5F3-F00098D9493B.png`: the real sample-buffer layer and SwiftUI diagnostic text both show ¥0.82 at hourly rate ¥1800, with the layer showing one elapsed second. This is foreground frame evidence only. The same screenshot reports Simulator PiP unsupported, so it is not external-window or SNS/background proof.
+
+## Run 34780765780 compiler correction
+
+At `36548cb`, icon preparation succeeded but Swift could not type-check the combined paper-edge expression at MoshiDopaBrand.swift:50 in reasonable time. Both Simulator and device builds failed; no UI images were produced. Parent split that calculation into explicitly typed intermediate values and a loop, preserving the same edge geometry. Full CI rerun is required.
