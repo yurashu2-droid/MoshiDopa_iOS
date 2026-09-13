@@ -4,11 +4,11 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 
 ## Current checkpoint
 
-- Android baseline: all 480 recorded file hashes matched at implementation start.
-- P1: XcodeGen 2.46.0, iOS 17, Swift 5, macOS 15 / Xcode 26.3 workflow executing; no successful native build confirmed yet.
-- P2A: Luna MAX delivered sample-data SwiftUI screens and copied Android artwork; parent integrated review fixes. Rendered comparison is pending CI artifacts.
-- P2B: Sol Mid delivered app-lifetime SessionService/SQLite/PiP sample frames and nine unit tests; parent source review is underway. Compilation and device behavior remain unverified.
-- Parent: app entry, project, CI, XCTest UI routes, integration and review.
+- Android baseline: all 480 recorded hashes and HEAD rechecked unchanged after the visual fixes.
+- P1: native Simulator compilation and nine core tests succeeded at `fa280ad`; no fully successful CI run yet. Latest run [34780765780](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34780765780) at `36548cb` is pending acceptance.
+- P2A: sample-data SwiftUI screens implemented. Parent reviewed actual home/settings/real-money PNGs, corrected missing artwork and layout differences; full rendered review awaits the next CI artifacts.
+- P2B: common SessionService/SQLite/real sample-buffer renderer implemented and parent source review completed, including stop retry/recovery, audio cleanup and delegate isolation. Signed-device background behavior remains unverified.
+- Parent owns integration, CI, final image/video review and acceptance. Luna MAX performed the bounded settings refinement; Sol Medium reviewed the PiP/core implementation.
 
 ## Parent review checkpoint
 
@@ -51,3 +51,7 @@ Previous turn made concrete progress: named artwork moved to catalogs, failing U
 Parent compared the actual Android home and iOS home/settings PNGs from run 34779516989. Home corrections: explicit wordmark size, integer floor amount as Android, proportional heavy digits, amount-bound available width, corrected tagline, tape and marker, side-by-side icon/text start cards, recent receipts before secondary demo links. Shared corrections: thinner navigation, fine deterministic paper edges and visible background/card fibre texture. These edits still require rendered verification. Added a hosted test that loads representative artwork by the runtime names that previously failed. Android's 480 recorded hashes and HEAD were rechecked unchanged.
 
 Luna MAX refined only the settings top-level hierarchy and sizing; parent reviewed the diff and required the sample annotation and “値札の設定” terminology to remain. Parent verified Android MainActivity bottom navigation targets `home/history/settings`, corrected native measurement-tab destinations to home, and added a UI assertion for returning from settings/counter to home. START SPEND/INVEST still opens the input screen with the selected mode.
+
+## Foreground frame observation
+
+Parent inspected `artifacts/run-34779516989/test-attachments/EBFBDAD2-809D-4E42-B5F3-F00098D9493B.png`: the real sample-buffer layer and SwiftUI diagnostic text both show ¥0.82 at hourly rate ¥1800, with the layer showing one elapsed second. This is foreground frame evidence only. The same screenshot reports Simulator PiP unsupported, so it is not external-window or SNS/background proof.
