@@ -49,12 +49,12 @@ jobs:
           set -euo pipefail
           curl -fsSL https://github.com/yonaskolb/XcodeGen/releases/download/2.46.0/xcodegen.zip -o /tmp/xcodegen.zip
           unzip -q /tmp/xcodegen.zip -d /tmp/xcodegen-dist
-          binary="$(find /tmp/xcodegen-dist -type f -name xcodegen -print -quit)"
-          test -n "$binary"
+          binary=/tmp/xcodegen-dist/xcodegen/bin/xcodegen
+          test -f "$binary"
+          test -f /tmp/xcodegen-dist/xcodegen/share/xcodegen/SettingPresets/base.yml
           chmod +x "$binary"
-          mkdir -p "$RUNNER_TEMP/bin"
-          cp "$binary" "$RUNNER_TEMP/bin/xcodegen"
-          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+          # Keep ../share/xcodegen beside bin: the executable loads its presets there.
+          echo /tmp/xcodegen-dist/xcodegen/bin >> "$GITHUB_PATH"
       - name: Generate and record environment
         run: |
           mkdir -p artifacts
@@ -63,6 +63,7 @@ jobs:
           git rev-parse HEAD | tee -a artifacts/environment.txt
           printf '%s\n' "$ImageOS $ImageVersion" >> artifacts/environment.txt
           xcodegen generate
+          cp -R MoshiDopa.xcodeproj artifacts/generated-project.xcodeproj
           xcodebuild -list -json -project MoshiDopa.xcodeproj > artifacts/schemes.json
           xcrun simctl list devices available -j > artifacts/devices.json
       - name: Simulator tests and screenshots

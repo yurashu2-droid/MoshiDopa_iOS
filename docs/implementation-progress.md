@@ -5,8 +5,8 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 ## Current checkpoint
 
 - Android baseline: all 480 recorded file hashes matched at implementation start.
-- P1: XcodeGen 2.46.0, iOS 17, Swift 5, macOS 15 / Xcode 26.3 workflow authored; not yet run.
-- P2A: Luna MAX implementing sample-data SwiftUI screens and copied Android artwork.
+- P1: XcodeGen 2.46.0, iOS 17, Swift 5, macOS 15 / Xcode 26.3 workflow executing; no successful native build confirmed yet.
+- P2A: Luna MAX delivered sample-data SwiftUI screens and copied Android artwork; parent integrated review fixes. Rendered comparison is pending CI artifacts.
 - P2B: Sol Mid delivered app-lifetime SessionService/SQLite/PiP sample frames and nine unit tests; parent source review is underway. Compilation and device behavior remain unverified.
 - Parent: app entry, project, CI, XCTest UI routes, integration and review.
 
@@ -18,11 +18,11 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 - Requested fixes for misleading Live Activity availability copy, missing display-surface previews, and incorrect tab destinations. These remain subject to rendered-image review.
 - Integrated explicit receipt selection, period-aware history buckets, September/August fixtures for all story modes, and four distinct Live Activity preview surfaces. UI compilation and visual fidelity remain unverified.
 - Sol Medium independently reviewed Core/Platform/tests/project/CI and found a PiP preparation failure path that retained the audio session when diagnostic logging threw. Parent fixed this with deferred audio cleanup in `ed3349d` and reviewed the error paths. Xcode tests have not run.
-- Latest implementation checkpoint: `ed3349d` on local `codex/ios-native-ui-pip`. Repeated push attempts were rejected for missing workflow scope. Remaining acceptance work requires authorized GitHub workflow push and successful CI, followed by artifact download, parent image/video comparison, corrections, and rerun. Device-only PiP acceptance remains separately unverified.
+- The user completed Git authentication and the branch was pushed. Remaining acceptance work requires successful native CI, artifact download, parent image/video comparison, corrections, and rerun. Device-only PiP acceptance remains separately unverified.
 
 ## Evidence required before completion
 
-CI dispatch checkpoint: local implementation commit `bb83b56` was created, but GitHub rejected the push because the current Git credential lacks `workflow` scope for `.github/workflows/ios-native.yml`. No native Actions run or artifact exists yet. The user has been asked to update the Git authentication; never treat the local commit as CI success.
+CI dispatch checkpoint: authentication blocker resolved. [Initial run 34779188320](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34779188320) at `c594cad` incorrectly skipped native verification because the filter inspected only the final documentation commit. This is **not** a successful native build. Parent corrected the filter to inspect the full push and new branches in `dd3678f`. [Run 34779218511](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34779218511) is executing native verification; results pending.
 
 - [ ] Successful native Simulator build and tests at a named commit/run.
 - [ ] Successful unsigned iphoneos Release build and downloadable artifact.
