@@ -168,12 +168,12 @@ struct MDReceiptView: View {
     }
 
     private func shareImage(for activity: MDActivity) -> Image? {
+        Self.shareUIImage(for: activity, hideTime: hideTime).map { Image(uiImage: $0) }
+    }
+
+    @MainActor static func shareUIImage(for activity: MDActivity, hideTime: Bool) -> UIImage? {
         let content = MDReceiptPaper(activity: activity, hideTime: hideTime)
-            .frame(width: 430)
-        let renderer = ImageRenderer(content: content)
-        renderer.scale = 3
-        guard let uiImage = renderer.uiImage else { return nil }
-        return Image(uiImage: uiImage)
+        return MDShareImageRenderer.render(content)
     }
 
     private func selectInitialActivityIfNeeded() {

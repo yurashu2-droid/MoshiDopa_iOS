@@ -239,6 +239,7 @@ struct MDActivityRow: View {
                 .lineLimit(1)
         }
         .padding(.vertical, compact ? 11 : 14)
+        .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(activity.activityName)、\(activity.mode.shortTitle)、\(MoshiDopaBrand.displayYen(activity.amount))")
     }

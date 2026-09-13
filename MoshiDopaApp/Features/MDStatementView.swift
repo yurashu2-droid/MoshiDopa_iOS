@@ -18,7 +18,11 @@ struct MDStatementView: View {
     }
 
     private var lines: [MDStatementLine] {
-        let grouped = Dictionary(grouping: filtered) { activity in
+        Self.groupedLines(activities: filtered, mode: mode)
+    }
+
+    static func groupedLines(activities: [MDActivity], mode: MDMode) -> [MDStatementLine] {
+        let grouped = Dictionary(grouping: activities) { activity in
             if mode == .invest, !activity.project.isEmpty { return activity.project }
             return mode == .spend ? activity.appName : activity.activityName
         }
@@ -209,17 +213,20 @@ struct MDStatementView: View {
     }
 
     private var shareImage: Image? {
+        Self.shareUIImage(period: period, mode: mode, lines: lines, hideTime: hideTime)
+            .map { Image(uiImage: $0) }
+    }
+
+    @MainActor static func shareUIImage(period: MDPeriod, mode: MDMode,
+                                       lines: [MDStatementLine], hideTime: Bool) -> UIImage? {
         let content = MDStatementPaper(period: period, mode: mode, lines: lines,
-                                       amount: amount, duration: duration, hideTime: hideTime)
-            .frame(width: 430)
-        let renderer = ImageRenderer(content: content)
-        renderer.scale = 3
-        guard let uiImage = renderer.uiImage else { return nil }
-        return Image(uiImage: uiImage)
+                                       amount: lines.reduce(0) { $0 + $1.amount },
+                                       duration: lines.reduce(0) { $0 + $1.duration }, hideTime: hideTime)
+        return MDShareImageRenderer.render(content)
     }
 }
 
-private struct MDStatementLine: Identifiable {
+struct MDStatementLine: Identifiable {
     let id: String
     let label: String
     let activities: [MDActivity]

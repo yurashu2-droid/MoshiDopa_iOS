@@ -83,13 +83,43 @@ jobs:
           if [[ -d artifacts/Tests.xcresult ]]; then
             xcrun xcresulttool export attachments --path artifacts/Tests.xcresult --output-path artifacts/test-attachments
           fi
-      - name: Upload evidence
+      - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ios-evidence-${{ github.sha }}
-          path: artifacts/
+          name: ios-visual-${{ github.sha }}
+          path: |
+            artifacts/screenshots/
+            artifacts/test-attachments/
+            artifacts/whatif-preview.mp4
+            artifacts/environment.txt
+            artifacts/selected-device.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload test records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-tests-${{ github.sha }}
+          path: |
+            artifacts/Tests.xcresult/
+            artifacts/*.log
+            artifacts/*.txt
+            artifacts/*.json
+            artifacts/generated-project.xcodeproj/
           if-no-files-found: error
+          retention-days: 14
+      - name: Upload native builds
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-builds-${{ github.sha }}
+          path: |
+            artifacts/MoshiDopa-simulator.zip
+            artifacts/MoshiDopa-unsigned.ipa
+            artifacts/environment.txt
+            artifacts/selected-device.json
+          if-no-files-found: warn
           retention-days: 14
   native-gate:
     if: always()

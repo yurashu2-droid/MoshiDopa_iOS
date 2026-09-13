@@ -9,6 +9,13 @@ struct MDCounterView: View {
     @State private var style: MDCounterStyle = .paper
     @State private var testMessage: String?
 
+    private var previewAmount: Double {
+        data.fixture == .large ? (data.activities.map(\.amount).max() ?? 842.35) : 842.35
+    }
+    private var compactAmount: String {
+        previewAmount >= 10_000 ? "¥\(Int(previewAmount / 10_000))万" : MoshiDopaBrand.yen(floor(previewAmount))
+    }
+
     private var availableStyles: [MDCounterStyle] {
         delivery == .pip ? MDCounterStyle.allCases : [.paper, .ink]
     }
@@ -94,7 +101,7 @@ struct MDCounterView: View {
                 Text(candidate.subtitle)
                     .font(.system(size: 14, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
-                CounterPreview(style: candidate, delivery: delivery)
+                CounterPreview(style: candidate, delivery: delivery, amount: previewAmount)
             }
             .padding(17)
             .background(TornPaperShape().fill(MoshiDopaBrand.paper))
@@ -155,7 +162,7 @@ struct MDCounterView: View {
                 Image(systemName: "yensign.circle.fill")
                 VStack(alignment: .leading, spacing: 4) {
                     Text("もしドパ · 更新時点の金額").font(.caption)
-                    Text("¥842.35").font(.system(size: 28, weight: .black, design: .monospaced))
+                    Text(MoshiDopaBrand.yen(previewAmount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 28, weight: .black, design: .monospaced))
                 }
                 Spacer()
             }
@@ -168,27 +175,27 @@ struct MDCounterView: View {
             HStack {
                 Image(systemName: "yensign.circle.fill").foregroundStyle(islandAccent)
                 Spacer(minLength: 40)
-                Text("¥842").monospacedDigit()
+                Text(compactAmount).lineLimit(1).minimumScaleFactor(0.6).monospacedDigit()
             }
             .padding(.horizontal, 16).frame(height: 42)
             .foregroundStyle(.white).background(.black, in: Capsule())
             .accessibilityIdentifier("live-preview-compact")
             Text("Dynamic Island · 最小")
-            Text("¥842").font(.system(size: 11, weight: .bold, design: .monospaced))
+            Text(compactAmount).lineLimit(1).minimumScaleFactor(0.6).font(.system(size: 11, weight: .bold, design: .monospaced))
                 .foregroundStyle(islandAccent).frame(width: 46, height: 46)
                 .background(.black, in: Circle())
                 .accessibilityIdentifier("live-preview-minimal")
             Text("Dynamic Island · 展開")
             VStack(alignment: .leading, spacing: 12) {
                 Label("もしドパ", systemImage: "yensign.circle.fill").foregroundStyle(islandAccent)
-                Text("¥842.35").font(.system(size: 30, weight: .black, design: .monospaced))
+                Text(MoshiDopaBrand.yen(previewAmount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 30, weight: .black, design: .monospaced))
                 Text("更新時点の金額").font(.caption).foregroundStyle(.white.opacity(0.7))
             }
             .frame(maxWidth: .infinity, alignment: .leading).padding(20)
             .foregroundStyle(.white).background(.black, in: RoundedRectangle(cornerRadius: 32))
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("live-preview-expanded")
-            Text("すべて表示見本です。実寸・更新頻度は未検証です。最小面では金額を整数に省略し、詳しい金額は展開面で確認する設計です。")
+            Text("すべて表示見本です。実寸・更新頻度は未検証です。最小面では大きな金額を万円単位に省略し、詳しい金額は展開面で確認する設計です。")
                 .font(.system(size: 12, weight: .medium, design: .rounded))
                 .foregroundStyle(MoshiDopaBrand.mutedInk)
         }
@@ -201,6 +208,7 @@ struct MDCounterView: View {
 struct CounterPreview: View {
     let style: MDCounterStyle
     let delivery: MDCounterDelivery
+    var amount: Double = 842.35
 
     var body: some View {
         ZStack {
@@ -247,7 +255,7 @@ struct CounterPreview: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Label("アプリ名", systemImage: "play.fill")
                         .font(.system(size: 12, weight: .bold, design: .rounded))
-                    Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                    Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                         .font(.system(size: 30, weight: .black, design: .monospaced))
                 }
                 .frame(width: delivery == .pip ? 180 : 155, alignment: .leading)
@@ -258,7 +266,7 @@ struct CounterPreview: View {
                 Divider().frame(height: 30).overlay(Color.white.opacity(0.2))
                 VStack(alignment: .leading, spacing: 1) {
                     Text("アプリ名").font(.system(size: 11, weight: .bold, design: .rounded))
-                    Text(MoshiDopaBrand.yen(842.35, decimals: 2)).font(.system(size: 24, weight: .black, design: .monospaced))
+                    Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 24, weight: .black, design: .monospaced))
                 }
             }
             .foregroundStyle(MoshiDopaBrand.paper)
@@ -269,7 +277,7 @@ struct CounterPreview: View {
             VStack(alignment: .leading, spacing: 1) {
                 Label("アプリ名", systemImage: "play.fill")
                     .font(.system(size: 11, weight: .bold, design: .rounded))
-                Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                     .font(.system(size: 27, weight: .black, design: .monospaced))
             }
             .foregroundStyle(MoshiDopaBrand.ink)
@@ -281,7 +289,7 @@ struct CounterPreview: View {
                 VStack(alignment: .leading, spacing: 1) {
                     Label("アプリ名", systemImage: "play.fill")
                         .font(.system(size: 11, weight: .bold, design: .rounded))
-                    Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                    Text(MoshiDopaBrand.yen(amount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4)
                         .font(.system(size: 27, weight: .black, design: .monospaced))
                 }
                 .foregroundStyle(MoshiDopaBrand.ink)

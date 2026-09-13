@@ -206,10 +206,10 @@ struct MDFixtureData {
             let mode: MDMode = index % 3 == 0 ? .spend : (index % 2 == 0 ? .invest : .spend)
             let day = index >= 10 ? 13 : 1 + (index % 13)
             let isLargeValue = index == titles.count - 1
-            let duration = isLargeValue ? 360_000 : TimeInterval(780 + index * 477)
-            let rate = isLargeValue ? 12_345.6789 : 2_200
+            let duration = isLargeValue ? 36_000 : TimeInterval(780 + index * 477)
+            let rate = isLargeValue ? 123_456.789 : 2_200
             return MDActivity(id: UUID(), appName: mode == .invest ? "手動記録" : title,
-                              activityName: title, mode: mode, startedAt: date(day, 7 + (index % 13)),
+                              activityName: title, mode: mode, startedAt: date(day, isLargeValue ? 7 : 7 + (index % 13)),
                               duration: duration, hourlyRate: rate,
                               project: mode == .invest ? "生活のアップデート計画" : "",
                               note: mode == .invest ? "毎日少しずつ進める" : "")

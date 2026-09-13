@@ -115,6 +115,28 @@ final class VisualFlowTests: XCTestCase {
         capture(app, name: "receipt-selected-instagram")
     }
 
+    func testWhatIfSkipReplayAndModeChange() {
+        let app = launch("whatif")
+        let story = app.descendants(matching: .any)["whatif-interview"].firstMatch
+        story.tap()
+        XCTAssertEqual(story.value as? String, "SPEND・全文表示")
+        for page in 1...3 {
+            app.swipeUp()
+            capture(app, name: "whatif-completed-scroll-\(page)")
+        }
+        let replay = app.buttons["whatif-replay"]
+        for _ in 0..<3 where !replay.isHittable { app.swipeDown() }
+        replay.tap()
+        XCTAssertEqual(story.value as? String, "SPEND・再生中")
+        let invest = app.buttons["whatif-mode-invest"]
+        for _ in 0..<5 where !invest.isHittable { app.swipeDown() }
+        invest.tap()
+        XCTAssertEqual(story.value as? String, "INVEST・再生中")
+        story.tap()
+        XCTAssertEqual(story.value as? String, "INVEST・全文表示")
+        capture(app, name: "whatif-invest-completed")
+    }
+
     func testLiveActivitySurfacePreviews() {
         let app = launch("counter")
         let delivery = app.buttons["delivery-liveActivity"]

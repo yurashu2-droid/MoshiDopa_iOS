@@ -39,9 +39,10 @@ for screen in home history settings counter receipt statement onboarding whatif 
   done
 done
 xcrun simctl terminate "$UDID" com.moshidopa.app || true
-xcrun simctl launch "$UDID" com.moshidopa.app --screen whatif --fixture populated
 xcrun simctl io "$UDID" recordVideo --codec=h264 artifacts/whatif-preview.mp4 &
 VIDEO_PID=$!
+sleep 1
+xcrun simctl launch "$UDID" com.moshidopa.app --screen whatif --fixture populated
 sleep 22
 kill -INT "$VIDEO_PID"
 wait "$VIDEO_PID" || true

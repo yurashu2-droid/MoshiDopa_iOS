@@ -109,18 +109,9 @@ struct MDSettingsView: View {
             .padding(.leading, 18)
             .padding(.trailing, 14)
             .frame(maxWidth: .infinity, minHeight: 64)
-            .background(TornPaperShape().fill(MoshiDopaBrand.paper))
-            .overlay {
-                Image("home_receipt_fiber")
-                    .resizable(resizingMode: .tile)
-                    .scaledToFill()
-                    .opacity(0.28)
-                    .blendMode(.multiply)
-                    .clipShape(TornPaperShape())
-                    .allowsHitTesting(false)
-            }
-            .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
+            .background(PaperMaterial())
             .shadow(color: MoshiDopaBrand.paperShadow, radius: 4, y: 3)
+            .contentShape(Rectangle())
         }
         .buttonStyle(PressScaleButtonStyle())
     }

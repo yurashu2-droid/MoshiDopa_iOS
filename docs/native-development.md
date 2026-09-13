@@ -26,7 +26,7 @@ schemeは `MoshiDopa`。Simulatorなら署名不要。実機へ入れるには�
 - `MoshiDopa-unsigned.ipa`: iphoneos Releaseの未署名成果物。そのまま端末へインストールできない。
 - 環境・対象commit・選択Simulator・ビルドログを同じartifactに保存。
 
-成果物名は `ios-evidence-<commit SHA>`、保存期間14日。Actionsが成功するまでは、この一覧は成果物の仕様であり生成済みの証拠ではない。
+成果物は `ios-visual-<commit SHA>`（画像・動画）、`ios-tests-<commit SHA>`（xcresult・ログ）、`ios-builds-<commit SHA>`（Simulator/実機向け未署名ビルド）に分ける。各成果物に環境・commit情報を含め、保存期間は14日。Actionsが成功するまでは、この一覧は成果物の仕様であり生成済みの証拠ではない。
 
 ## UI再現と実計測の区別
 

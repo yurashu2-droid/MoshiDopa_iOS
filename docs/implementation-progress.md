@@ -5,7 +5,7 @@ Branch: `codex/ios-native-ui-pip` (based on design commit `6e06410`).
 ## Current checkpoint
 
 - Android baseline: all 480 recorded hashes and HEAD rechecked unchanged after the visual fixes.
-- P1: native Simulator compilation and nine core tests succeeded at `fa280ad`; no fully successful CI run yet. Latest run [34780765780](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34780765780) at `36548cb` is pending acceptance.
+- P1: at `88cae47`, Simulator build, ten unit tests and unsigned iphoneos Release build succeeded; UI tests passed 5/7. No fully successful native CI run yet. See run 34781229834 below.
 - P2A: sample-data SwiftUI screens implemented. Parent reviewed actual home/settings/real-money PNGs, corrected missing artwork and layout differences; full rendered review awaits the next CI artifacts.
 - P2B: common SessionService/SQLite/real sample-buffer renderer implemented and parent source review completed, including stop retry/recovery, audio cleanup and delegate isolation. Signed-device background behavior remains unverified.
 - Parent owns integration, CI, final image/video review and acceptance. Luna MAX performed the bounded settings refinement; Sol Medium reviewed the PiP/core implementation.
@@ -59,3 +59,15 @@ Parent inspected `artifacts/run-34779516989/test-attachments/EBFBDAD2-809D-4E42-
 ## Run 34780765780 compiler correction
 
 At `36548cb`, icon preparation succeeded but Swift could not type-check the combined paper-edge expression at MoshiDopaBrand.swift:50 in reasonable time. Both Simulator and device builds failed; no UI images were produced. Parent split that calculation into explicitly typed intermediate values and a loop, preserving the same edge geometry. Full CI rerun is required.
+
+## Run 34781229834: rendered review and corrections
+
+[Run 34781229834](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34781229834), commit `88cae47255809bcdf642d0ccce46112995fbe36d`: Simulator compilation succeeded, unit tests 10/10 passed, UI tests 5/7 passed, unsigned iphoneos Release build succeeded. Overall result is failure. Parent downloaded the complete artifact, including both build packages, xcresult, 27 standalone PNGs, test attachments and the interview video.
+
+Parent inspected home, settings, history/receipt/counter large-value states, statement, onboarding and measurement PNGs. Artwork now loads. The paper texture incorrectly covered text and enlarged settings row accessibility frames. The settings PiP button overlapped bottom navigation; the history row's middle spacer was not tappable. Corrections bound decoration within backgrounds, exclude it from hit testing, make row labels fully tappable and place the ScrollView above the safe-area navigation inset. Existing failing tests are retained for rerun.
+
+Additional corrections: remove the history phrase “この今日”; make the large fixture end on its recorded day while preserving the seven-digit amount; exercise the same large amount in counter previews, with explicit compact-surface abbreviation. ShareLink and XCTest now use the same UIImage renderer, with ten receipt/statement/interview PNG attachments for parent inspection. These changes are not yet validated by Xcode.
+
+The 16.19-second interview recording was inspected at sampled phases; the young character's disconnected rig requires correction. This is not a completed normal-speed motion review. Recording now begins before launch to include the opening; final timing, whole interaction and corrected geometry require the next CI output. Luna MAX owns only the actor rig correction; parent owns integration and visual acceptance. Sol Medium supplied the bounded shared-image evidence change, reviewed by parent.
+
+Artifacts are split into visual evidence, test records and native builds to avoid the previous single archive exceeding the connector's 512 MiB download limit. The unsigned IPA is a build result, not directly installable on a device. Background PiP updates, SNS coexistence and signing remain unverified; see `pip-device-test.md`.

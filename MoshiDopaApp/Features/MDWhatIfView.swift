@@ -25,7 +25,6 @@ struct MDWhatIfView: View {
             VStack(alignment: .leading, spacing: 17) {
                 BackRow(title: "もしも便", action: close)
                 HStack { SampleModeBanner(); Spacer() }
-                header
                 selectors
                 if let story {
                     interview(story)
@@ -39,18 +38,6 @@ struct MDWhatIfView: View {
             if story != nil { replay() }
         }
         .onDisappear { stopPlayback() }
-    }
-
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("もしも便")
-                .font(.system(size: 35, weight: .black, design: .rounded))
-                .foregroundStyle(MoshiDopaBrand.ink)
-            Text("昨日と先月の時間から、一つの会話が届きます。")
-                .font(.system(size: 17, weight: .medium, design: .rounded))
-                .foregroundStyle(MoshiDopaBrand.mutedInk)
-                .fixedSize(horizontal: false, vertical: true)
-        }
     }
 
     private var selectors: some View {
@@ -110,6 +97,8 @@ struct MDWhatIfView: View {
                               showAll: showAll || reduceMotion)
                 .contentShape(Rectangle())
                 .onTapGesture { skipToEnd() }
+                .accessibilityElement(children: .contain)
+                .accessibilityValue("\(story.mode.rawValue)・\(showAll || reduceMotion || elapsed >= story.animationDuration ? "全文表示" : "再生中")")
                 .accessibilityIdentifier("whatif-interview")
         }
     }
@@ -208,24 +197,24 @@ struct MDWhatIfView: View {
     }
 
     private func shareImage(_ story: MDWhatIfStory) -> Image? {
+        Self.shareUIImage(story, hideTime: hideTime).map { Image(uiImage: $0) }
+    }
+
+    @MainActor static func shareUIImage(_ story: MDWhatIfStory, hideTime: Bool) -> UIImage? {
         let content = MDWhatIfStoryCard(story: story, elapsed: story.animationDuration,
                                         hideTime: hideTime, showAll: true)
-            .frame(width: 430)
-        let renderer = ImageRenderer(content: content)
-        renderer.scale = 3
-        guard let uiImage = renderer.uiImage else { return nil }
-        return Image(uiImage: uiImage)
+        return MDShareImageRenderer.render(content)
     }
 }
 
-private enum MDWhatIfPeriod: String, CaseIterable, Identifiable {
+enum MDWhatIfPeriod: String, CaseIterable, Identifiable {
     case day, month
 
     var id: String { rawValue }
     var title: String { self == .day ? "昨日" : "先月" }
 }
 
-private struct MDWhatIfStory {
+struct MDWhatIfStory {
     let period: MDWhatIfPeriod
     let date: Date
     let mode: MDMode
@@ -366,11 +355,12 @@ private struct MDWhatIfStoryCard: View {
                 .font(.system(size: 14, weight: .medium, design: .rounded))
                 .foregroundStyle(MoshiDopaBrand.mutedInk)
             Divider().overlay(MoshiDopaBrand.graphite.opacity(0.22))
-            dialogueBubbles
+            if completed { dialogueBubbles }
             MDWhatIfActorCanvas(story: story, elapsed: elapsed)
                 .frame(maxWidth: .infinity)
                 .frame(height: 220)
                 .accessibilityHidden(true)
+            if !completed { currentDialogue }
             if completed {
                 completedResult
             } else {
@@ -397,6 +387,22 @@ private struct MDWhatIfStoryCard: View {
         }
         .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
         .shadow(color: MoshiDopaBrand.paperShadow, radius: 7, y: 4)
+    }
+
+    // Keep the stage fixed during playback; the complete transcript belongs to the final card.
+    private var currentDialogue: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if visibleDialogue.count > 1 {
+                Text(visibleDialogue[visibleDialogue.count - 2])
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
+                    .lineLimit(2)
+            }
+            if let line = visibleDialogue.last {
+                bubble(line, reply: visibleDialogue.count.isMultiple(of: 2))
+            }
+        }
+        .frame(maxWidth: .infinity, minHeight: 110, alignment: .topLeading)
     }
 
     private var dialogueBubbles: some View {
@@ -510,9 +516,16 @@ private struct MDWhatIfActorCanvas: View {
             context.draw(oldArm, in: CGRect(x: pointing ? 362 : 359, y: (pointing ? 324 : 324) + bob,
                                             width: pointing ? 136 : 158, height: pointing ? 70 : 104))
             context.draw(oldFace, in: CGRect(x: 233, y: 224 + bob, width: 184, height: 169))
-            context.draw(youngBody, in: CGRect(x: 585, y: 468, width: 168, height: 373))
-            context.draw(youngArm, in: CGRect(x: 680, y: 322, width: 79, height: 179))
-            context.draw(youngFace, in: CGRect(x: 554, y: 139, width: 190, height: 180))
+            context.draw(youngBody, in: CGRect(x: 585, y: 282, width: 167.5, height: 373))
+            context.draw(youngArm, in: CGRect(x: 679.65, y: 322.15, width: 79.05, height: 179.01))
+            // Android face(): fit each expression into 317 × 305 before applying the 0.6 scale.
+            let faceScale = min(317 / youngFace.size.width, 305 / youngFace.size.height)
+            let faceWidth = youngFace.size.width * faceScale
+            let faceHeight = youngFace.size.height * faceScale
+            context.draw(youngFace, in: CGRect(
+                x: 679 + 0.6 * (-208 + (317 - faceWidth) / 2),
+                y: 305 + 0.6 * (-280 + (305 - faceHeight) / 2),
+                width: faceWidth * 0.6, height: faceHeight * 0.6))
         }
         .drawingGroup()
         .accessibilityLabel("もしも便のインタビュー。二人の会話")

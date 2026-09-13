@@ -88,6 +88,28 @@ struct TornPaperShape: Shape {
     }
 }
 
+/// Decoration is bounded by the host's layout and never participates in hit testing.
+struct PaperMaterial: View {
+    var color: Color = MoshiDopaBrand.paper
+
+    var body: some View {
+        TornPaperShape().fill(color)
+            .overlay {
+                GeometryReader { geometry in
+                    Image("home_receipt_fiber")
+                        .resizable(resizingMode: .tile)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .opacity(0.28)
+                        .blendMode(.multiply)
+                }
+                .clipShape(TornPaperShape())
+            }
+            .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
+            .accessibilityHidden(true)
+            .allowsHitTesting(false)
+    }
+}
+
 struct PaperCard<Content: View>: View {
     private let content: Content
     private let padding: CGFloat
@@ -103,17 +125,7 @@ struct PaperCard<Content: View>: View {
     var body: some View {
         content
             .padding(padding)
-            .background(TornPaperShape().fill(background))
-            .overlay {
-                Image("home_receipt_fiber")
-                    .resizable(resizingMode: .tile)
-                    .scaledToFill()
-                    .opacity(0.28)
-                    .blendMode(.multiply)
-                    .clipShape(TornPaperShape())
-                    .allowsHitTesting(false)
-            }
-            .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
+            .background(PaperMaterial(color: background))
             .shadow(color: MoshiDopaBrand.paperShadow, radius: 7, x: 0, y: 4)
     }
 }
@@ -162,6 +174,7 @@ struct LimeButton<Content: View>: View {
                 .background(TornPaperShape().fill(MoshiDopaBrand.lime))
                 .overlay(TornPaperShape().stroke(Color.white.opacity(0.45), lineWidth: 1))
                 .shadow(color: MoshiDopaBrand.paperShadow, radius: 4, y: 3)
+                .contentShape(Rectangle())
         }
         .buttonStyle(PressScaleButtonStyle())
     }
@@ -186,6 +199,7 @@ struct PaperButton<Content: View>: View {
                 .background(TornPaperShape().fill(MoshiDopaBrand.paper))
                 .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
                 .shadow(color: MoshiDopaBrand.paperShadow, radius: 4, y: 3)
+                .contentShape(Rectangle())
         }
         .buttonStyle(PressScaleButtonStyle())
     }
@@ -318,6 +332,7 @@ struct MoshiDopaTabBar: View {
                             TornPaperShape().fill(MoshiDopaBrand.lime)
                         }
                     }
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(PressScaleButtonStyle())
                 .accessibilityIdentifier(tab.accessibilityID)
@@ -350,23 +365,28 @@ struct ScreenShell<Content: View>: View {
     }
 
     var body: some View {
-        ZStack {
-            MoshiDopaBrand.world.ignoresSafeArea()
-            Image("home_receipt_fiber")
-                .resizable(resizingMode: .tile)
-                .opacity(0.18)
-                .blendMode(.multiply)
+        ScrollView(showsIndicators: false) {
+            content
+                .frame(maxWidth: MoshiDopaBrand.contentWidth)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 36)
+                .frame(maxWidth: .infinity)
+        }
+        .background {
+            MoshiDopaBrand.world
+                .overlay {
+                    GeometryReader { geometry in
+                        Image("home_receipt_fiber")
+                            .resizable(resizingMode: .tile)
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .opacity(0.18)
+                            .blendMode(.multiply)
+                    }
+                }
                 .ignoresSafeArea()
                 .accessibilityHidden(true)
                 .allowsHitTesting(false)
-            ScrollView(showsIndicators: false) {
-                content
-                    .frame(maxWidth: MoshiDopaBrand.contentWidth)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, tab == nil ? 36 : 108)
-                    .frame(maxWidth: .infinity)
-            }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if let tab {

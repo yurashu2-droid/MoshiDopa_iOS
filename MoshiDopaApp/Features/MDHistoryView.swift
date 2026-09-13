@@ -90,7 +90,7 @@ struct MDHistoryView: View {
     private var summaryCard: some View {
         PaperCard(padding: 22) {
             VStack(alignment: .leading, spacing: 13) {
-                Text("この\(period.explanatoryTitle)、もし働いたら…")
+                Text("この期間、もし働いたら…")
                     .font(.system(size: 20, weight: .black, design: .rounded))
                 Text(MoshiDopaBrand.yen(amount, decimals: amount < 1000 ? 2 : 0))
                     .font(.system(size: 52, weight: .black, design: .monospaced))
