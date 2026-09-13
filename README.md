@@ -1,4 +1,10 @@
-# もしドパ iOS 技術検証
+# もしドパ iOS
+
+SwiftUIによる全面刷新を作業ブランチで進めています。[ネイティブ版の開発・CI](docs/native-development.md)、[設計](docs/ios-redesign-plan.md)、[実装進捗](docs/implementation-progress.md)を参照してください。新ターゲットは `project.yml` から生成します。
+
+以下は旧Expo版の説明です。新ネイティブ版のビルドには使用しません。
+
+## 旧Expo技術検証
 
 「働いていたら」の仮定額を、ユーザーが設定した時給で表示する Expo Development Build 用の最小実装です。既存Web版とは独立しています。
 

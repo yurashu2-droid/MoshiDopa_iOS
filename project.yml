@@ -1,0 +1,76 @@
+name: MoshiDopa
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: '17.0'
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    SWIFT_STRICT_CONCURRENCY: targeted
+    TARGETED_DEVICE_FAMILY: '1,2'
+    MARKETING_VERSION: '0.2.0'
+    CURRENT_PROJECT_VERSION: '2'
+    CODE_SIGN_STYLE: Automatic
+targets:
+  MoshiDopa:
+    type: application
+    platform: iOS
+    sources:
+      - path: MoshiDopaApp
+        excludes: [Resources]
+      - path: Core
+      - path: Platform
+      - path: MoshiDopaApp/Resources
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moshidopa.app
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Configuration/Info.plist
+      properties:
+        CFBundleDisplayName: もしドパ
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Light
+        UIBackgroundModes: [audio]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [moshidopa]
+    dependencies:
+      - sdk: libsqlite3.tbd
+      - sdk: AVKit.framework
+  MoshiDopaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moshidopa.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: MoshiDopa
+  MoshiDopaUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moshidopa.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: MoshiDopa
+schemes:
+  MoshiDopa:
+    build:
+      targets:
+        MoshiDopa: all
+    test:
+      gatherCoverageData: true
+      targets:
+        - MoshiDopaTests
+        - MoshiDopaUITests
+

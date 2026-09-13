@@ -1,0 +1,96 @@
+name: Native iOS build and visual verification
+on:
+  push:
+    branches: ['codex/ios-native-*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      native: ${{ steps.filter.outputs.native }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: filter
+        shell: bash
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [[ "$EVENT" != "push" ]] || git diff --name-only HEAD^ HEAD | grep -Eq '^(MoshiDopaApp/|Core/|Platform/|Tests/|UITests/|ci/|project.yml|.github/workflows/ios-native.yml)'; then
+            echo 'native=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'native=false' >> "$GITHUB_OUTPUT"
+          fi
+  verify:
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
+    runs-on: macos-15
+    timeout-minutes: 40
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned XcodeGen
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://github.com/yonaskolb/XcodeGen/releases/download/2.46.0/xcodegen.zip -o /tmp/xcodegen.zip
+          unzip -q /tmp/xcodegen.zip -d /tmp/xcodegen-dist
+          binary="$(find /tmp/xcodegen-dist -type f -name xcodegen -print -quit)"
+          test -n "$binary"
+          chmod +x "$binary"
+          mkdir -p "$RUNNER_TEMP/bin"
+          cp "$binary" "$RUNNER_TEMP/bin/xcodegen"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+      - name: Generate and record environment
+        run: |
+          mkdir -p artifacts
+          xcodebuild -version | tee artifacts/environment.txt
+          xcodegen --version | tee -a artifacts/environment.txt
+          git rev-parse HEAD | tee -a artifacts/environment.txt
+          printf '%s\n' "$ImageOS $ImageVersion" >> artifacts/environment.txt
+          xcodegen generate
+          xcodebuild -list -json -project MoshiDopa.xcodeproj > artifacts/schemes.json
+          xcrun simctl list devices available -j > artifacts/devices.json
+      - name: Simulator tests and screenshots
+        run: bash ci/test-simulator.sh
+      - name: Unsigned physical-device Release build
+        run: |
+          set -euo pipefail
+          xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build/device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee artifacts/device-build.log
+          mkdir -p build/package/Payload
+          cp -R build/device/Build/Products/Release-iphoneos/MoshiDopa.app build/package/Payload/
+          ditto -c -k --sequesterRsrc --keepParent build/package/Payload artifacts/MoshiDopa-unsigned.ipa
+      - name: Export test screenshots
+        if: always()
+        run: |
+          if [[ -d artifacts/Tests.xcresult ]]; then
+            xcrun xcresulttool export attachments --path artifacts/Tests.xcresult --output-path artifacts/test-attachments
+          fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-evidence-${{ github.sha }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14
+  native-gate:
+    if: always()
+    needs: [changes, verify]
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          CHANGED: ${{ needs.changes.outputs.native }}
+          RESULT: ${{ needs.verify.result }}
+          FILTER: ${{ needs.changes.result }}
+        run: |
+          test "$FILTER" = success
+          if [ "$CHANGED" = true ]; then test "$RESULT" = success; fi

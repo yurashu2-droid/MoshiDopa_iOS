@@ -1,0 +1,274 @@
+import SwiftUI
+
+struct MDCounterView: View {
+    @Binding var data: MDFixtureData
+    let navigate: (MDRoute) -> Void
+    let goBack: () -> Void
+    let onOpenPiP: () -> Void
+    @State private var delivery: MDCounterDelivery = .pip
+    @State private var style: MDCounterStyle = .paper
+    @State private var testMessage: String?
+
+    private var availableStyles: [MDCounterStyle] {
+        delivery == .pip ? MDCounterStyle.allCases : [.paper, .ink]
+    }
+
+    var body: some View {
+        ScreenShell(id: "counter", tab: .settings, tabAction: tabAction) {
+            VStack(alignment: .leading, spacing: 17) {
+                BackRow(title: "値札の設定", action: goBack)
+                HStack { SampleModeBanner(); Spacer() }
+                Text("値札の設定")
+                    .font(.system(size: 34, weight: .black, design: .rounded))
+                Text("方式を選び、対応する見た目と面別プレビューを確認します。タップで選択・自動保存します。")
+                    .font(.system(size: 16, weight: .medium, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
+                deliveryPicker
+                Text("この方法のデザイン")
+                    .font(.system(size: 21, weight: .black, design: .rounded))
+                Text("選択中：\(style.label)")
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.limeInk)
+                ForEach(availableStyles) { candidate in
+                    styleCard(candidate)
+                }
+                testArea
+                Text("数値は表示見本です。見本を記録へ保存することはありません。PiPはOSのウインドウ枠内に表示されます。Live Activityは更新時点の金額を表示します。")
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .onAppear {
+                delivery = data.selectedCounterDelivery
+                style = delivery == .pip ? data.pipStyle : data.liveStyle
+            }
+        }
+    }
+
+    private var deliveryPicker: some View {
+        VStack(spacing: 10) {
+            ForEach(MDCounterDelivery.allCases) { candidate in
+                Button {
+                    delivery = candidate
+                    style = candidate == .pip ? data.pipStyle : data.liveStyle
+                    data.selectedCounterDelivery = candidate
+                    testMessage = nil
+                } label: {
+                    HStack(alignment: .top, spacing: 13) {
+                        Image(systemName: delivery == candidate ? "largecircle.fill.circle" : "circle")
+                            .font(.system(size: 22, weight: .semibold))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(candidate.title)
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                            Text(candidate.description)
+                                .font(.system(size: 13, weight: .medium, design: .rounded))
+                                .foregroundStyle(MoshiDopaBrand.mutedInk)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer()
+                    }
+                    .foregroundStyle(delivery == candidate ? MoshiDopaBrand.ink : MoshiDopaBrand.graphite)
+                    .padding(16)
+                    .background(TornPaperShape().fill(delivery == candidate ? MoshiDopaBrand.lime : MoshiDopaBrand.paper))
+                }
+                .buttonStyle(PressScaleButtonStyle())
+                .accessibilityIdentifier("delivery-\(candidate.rawValue)")
+            }
+        }
+    }
+
+    private func styleCard(_ candidate: MDCounterStyle) -> some View {
+        Button {
+            style = candidate
+            if delivery == .pip { data.pipStyle = candidate } else { data.liveStyle = candidate }
+        } label: {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 10) {
+                    Image(systemName: style == candidate ? "largecircle.fill.circle" : "circle")
+                        .font(.system(size: 22, weight: .semibold))
+                    Text(candidate.label)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                    Spacer()
+                }
+                .foregroundStyle(style == candidate ? MoshiDopaBrand.limeInk : MoshiDopaBrand.ink)
+                Text(candidate.subtitle)
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
+                CounterPreview(style: candidate, delivery: delivery)
+            }
+            .padding(17)
+            .background(TornPaperShape().fill(MoshiDopaBrand.paper))
+            .overlay(TornPaperShape().stroke(style == candidate ? MoshiDopaBrand.limeInk : Color.white.opacity(0.7), lineWidth: style == candidate ? 2 : 1))
+            .shadow(color: MoshiDopaBrand.paperShadow, radius: 5, y: 3)
+        }
+        .buttonStyle(PressScaleButtonStyle())
+        .accessibilityIdentifier("counter-style-\(candidate.rawValue)")
+    }
+
+    private var testArea: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("表示を試す")
+                .font(.system(size: 21, weight: .black, design: .rounded))
+            Text(delivery == .pip
+                 ? "本体で試用を開始し、別のアプリへ移動して表示を確認します。"
+                 : "ロック画面などのOS表示を使うため、更新や表示面は端末の状態に左右されます。")
+                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .foregroundStyle(MoshiDopaBrand.mutedInk)
+            if delivery == .liveActivity {
+                liveActivityFaces
+            }
+            LimeButton(action: tryDisplay) {
+                Label(delivery == .pip ? "PiPを表示して試す" : "面別の見本を確認", systemImage: "arrow.up.right.square")
+            }
+            .accessibilityIdentifier("open-pip")
+            if let testMessage {
+                Text(testMessage)
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .foregroundStyle(MoshiDopaBrand.limeInk)
+                    .padding(.top, 2)
+            }
+        }
+    }
+
+    private func tryDisplay() {
+        if delivery == .pip {
+            onOpenPiP()
+        } else {
+            testMessage = "これはLive Activityの面別見本です。実機ではOSの更新時点・表示寿命・表示面を確認します。"
+        }
+    }
+
+    private func tabAction(_ tab: MDTab) {
+        switch tab {
+        case .measurement: navigate(.measurement)
+        case .history: navigate(.history)
+        case .settings: break
+        }
+    }
+
+    private var liveActivityFaces: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Live Activityの面別プレビュー")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+            HStack(spacing: 9) {
+                liveFace(title: "コンパクト", value: "¥842")
+                liveFace(title: "展開", value: "¥842.35")
+            }
+            Text("ロック画面・Dynamic IslandのサイズはOSが決めます。")
+                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .foregroundStyle(MoshiDopaBrand.mutedInk)
+        }
+    }
+
+    private func liveFace(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.system(size: 11, weight: .bold, design: .rounded))
+            Text(value)
+                .font(.system(size: title == "展開" ? 20 : 17, weight: .black, design: .monospaced))
+            Text("MoshiDopa")
+                .font(.system(size: 10, weight: .medium, design: .rounded))
+                .foregroundStyle(MoshiDopaBrand.mutedInk)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, minHeight: 66, alignment: .leading)
+        .background(TornPaperShape().fill(MoshiDopaBrand.paper))
+    }
+}
+
+struct CounterPreview: View {
+    let style: MDCounterStyle
+    let delivery: MDCounterDelivery
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .fill(MoshiDopaBrand.bluePaper.opacity(0.68))
+                .frame(height: delivery == .pip ? 132 : 108)
+            previewSurface
+            if delivery == .pip {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Label("PiP", systemImage: "rectangle.inset.filled")
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .foregroundStyle(MoshiDopaBrand.mutedInk)
+                            .padding(7)
+                            .background(.ultraThinMaterial, in: Capsule())
+                    }
+                    Spacer()
+                    HStack(spacing: 14) {
+                        Image(systemName: "backward.fill")
+                        Image(systemName: "pause.fill")
+                        Image(systemName: "forward.fill")
+                        Image(systemName: "xmark")
+                    }
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
+                    .padding(.vertical, 5)
+                }
+                .padding(8)
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(style.label)の\(delivery.compactTitle)プレビュー")
+    }
+
+    @ViewBuilder
+    private var previewSurface: some View {
+        switch style {
+        case .paper:
+            PaperCard(padding: 11) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Label("アプリ名", systemImage: "play.fill")
+                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                    Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                        .font(.system(size: 30, weight: .black, design: .monospaced))
+                }
+                .frame(width: delivery == .pip ? 180 : 155, alignment: .leading)
+            }
+        case .ink:
+            HStack(spacing: 10) {
+                Image(systemName: "play.fill")
+                Divider().frame(height: 30).overlay(Color.white.opacity(0.2))
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("アプリ名").font(.system(size: 11, weight: .bold, design: .rounded))
+                    Text(MoshiDopaBrand.yen(842.35, decimals: 2)).font(.system(size: 24, weight: .black, design: .monospaced))
+                }
+            }
+            .foregroundStyle(MoshiDopaBrand.paper)
+            .padding(.horizontal, 17)
+            .frame(height: 66)
+            .background(RoundedRectangle(cornerRadius: 14).fill(MoshiDopaBrand.ink))
+        case .frost:
+            VStack(alignment: .leading, spacing: 1) {
+                Label("アプリ名", systemImage: "play.fill")
+                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                    .font(.system(size: 27, weight: .black, design: .monospaced))
+            }
+            .foregroundStyle(MoshiDopaBrand.ink)
+            .padding(.horizontal, 17)
+            .frame(width: 170, height: 70, alignment: .leading)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
+        case .sticker:
+            ZStack(alignment: .topTrailing) {
+                VStack(alignment: .leading, spacing: 1) {
+                    Label("アプリ名", systemImage: "play.fill")
+                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                    Text(MoshiDopaBrand.yen(842.35, decimals: 2))
+                        .font(.system(size: 27, weight: .black, design: .monospaced))
+                }
+                .foregroundStyle(MoshiDopaBrand.ink)
+                .padding(.horizontal, 17)
+                .frame(width: 178, height: 72, alignment: .leading)
+                .background(MoshiDopaBrand.paper, in: RoundedRectangle(cornerRadius: 28))
+                Mascot(asset: "home_mascot_coin", size: 47)
+                    .offset(x: 4, y: -19)
+            }
+        }
+    }
+}
