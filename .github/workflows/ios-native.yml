@@ -17,16 +17,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
       - id: filter
         shell: bash
         env:
           EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
         run: |
-          if [[ "$EVENT" != "push" ]] || git diff --name-only HEAD^ HEAD | grep -Eq '^(MoshiDopaApp/|Core/|Platform/|Tests/|UITests/|ci/|project.yml|.github/workflows/ios-native.yml)'; then
+          if [[ "$EVENT" != "push" || "$BEFORE" =~ ^0+$ ]] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
             echo 'native=true' >> "$GITHUB_OUTPUT"
           else
-            echo 'native=false' >> "$GITHUB_OUTPUT"
+            git diff --name-only "$BEFORE" HEAD > "$RUNNER_TEMP/changed-paths.txt"
+            if grep -Eq '^(MoshiDopaApp/|Core/|Platform/|Tests/|UITests/|ci/|project\.yml$|\.github/workflows/ios-native\.yml$)' "$RUNNER_TEMP/changed-paths.txt"; then
+              echo 'native=true' >> "$GITHUB_OUTPUT"
+            else
+              echo 'native=false' >> "$GITHUB_OUTPUT"
+            fi
           fi
   verify:
     needs: changes
