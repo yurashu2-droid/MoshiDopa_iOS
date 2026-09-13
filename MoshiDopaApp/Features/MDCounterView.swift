@@ -290,7 +290,7 @@ struct CounterPreview: View {
         }
         .frame(maxWidth: .infinity)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(style.label)の\(delivery.compactTitle)プレビュー")
+        .accessibilityLabel("\(style.label)の\(delivery.compactTitle)プレビュー、\(activityTitle)、\(MoshiDopaBrand.yen(amount, decimals: 2))")
     }
 
     @ViewBuilder

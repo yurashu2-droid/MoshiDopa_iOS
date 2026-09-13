@@ -528,12 +528,16 @@ private enum MDInterviewMotion {
         (6,9.8,false),(10.4,12,true),(12.6,15,false)]
     static func ease(_ value: Double) -> Double { let p = min(1,max(0,value)); return p*p*(3-2*p) }
     static func shot(_ t: Double) -> Shot { shots.last(where: { $0.at <= t }) ?? shots[0] }
-    static func pose(_ focus: Int) -> Camera {
+    static func pose(_ focus: Int, investment: Bool) -> Camera {
         switch focus {
         case 1: return Camera(x:310,y:365,zoom:2.05*0.952)
         case 2: return Camera(x:650,y:250,zoom:2.2*0.952)
         case 3: return Camera(x:970,y:240,zoom:1.82*0.952)
-        default: return Camera(x:480,y:350,zoom:1.5*0.952)
+        // The generated INVEST atlas is taller than the articulated SPEND rig.
+        // Preserve headroom in this native 800-high viewport, including the proud pose.
+        default: return investment
+            ? Camera(x:480,y:320,zoom:1.38*0.952)
+            : Camera(x:480,y:350,zoom:1.5*0.952)
         }
     }
     static func travel(_ age: Double) -> Double {
@@ -541,10 +545,11 @@ private enum MDInterviewMotion {
         if age < 0.65 { return 1.07-0.07*ease((age-0.43)/0.22) }
         return 1
     }
-    static func camera(_ t: Double, hasItem: Bool) -> Camera {
+    static func camera(_ t: Double, hasItem: Bool, investment: Bool) -> Camera {
         let index = shots.lastIndex(where: { $0.at <= t }) ?? 0
         func focus(_ s: Shot) -> Int { s.focus == 3 && !hasItem ? 1 : s.focus }
-        let from = pose(focus(shots[max(0,index-1)])), to = pose(focus(shots[index]))
+        let from = pose(focus(shots[max(0,index-1)]), investment: investment)
+        let to = pose(focus(shots[index]), investment: investment)
         let p = CGFloat(travel(t-shots[index].at))
         let gain = ease(t/0.8)*ease((18.7-t)/0.9)
         return Camera(x:from.x+(to.x-from.x)*p+CGFloat((2.8*sin(t*1.7)+0.7*sin(t*7.1))*gain),
@@ -629,7 +634,7 @@ private struct MDWhatIfActorCanvas: View {
             context.translateBy(x:(size.width-1080*scale)/2,y:0)
             context.scaleBy(x:scale,y:scale)
             context.clip(to:Path(CGRect(x:0,y:0,width:1080,height:800)))
-            let camera = MDInterviewMotion.camera(t,hasItem:story.itemName != nil)
+            let camera = MDInterviewMotion.camera(t,hasItem:story.itemName != nil,investment:story.mode == .invest)
             let gain = MDInterviewMotion.ease(t/0.8)*MDInterviewMotion.ease((18.7-t)/0.9)
             context.translateBy(x:540,y:315)
             context.rotate(by:.degrees((0.18*sin(t*1.3)+0.04*sin(t*6.7))*gain))

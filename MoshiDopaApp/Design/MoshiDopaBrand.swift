@@ -374,6 +374,8 @@ struct ScreenShell<Content: View>: View {
                 .padding(.bottom, 36)
                 .frame(maxWidth: .infinity)
         }
+        // Keep scrolling text inside the content viewport, below the status bar.
+        .clipped()
         .background {
             MoshiDopaBrand.world
                 .overlay {
