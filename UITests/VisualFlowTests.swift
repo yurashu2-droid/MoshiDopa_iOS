@@ -110,4 +110,17 @@ final class VisualFlowTests: XCTestCase {
         XCTAssertTrue(preview.label.contains("Instagram"), "Receipt must match the selected history row")
         capture(app, name: "receipt-selected-instagram")
     }
+
+    func testLiveActivitySurfacePreviews() {
+        let app = launch("counter")
+        let delivery = app.buttons["delivery-liveActivity"]
+        for _ in 0..<3 where !delivery.isHittable { app.swipeUp() }
+        delivery.tap()
+        capture(app, name: "counter-live-activity-selected")
+        for page in 1...5 {
+            app.swipeUp()
+            capture(app, name: "counter-live-activity-surfaces-\(page)")
+        }
+        XCTAssertTrue(app.otherElements["live-preview-expanded"].exists)
+    }
 }

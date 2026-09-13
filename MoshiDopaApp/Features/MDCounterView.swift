@@ -20,7 +20,7 @@ struct MDCounterView: View {
                 HStack { SampleModeBanner(); Spacer() }
                 Text("値札の設定")
                     .font(.system(size: 34, weight: .black, design: .rounded))
-                Text("方式を選び、対応する見た目と面別プレビューを確認します。タップで選択・自動保存します。")
+                Text("方式を選び、対応する見た目と面別プレビューを確認します。選択はこの起動中の見本に反映されます。")
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
                 deliveryPicker
@@ -147,33 +147,55 @@ struct MDCounterView: View {
     }
 
     private var liveActivityFaces: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             Text("Live Activityの面別プレビュー")
                 .font(.system(size: 14, weight: .bold, design: .rounded))
-            HStack(spacing: 9) {
-                liveFace(title: "コンパクト", value: "¥842")
-                liveFace(title: "展開", value: "¥842.35")
+            Text("ロック画面")
+            HStack {
+                Image(systemName: "yensign.circle.fill")
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("もしドパ · 更新時点の金額").font(.caption)
+                    Text("¥842.35").font(.system(size: 28, weight: .black, design: .monospaced))
+                }
+                Spacer()
             }
-            Text("ロック画面・Dynamic IslandのサイズはOSが決めます。")
+            .padding(16)
+            .foregroundStyle(style == .ink ? MoshiDopaBrand.paper : MoshiDopaBrand.ink)
+            .background(style == .ink ? MoshiDopaBrand.ink : MoshiDopaBrand.paper,
+                        in: RoundedRectangle(cornerRadius: 22))
+            .accessibilityIdentifier("live-preview-lock")
+            Text("Dynamic Island · コンパクト")
+            HStack {
+                Image(systemName: "yensign.circle.fill").foregroundStyle(islandAccent)
+                Spacer(minLength: 40)
+                Text("¥842").monospacedDigit()
+            }
+            .padding(.horizontal, 16).frame(height: 42)
+            .foregroundStyle(.white).background(.black, in: Capsule())
+            .accessibilityIdentifier("live-preview-compact")
+            Text("Dynamic Island · 最小")
+            Text("¥842").font(.system(size: 11, weight: .bold, design: .monospaced))
+                .foregroundStyle(islandAccent).frame(width: 46, height: 46)
+                .background(.black, in: Circle())
+                .accessibilityIdentifier("live-preview-minimal")
+            Text("Dynamic Island · 展開")
+            VStack(alignment: .leading, spacing: 12) {
+                Label("もしドパ", systemImage: "yensign.circle.fill").foregroundStyle(islandAccent)
+                Text("¥842.35").font(.system(size: 30, weight: .black, design: .monospaced))
+                Text("更新時点の金額").font(.caption).foregroundStyle(.white.opacity(0.7))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading).padding(20)
+            .foregroundStyle(.white).background(.black, in: RoundedRectangle(cornerRadius: 32))
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("live-preview-expanded")
+            Text("すべて表示見本です。実寸・更新頻度は未検証です。最小面では金額を整数に省略し、詳しい金額は展開面で確認する設計です。")
                 .font(.system(size: 12, weight: .medium, design: .rounded))
                 .foregroundStyle(MoshiDopaBrand.mutedInk)
         }
+        .font(.system(size: 14, weight: .bold, design: .rounded))
     }
 
-    private func liveFace(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title)
-                .font(.system(size: 11, weight: .bold, design: .rounded))
-            Text(value)
-                .font(.system(size: title == "展開" ? 20 : 17, weight: .black, design: .monospaced))
-            Text("MoshiDopa")
-                .font(.system(size: 10, weight: .medium, design: .rounded))
-                .foregroundStyle(MoshiDopaBrand.mutedInk)
-        }
-        .padding(10)
-        .frame(maxWidth: .infinity, minHeight: 66, alignment: .leading)
-        .background(TornPaperShape().fill(MoshiDopaBrand.paper))
-    }
+    private var islandAccent: Color { style == .ink ? .white : MoshiDopaBrand.lime }
 }
 
 struct CounterPreview: View {
