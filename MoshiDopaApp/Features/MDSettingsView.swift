@@ -17,8 +17,9 @@ struct MDSettingsView: View {
     var body: some View {
         ScreenShell(id: "settings", tab: .settings, tabAction: tabAction) {
             VStack(alignment: .leading, spacing: 17) {
-                BackRow(title: "設定", action: goBack)
-                HStack { SampleModeBanner(); Spacer() }
+                Text("サンプル表示・記録されません")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
                 HeroPaper(title: "設定", subtitle: "あなたらしい使い方に。", mascotAsset: "paper_mascot_settings", titleSize: 36)
                 settingsList
                 supportLinks
@@ -52,16 +53,16 @@ struct MDSettingsView: View {
                 detail = .apps
             }
             .accessibilityIdentifier("open-apps")
-            settingRow(icon: "rectangle.on.rectangle", title: "値札の設定",
-                       subtitle: "PiP · \(data.pipStyle.label)") {
+            settingRow(icon: "yensign.circle", title: "値札の設定",
+                       subtitle: counterSubtitle) {
                 navigate(.counter)
             }
             .accessibilityIdentifier("open-counter")
-            settingRow(icon: "bell", title: "表示と通知", subtitle: "値札 · 終了時の明細 · アニメーション") {
+            settingRow(icon: "bell", title: "表示と通知", subtitle: "値札・終了時の明細・アニメーション") {
                 showDisplaySheet = true
             }
             .accessibilityIdentifier("open-display")
-            settingRow(icon: "chart.bar.fill", title: "自己投資の記録", subtitle: "活動 · プロジェクト · 制作メモ") {
+            settingRow(icon: "chart.bar.fill", title: "自己投資の記録", subtitle: "活動・プロジェクト・制作メモ") {
                 detail = .invest
             }
             .accessibilityIdentifier("open-invest-settings")
@@ -69,36 +70,57 @@ struct MDSettingsView: View {
                 navigate(.statement)
             }
             .accessibilityIdentifier("open-statement")
+            settingRow(icon: "info.circle", title: "このアプリについて",
+                       subtitle: "使い方・プライバシー・保存データ") {
+                showAboutSheet = true
+            }
+            .accessibilityIdentifier("open-about")
         }
+    }
+
+    private var counterSubtitle: String {
+        let style = data.selectedCounterDelivery == .pip ? data.pipStyle : data.liveStyle
+        return "\(data.selectedCounterDelivery.compactTitle) · \(style.label)"
     }
 
     private func settingRow(icon: String, title: String, subtitle: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 14) {
                 Image(systemName: icon)
-                    .font(.system(size: 25, weight: .semibold))
+                    .font(.system(size: 26, weight: .semibold))
                     .foregroundStyle(MoshiDopaBrand.ink)
-                    .frame(width: 34)
+                    .frame(width: 26)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundStyle(MoshiDopaBrand.ink)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text(subtitle)
-                        .font(.system(size: 13, weight: .medium, design: .rounded))
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundStyle(MoshiDopaBrand.mutedInk)
                         .lineLimit(2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 17, weight: .bold))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundStyle(MoshiDopaBrand.ink)
+                    .frame(width: 26)
             }
-            .padding(.horizontal, 19)
-            .frame(minHeight: 74)
+            .padding(.leading, 18)
+            .padding(.trailing, 14)
+            .frame(maxWidth: .infinity, minHeight: 64)
             .background(TornPaperShape().fill(MoshiDopaBrand.paper))
+            .overlay {
+                Image("home_receipt_fiber")
+                    .resizable(resizingMode: .tile)
+                    .scaledToFill()
+                    .opacity(0.28)
+                    .blendMode(.multiply)
+                    .clipShape(TornPaperShape())
+                    .allowsHitTesting(false)
+            }
             .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
-            .shadow(color: MoshiDopaBrand.paperShadow, radius: 5, y: 3)
+            .shadow(color: MoshiDopaBrand.paperShadow, radius: 4, y: 3)
         }
         .buttonStyle(PressScaleButtonStyle())
     }
@@ -111,8 +133,6 @@ struct MDSettingsView: View {
             HStack(spacing: 10) {
                 PaperButton(action: { navigate(.onboarding) }) { Label("使い方・ガイド", systemImage: "book") }
                     .accessibilityIdentifier("open-onboarding")
-                PaperButton(action: { showAboutSheet = true }) { Label("このアプリについて", systemImage: "info.circle") }
-                    .accessibilityIdentifier("open-about")
             }
             PaperButton(action: onOpenPiP) { Label("値札の表示を試す", systemImage: "rectangle.inset.filled") }
                 .accessibilityIdentifier("open-pip")
@@ -121,7 +141,7 @@ struct MDSettingsView: View {
 
     private func tabAction(_ tab: MDTab) {
         switch tab {
-        case .measurement: navigate(.measurement)
+        case .measurement: navigate(.home)
         case .history: navigate(.history)
         case .settings: break
         }
@@ -303,4 +323,3 @@ struct MDAboutSheet: View {
         }
     }
 }
-

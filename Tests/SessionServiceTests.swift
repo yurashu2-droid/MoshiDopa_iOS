@@ -1,5 +1,6 @@
 import XCTest
 import AVFoundation
+import UIKit
 @testable import MoshiDopa
 
 private final class TestSessionRepository: SessionRepository {
@@ -19,6 +20,12 @@ private final class TestSessionRepository: SessionRepository {
 private enum TestFailure: Error { case injected }
 
 final class SessionServiceTests: XCTestCase {
+    @MainActor func testBundledAndroidArtworkLoadsByRuntimeName() {
+        for name in ["home_wordmark", "home_mascot_coin", "home_receipt_fiber", "paper_mascot_history", "paper_mascot_settings", "session_receipt_paper_texture", "whatif_part_old_normal", "whatif_part_young_body"] {
+            XCTAssertNotNil(UIImage(named: name), "Missing runtime artwork: \(name)")
+        }
+    }
+
     func testAndroidAmountFixtures() {
         XCTAssertEqual(WageCalculator.amount(milliseconds: 100, hourlyRate: 1800), 0.05, accuracy: 0.0000001)
         XCTAssertEqual(WageCalculator.amount(milliseconds: 28 * 60 * 1000, hourlyRate: 1800), 840, accuracy: 0.0000001)

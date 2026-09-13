@@ -9,10 +9,9 @@ struct MDHomeView: View {
         ScreenShell(id: "home", tab: .measurement, tabAction: tabAction) {
             VStack(alignment: .leading, spacing: 18) {
                 topBar
-                HStack {
-                    SampleModeBanner()
-                    Spacer()
-                }
+                Text("サンプル表示・記録されません")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(MoshiDopaBrand.mutedInk)
                 hero
                 summary
                 startButtons
@@ -39,42 +38,48 @@ struct MDHomeView: View {
     }
 
     private var hero: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .bottomTrailing) {
             PaperCard(padding: 24) {
                 VStack(alignment: .leading, spacing: 9) {
                     Text("もし働いたら…")
-                        .font(.system(size: 28, weight: .black, design: .rounded))
+                        .font(.system(size: 25, weight: .black))
                         .foregroundStyle(MoshiDopaBrand.ink)
-                    Text(MoshiDopaBrand.displayYen(data.spendAmount))
-                        .font(.system(size: 61, weight: .black, design: .monospaced))
+                    Text(MoshiDopaBrand.yen(floor(data.spendAmount)))
+                        .font(.system(size: 76, weight: .black))
+                        .monospacedDigit()
+                        .tracking(-3)
                         .foregroundStyle(MoshiDopaBrand.ink)
-                        .minimumScaleFactor(0.58)
+                        .minimumScaleFactor(0.2)
                         .lineLimit(1)
                         .overlay(alignment: .bottomLeading) {
-                            Rectangle()
-                                .fill(MoshiDopaBrand.lime)
-                                .frame(width: 196, height: 7)
-                                .rotationEffect(.degrees(-4))
-                                .offset(x: 8, y: 6)
+                            LimeScribble()
+                                .stroke(MoshiDopaBrand.lime, style: StrokeStyle(lineWidth: 4, lineCap: .square))
+                                .frame(width: 120, height: 11)
+                                .offset(x: 4, y: 3)
                         }
                         .padding(.vertical, 5)
+                        .padding(.trailing, 104)
+                    Spacer(minLength: 40)
                     Text("その時間、働いていたらこれくらい。")
-                        .font(.system(size: 16, weight: .medium, design: .rounded))
+                        .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(MoshiDopaBrand.mutedInk)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.trailing, 82)
+                .frame(maxWidth: .infinity, minHeight: 184, alignment: .leading)
             }
             VStack(alignment: .trailing, spacing: 4) {
-                Text("じかんって\nこんなから、\nあるんだ。")
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                Text("じかんって\nこんな かち、\nあるんだ。")
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
                     .multilineTextAlignment(.trailing)
-                    .padding(.top, 25)
-                Mascot(asset: "home_mascot_coin", size: 114)
-                    .offset(x: -4, y: 2)
+                    .rotationEffect(.degrees(-10))
+                Spacer(minLength: 24)
+                Mascot(asset: "home_mascot_coin", size: 110)
             }
+            .frame(height: 205)
+            .padding(.trailing, 5)
+            .padding(.bottom, 7)
         }
+        .overlay(alignment: .top) { Tape(angle: 14, width: 74).offset(y: -10) }
         .accessibilityElement(children: .contain)
         .accessibilityLabel("もし働いたら。今日の見込み額 \(MoshiDopaBrand.yen(data.spendAmount))")
     }
@@ -106,22 +111,30 @@ struct MDHomeView: View {
     private var startButtons: some View {
         HStack(spacing: 12) {
             LimeButton(action: { start(.spend) }) {
-                VStack(spacing: 2) {
-                    Label("START SPEND", systemImage: "play.fill")
-                    Text("使う時間を記録")
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                }
+                startLabel(title: "START SPEND", subtitle: "使う時間を記録", icon: "play.fill", spend: true)
             }
             .accessibilityIdentifier("start-spend")
             PaperButton(action: { start(.invest) }) {
-                VStack(spacing: 2) {
-                    Label("START INVEST", systemImage: "chart.bar.fill")
-                    Text("自分に投資する時間")
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                }
+                startLabel(title: "START INVEST", subtitle: "自分に投資する時間", icon: "chart.bar.fill", spend: false)
             }
             .accessibilityIdentifier("start-invest")
         }
+    }
+
+    private func startLabel(title: String, subtitle: String, icon: String, spend: Bool) -> some View {
+        HStack(spacing: 7) {
+            Image(systemName: icon)
+                .font(.system(size: 19, weight: .bold))
+                .foregroundStyle(spend ? MoshiDopaBrand.lime : MoshiDopaBrand.ink)
+                .frame(width: 36, height: 36)
+                .background(Circle().fill(spend ? Color(red: 0.19, green: 0.23, blue: 0.09) : MoshiDopaBrand.graphite.opacity(0.12)))
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title).font(.system(size: 13, weight: .bold)).lineLimit(1).minimumScaleFactor(0.7)
+                Text(subtitle).font(.system(size: 11, weight: .medium)).lineLimit(1).minimumScaleFactor(0.75)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(minHeight: 70)
     }
 
     private var quickLinks: some View {
@@ -133,12 +146,6 @@ struct MDHomeView: View {
                     .frame(maxWidth: .infinity, minHeight: 44)
             }
             .accessibilityIdentifier("open-settings")
-            HStack(spacing: 10) {
-                PaperButton(action: { navigate(.counter) }) { Label("値札を試す", systemImage: "rectangle.on.rectangle") }
-                    .accessibilityIdentifier("open-counter")
-                PaperButton(action: { navigate(.onboarding) }) { Label("使い方を見る", systemImage: "book") }
-                    .accessibilityIdentifier("open-onboarding")
-            }
         }
     }
 
@@ -177,17 +184,28 @@ struct MDHomeView: View {
     }
 
     private var footerLinks: some View {
-        HStack(spacing: 10) {
-            PaperButton(action: { navigate(.receipt) }) { Label("明細を共有", systemImage: "square.and.arrow.up") }
-                .accessibilityIdentifier("open-receipt")
-            PaperButton(action: { navigate(.statement) }) { Label("通帳を作る", systemImage: "doc.text") }
-                .accessibilityIdentifier("open-statement")
+        VStack(spacing: 12) {
+            Text("計測時の時給で算出した目安です。自己投資は含みません。")
+                .font(.system(size: 10))
+                .foregroundStyle(MoshiDopaBrand.mutedInk)
+            HStack(spacing: 10) {
+                PaperButton(action: { navigate(.counter) }) { Label("値札を試す", systemImage: "rectangle.on.rectangle") }
+                    .accessibilityIdentifier("open-counter")
+                PaperButton(action: { navigate(.onboarding) }) { Label("使い方を見る", systemImage: "book") }
+                    .accessibilityIdentifier("open-onboarding")
+            }
+            HStack(spacing: 10) {
+                PaperButton(action: { navigate(.receipt) }) { Label("明細を共有", systemImage: "square.and.arrow.up") }
+                    .accessibilityIdentifier("open-receipt")
+                PaperButton(action: { navigate(.statement) }) { Label("通帳を作る", systemImage: "doc.text") }
+                    .accessibilityIdentifier("open-statement")
+            }
         }
     }
 
     private func tabAction(_ tab: MDTab) {
         switch tab {
-        case .measurement: navigate(.measurement)
+        case .measurement: navigate(.home)
         case .history: navigate(.history)
         case .settings: navigate(.settings)
         }

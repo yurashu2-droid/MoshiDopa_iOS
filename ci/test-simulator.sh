@@ -24,6 +24,10 @@ xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Debug \
   CODE_SIGNING_ALLOWED=NO test 2>&1 | tee artifacts/simulator-tests.log || TEST_STATUS=$?
 printf '%s\n' "$TEST_STATUS" > artifacts/simulator-test-exit-code.txt
 APP=build/simulator/Build/Products/Debug-iphonesimulator/MoshiDopa.app
+if [[ ! -x "$APP/MoshiDopa" ]]; then
+  echo 'No compiled app executable; skipping install and visual capture.' >&2
+  exit 1
+fi
 ditto -c -k --sequesterRsrc --keepParent "$APP" artifacts/MoshiDopa-simulator.zip
 xcrun simctl install "$UDID" "$APP"
 for screen in home history settings counter receipt statement onboarding whatif measurement; do

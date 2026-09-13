@@ -44,10 +44,19 @@ enum MoshiDopaBrand {
 struct TornPaperShape: Shape {
     func path(in rect: CGRect) -> Path {
         let inset = rect.insetBy(dx: 0.5, dy: 0.5)
-        let top: [CGFloat] = [0.18, 0.72, 0.28, 0.86, 0.34, 0.68, 0.24, 0.78, 0.20]
-        let bottom: [CGFloat] = [0.54, 0.16, 0.84, 0.26, 0.66, 0.14, 0.58, 0.88, 0.32]
-        let left: [CGFloat] = [0.34, 0.82, 0.42, 0.12, 0.70, 0.22, 0.86, 0.48, 0.18]
-        let right: [CGFloat] = [0.72, 0.24, 0.86, 0.42, 0.14, 0.68, 0.30, 0.82, 0.46]
+        // Fine irregular fibres, with slower undulations between tears.
+        // Deterministic geometry keeps fixtures stable between captures.
+        func edge(_ phase: Double) -> [CGFloat] {
+            (0...128).map { index in
+                let t = Double(index)
+                return CGFloat(0.44 + 0.19 * sin(t * 0.37 + phase)
+                    + 0.13 * sin(t * 1.91 + phase) + 0.09 * sin(t * 4.17 + phase))
+            }
+        }
+        let top = edge(0.2)
+        let bottom = edge(1.7)
+        let left = edge(3.1)
+        let right = edge(4.3)
         let edgeDepth: CGFloat = 2.4
         let width = max(1, inset.width)
         let height = max(1, inset.height)
@@ -95,7 +104,7 @@ struct PaperCard<Content: View>: View {
                 Image("home_receipt_fiber")
                     .resizable(resizingMode: .tile)
                     .scaledToFill()
-                    .opacity(0.075)
+                    .opacity(0.28)
                     .blendMode(.multiply)
                     .clipShape(TornPaperShape())
                     .allowsHitTesting(false)
@@ -116,6 +125,17 @@ struct Tape: View {
             .rotationEffect(.degrees(angle))
             .blendMode(.multiply)
             .accessibilityHidden(true)
+    }
+}
+
+struct LimeScribble: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.height * 0.65))
+        path.addLine(to: CGPoint(x: rect.width * 0.69, y: rect.height * 0.15))
+        path.addLine(to: CGPoint(x: rect.width * 0.48, y: rect.height * 0.85))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.height * 0.48))
+        return path
     }
 }
 
@@ -206,7 +226,7 @@ struct Wordmark: View {
         Image("home_wordmark")
             .resizable()
             .scaledToFit()
-            .frame(maxWidth: 210)
+            .frame(width: 210, height: 84)
             .accessibilityLabel("もしドパ")
     }
 }
@@ -288,7 +308,7 @@ struct MoshiDopaTabBar: View {
                             .font(.system(size: 14, weight: tab == selected ? .bold : .medium, design: .rounded))
                     }
                     .foregroundStyle(tab == selected ? MoshiDopaBrand.ink : MoshiDopaBrand.graphite)
-                    .frame(maxWidth: .infinity, minHeight: 60)
+                    .frame(maxWidth: .infinity, minHeight: 48)
                     .background {
                         if tab == selected {
                             TornPaperShape().fill(MoshiDopaBrand.lime)
@@ -301,7 +321,7 @@ struct MoshiDopaTabBar: View {
             }
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 9)
+        .padding(.vertical, 5)
         .background(TornPaperShape().fill(MoshiDopaBrand.paper))
         .overlay(TornPaperShape().stroke(Color.white.opacity(0.7), lineWidth: 1))
         .shadow(color: MoshiDopaBrand.paperShadow, radius: 8, y: -2)
@@ -328,6 +348,13 @@ struct ScreenShell<Content: View>: View {
     var body: some View {
         ZStack {
             MoshiDopaBrand.world.ignoresSafeArea()
+            Image("home_receipt_fiber")
+                .resizable(resizingMode: .tile)
+                .opacity(0.18)
+                .blendMode(.multiply)
+                .ignoresSafeArea()
+                .accessibilityHidden(true)
+                .allowsHitTesting(false)
             ScrollView(showsIndicators: false) {
                 content
                     .frame(maxWidth: MoshiDopaBrand.contentWidth)

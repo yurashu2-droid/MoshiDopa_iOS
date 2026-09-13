@@ -7,6 +7,7 @@
 Xcode 26.3、XcodeGen 2.46.0を使用する。対応OSはiOS 17以降。
 
 ```sh
+bash ci/prepare-assets.sh
 xcodegen generate
 xcodebuild -list -project MoshiDopa.xcodeproj
 open MoshiDopa.xcodeproj

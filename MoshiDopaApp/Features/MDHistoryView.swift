@@ -238,7 +238,7 @@ struct MDHistoryView: View {
 
     private func tabAction(_ tab: MDTab) {
         switch tab {
-        case .measurement: navigate(.measurement)
+        case .measurement: navigate(.home)
         case .history: break
         case .settings: navigate(.settings)
         }

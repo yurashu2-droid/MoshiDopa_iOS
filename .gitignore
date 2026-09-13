@@ -13,3 +13,5 @@ dist
 /build/
 /artifacts/
 .DS_Store
+
+/MoshiDopaApp/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png

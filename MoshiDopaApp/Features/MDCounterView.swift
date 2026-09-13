@@ -140,7 +140,7 @@ struct MDCounterView: View {
 
     private func tabAction(_ tab: MDTab) {
         switch tab {
-        case .measurement: navigate(.measurement)
+        case .measurement: navigate(.home)
         case .history: navigate(.history)
         case .settings: break
         }

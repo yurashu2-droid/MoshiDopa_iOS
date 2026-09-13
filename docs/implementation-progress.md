@@ -43,3 +43,11 @@ Parent downloaded the xcresult and attachments. Accessibility dumps show receipt
 Parent inspected the home screenshot: missing wordmark, mascots and paper texture. Runtime logs confirm named-image lookup failures. The unchanged PNG artwork is now packaged into named asset-catalog image sets. Visual acceptance awaits a new rendered comparison.
 
 PiP delegate callbacks now use a lock-protected playback snapshot for synchronous queries and main-actor tasks for UI state. Tests and device concurrency behavior require rerun. CI now attempts screenshots after test failures and independently attempts the unsigned device build, preserving failed test status.
+
+## Parent visual correction and next CI
+
+Previous turn made concrete progress: named artwork moved to catalogs, failing UI queries corrected and evidence handling improved. Run [34780290813](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34780290813) at `1d8fed7` then failed compilation because the newly introduced catalog lacked Xcode's default AppIcon set. No tests or visual acceptance are claimed for that run. Added the Android icon source unchanged and a macOS build-time sizing step, documented for local builds as well as CI.
+
+Parent compared the actual Android home and iOS home/settings PNGs from run 34779516989. Home corrections: explicit wordmark size, integer floor amount as Android, proportional heavy digits, amount-bound available width, corrected tagline, tape and marker, side-by-side icon/text start cards, recent receipts before secondary demo links. Shared corrections: thinner navigation, fine deterministic paper edges and visible background/card fibre texture. These edits still require rendered verification. Added a hosted test that loads representative artwork by the runtime names that previously failed. Android's 480 recorded hashes and HEAD were rechecked unchanged.
+
+Luna MAX refined only the settings top-level hierarchy and sizing; parent reviewed the diff and required the sample annotation and “値札の設定” terminology to remain. Parent verified Android MainActivity bottom navigation targets `home/history/settings`, corrected native measurement-tab destinations to home, and added a UI assertion for returning from settings/counter to home. START SPEND/INVEST still opens the input screen with the selected mode.

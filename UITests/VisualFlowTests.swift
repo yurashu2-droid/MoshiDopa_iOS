@@ -48,6 +48,8 @@ final class VisualFlowTests: XCTestCase {
         counter.tap()
         XCTAssertTrue(app.descendants(matching: .any)["screen-counter"].waitForExistence(timeout: 3))
         capture(app, name: "counter-from-settings")
+        app.buttons["tab-home"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["screen-home"].waitForExistence(timeout: 3))
     }
 
     func testInvestEntryKeepsMode() {
