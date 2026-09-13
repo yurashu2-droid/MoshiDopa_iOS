@@ -20,7 +20,7 @@
 | Shortcuts | Appトリガーは選択アプリの開く/閉じる・切替で実行できる。[Apple Shortcuts](https://support.apple.com/en-ae/guide/shortcuts/apde31e9638b/ios) | ユーザー自身が個人用オートメーションを設定する。イベント間計測でありScreen Time取得ではない。未設定/無効/重複/遅延/開始のみを処理。SNS起動による計測開始とPiP開始を別状態にする。 |
 | Live Activity | 通常は前面で開始。`LiveActivityIntent` を採用するApp Intentなら背景から開始できる例外がある。[Apple ActivityKit](https://developer.apple.com/documentation/activitykit/displaying-live-data-with-live-activities) | ロック画面/Dynamic Island用。SNS画面上の自由配置オーバーレイではない。最新SDKでの例外を最低OSへ一律外挿せず、availabilityと実機を確認。汎用AppIntentの現実装はこの例外を実装していない。 |
 | Live Activity更新 | ActivityKitはアプリ/APNsから更新し、Widget timelineとは異なる。[Apple overview](https://developer.apple.com/documentation/activitykit) | システムの時刻表示と独自金額の毎秒再計算は同義ではない。最終更新金額+更新時刻、経過時間、終了操作を候補とし、毎秒正確な金額をLive Activityの約束にしない。 |
-| 審査 | background servicesは本来の目的に限定される（2.5.4）。[App Review](https://developer.apple.com/app-store/review/guidelines/) | 「金額だけのPiP」が審査で受理されるか未検証。公開APIで動く事実と審査適合性は分離する。PiP必須ならPoCと配布方針の決定を製品着手ゲートにする。 |
+| 審査 | background servicesは本来の目的に限定される（2.5.4）。[App Review](https://developer.apple.com/app-store/review/guidelines/) | 「金額だけのPiP」が審査で受理されるか未検証。公開APIで動く事実と審査適合性は分離する。PiPの製品合格はPoCと配布方針の確認を必要とするが、固定データによるAndroid UI再現の着手条件にはしない。UIを先行しPiP検証は並行する。 |
 
 ## 新SwiftUI構成の候補（未実装）
 
