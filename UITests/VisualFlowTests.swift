@@ -5,9 +5,12 @@ final class VisualFlowTests: XCTestCase {
         continueAfterFailure = false
     }
 
-    private func launch(_ screen: String = "home", fixture: String = "populated") -> XCUIApplication {
+    private func launch(_ screen: String = "home", fixture: String = "populated", trackingMode: String? = nil) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments = ["--screen", screen, "--fixture", fixture]
+        if let trackingMode {
+            app.launchEnvironment["MOSHIDOPA_UI_TEST_TRACKING_MODE"] = trackingMode
+        }
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any)["screen-\(screen)"].waitForExistence(timeout: 10), "Missing screen \(screen)")
         return app
@@ -83,6 +86,7 @@ final class VisualFlowTests: XCTestCase {
         for _ in 0..<5 where !tryIt.isHittable { app.swipeUp() }
         tryIt.tap()
         XCTAssertTrue(app.buttons["pip-start-session"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["tracking-mode"].label.contains("対象アプリの開閉（Shortcuts）"))
     }
 
     func testAllReferenceScreensRenderWithEmptyAndPopulatedFixtures() {
@@ -129,18 +133,13 @@ final class VisualFlowTests: XCTestCase {
     }
 
     func testRealMeasurementIncreasesAndSurvivesRelaunch() {
-        let app = launch("settings")
+        let app = launch("settings", trackingMode: "background")
         let open = app.buttons["open-pip"]
         for _ in 0..<5 where !open.isHittable { app.swipeUp() }
         open.tap()
         let start = app.buttons["pip-start-session"]
         XCTAssertTrue(start.waitForExistence(timeout: 5))
-        // The guide persists the user's Shortcuts selection; this test exercises background mode.
-        app.buttons["tracking-mode"].tap()
-        let backgroundMode = app.buttons["本体の外にいる時間"]
-        expectation(for: NSPredicate { _, _ in backgroundMode.isHittable }, evaluatedWith: backgroundMode)
-        waitForExpectations(timeout: 5)
-        backgroundMode.tap()
+        XCTAssertTrue(app.buttons["tracking-mode"].label.contains("本体の外にいる時間"))
         start.tap()
         let amount = app.staticTexts["pip-current-amount"]
         let armed = NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "待機・一時停止", "¥0.00")
@@ -169,6 +168,7 @@ final class VisualFlowTests: XCTestCase {
         for _ in 0..<5 where !app.staticTexts["保存済み"].firstMatch.exists { app.swipeUp() }
         XCTAssertTrue(app.staticTexts["保存済み"].firstMatch.waitForExistence(timeout: 5))
         app.terminate()
+        app.launchEnvironment.removeValue(forKey: "MOSHIDOPA_UI_TEST_TRACKING_MODE")
         app.launch()
         let reopened = app.buttons["open-pip"]
         for _ in 0..<5 where !reopened.isHittable { app.swipeUp() }

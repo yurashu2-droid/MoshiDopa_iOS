@@ -1,4 +1,5 @@
 name: Native iOS build and visual verification
+run-name: Native iOS · ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[tracking-check]') && 'tracking check' || 'full' }}
 on:
   push:
     branches: ['codex/ios-native-*']
@@ -41,6 +42,8 @@ jobs:
     timeout-minutes: 40
     env:
       DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
+      # A deliberate test-repair push can validate tracking only. Pull requests always run the full suite.
+      VALIDATION_SCOPE: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[tracking-check]') && 'tracking' || 'full' }}
     steps:
       - uses: actions/checkout@v4
       - name: Install pinned XcodeGen
@@ -70,7 +73,7 @@ jobs:
       - name: Simulator tests and screenshots
         run: bash ci/test-simulator.sh
       - name: Compact iPhone navigation and visual evidence
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && env.VALIDATION_SCOPE != 'tracking' }}
         run: bash ci/test-compact-simulator.sh
       - name: Unsigned physical-device Release build
         if: ${{ !cancelled() }}

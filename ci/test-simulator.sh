@@ -18,10 +18,16 @@ xcrun simctl boot "$UDID" || true
 xcrun simctl bootstatus "$UDID" -b
 xcrun simctl status_bar "$UDID" clear
 TEST_STATUS=0
+TEST_OPTIONS=(-parallel-testing-enabled NO)
+if [[ "${VALIDATION_SCOPE:-full}" == tracking ]]; then
+  TEST_OPTIONS+=(-only-testing:MoshiDopaTests
+    -only-testing:MoshiDopaUITests/VisualFlowTests/testAutomationGuideResumesWithoutClaimingSystemSetup
+    -only-testing:MoshiDopaUITests/VisualFlowTests/testRealMeasurementIncreasesAndSurvivesRelaunch)
+fi
 xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Debug \
   -destination "platform=iOS Simulator,id=$UDID" -derivedDataPath build/simulator \
-  -resultBundlePath artifacts/Tests.xcresult -parallel-testing-enabled NO \
-  CODE_SIGNING_ALLOWED=NO test 2>&1 | tee artifacts/simulator-tests.log || TEST_STATUS=$?
+  -resultBundlePath artifacts/Tests.xcresult \
+  CODE_SIGNING_ALLOWED=NO "${TEST_OPTIONS[@]}" test 2>&1 | tee artifacts/simulator-tests.log || TEST_STATUS=$?
 printf '%s\n' "$TEST_STATUS" > artifacts/simulator-test-exit-code.txt
 xcrun simctl spawn "$UDID" log show --last 20m --style compact --predicate 'process == "liveactivitiesd" OR process == "chronod" OR process == "MoneyLiveActivityWidget" OR process == "pluginkit"' > artifacts/live-activity-system.log 2>&1 || true
 xcrun simctl status_bar "$UDID" override --time '9:41' --batteryState charged --batteryLevel 100
@@ -31,6 +37,9 @@ if [[ ! -x "$APP/MoshiDopa" ]]; then
   exit 1
 fi
 ditto -c -k --sequesterRsrc --keepParent "$APP" artifacts/MoshiDopa-simulator.zip
+if [[ "${VALIDATION_SCOPE:-full}" == tracking ]]; then
+  exit "$TEST_STATUS"
+fi
 xcrun simctl install "$UDID" "$APP"
 for screen in home history settings counter receipt statement onboarding whatif measurement; do
   for fixture in empty populated large; do

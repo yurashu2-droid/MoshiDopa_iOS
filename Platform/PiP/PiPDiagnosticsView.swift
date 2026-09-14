@@ -129,6 +129,14 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
 
     override init() {
         super.init()
+        #if DEBUG
+        // UI tests seed their own initial setting instead of depending on a previous test's choice.
+        if let mode = ProcessInfo.processInfo.environment["MOSHIDOPA_UI_TEST_TRACKING_MODE"],
+           ["background", "shortcuts"].contains(mode) {
+            trackingMode = mode
+            UserDefaults.standard.set(mode, forKey: "native.trackingMode")
+        }
+        #endif
         layer.videoGravity = .resizeAspect
         var timebase: CMTimebase?
         let timebaseStatus = CMTimebaseCreateWithSourceClock(allocator: kCFAllocatorDefault,
