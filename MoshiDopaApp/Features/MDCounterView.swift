@@ -8,6 +8,7 @@ struct MDCounterView: View {
     @State private var delivery: MDCounterDelivery = .pip
     @State private var style: MDCounterStyle = .paper
     @State private var testMessage: String?
+    @State private var showingAutomationSetup = false
     @State private var previewMode: MDMode = .spend
     @State private var amountPreset = 1
 
@@ -47,6 +48,8 @@ struct MDCounterView: View {
                     styleCard(candidate)
                 }
                 testArea
+                Button("対象アプリの連携を順番に設定する") { showingAutomationSetup = true }
+                    .accessibilityIdentifier("counter-automation-setup")
                 Text("数値は表示見本です。見本を記録へ保存することはありません。PiPはOSのウインドウ枠内に表示されます。Live Activityは更新時点の金額を表示します。")
                     .font(.system(size: 13, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
@@ -58,7 +61,17 @@ struct MDCounterView: View {
                 style = delivery == .pip ? data.pipStyle : data.liveStyle
             }
         }
+        .sheet(isPresented: $showingAutomationSetup, onDismiss: {
+            if openMeasurementAfterSetup {
+                openMeasurementAfterSetup = false
+                tryDisplay()
+            }
+        }) {
+            AutomationSetupView { openMeasurementAfterSetup = true }
+        }
     }
+
+    @State private var openMeasurementAfterSetup = false
 
     private var previewControls: some View {
         VStack(alignment: .leading, spacing: 8) {

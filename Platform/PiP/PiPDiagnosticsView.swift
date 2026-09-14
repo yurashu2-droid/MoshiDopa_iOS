@@ -536,6 +536,7 @@ struct MoneyInlinePlayer: UIViewRepresentable {
 @MainActor
 struct PiPDiagnosticsView: View {
     @StateObject private var model = PiPDiagnosticsModel.shared
+    @State private var showingAutomationSetup = false
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         NavigationStack {
@@ -580,9 +581,9 @@ struct PiPDiagnosticsView: View {
                         .font(.caption)
                 }
                 Section("対象アプリの連携") {
-                    Text("1. 計測方法を「対象アプリの開閉（Shortcuts）」にする。\n2. Shortcuts → オートメーション → アプリ → 対象SNS →「開いている」→ すぐに実行。もしドパの「対象アプリの計測を再開」を追加し、アプリ名を指定。\n3. 同じSNSの「閉じている」に「対象アプリの計測を一時停止」を追加。同じアプリ名を指定。\n4. もしドパで待機開始し、値札を開始してSNSへ移動。終了時は停止・保存。")
-                        .font(.caption)
-                    Text("オートメーションはiPhone上で設定が必要です。通知の遅延・欠落、強制終了後の再待機は実機で確認してください。複数SNSはそれぞれ開閉を登録します。")
+                    Button("順番に設定する") { showingAutomationSetup = true }
+                        .accessibilityIdentifier("automation-setup")
+                    Text("対象アプリの選択から、開閉のオートメーション作成まで順番に案内します。途中から再開できます。")
                         .font(.caption)
                 }
                 if let error = model.errorMessage {
@@ -610,6 +611,7 @@ struct PiPDiagnosticsView: View {
             }
             .navigationTitle(model.delivery == "pip" ? "PiP実機検証" : "Live Activity実機検証")
         }
+        .sheet(isPresented: $showingAutomationSetup) { AutomationSetupView(onFinish: {}) }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { model.checkpointForLifecycle() }
         }

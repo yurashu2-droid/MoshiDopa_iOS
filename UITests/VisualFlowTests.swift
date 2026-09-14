@@ -49,6 +49,42 @@ final class VisualFlowTests: XCTestCase {
         }
     }
 
+    func testAutomationGuideResumesWithoutClaimingSystemSetup() {
+        let app = launch("counter")
+        let entry = app.buttons["counter-automation-setup"]
+        for _ in 0..<10 where !entry.isHittable { app.swipeUp() }
+        XCTAssertTrue(entry.isHittable)
+        entry.tap()
+        let reset = app.buttons["別のアプリを設定／最初から見直す"]
+        if reset.exists {
+            for _ in 0..<5 where !reset.isHittable { app.swipeUp() }
+            reset.tap()
+        }
+        XCTAssertTrue(app.textFields["automation-target"].waitForExistence(timeout: 3))
+        app.buttons["Instagram"].tap()
+        app.buttons["automation-next"].tap()
+        XCTAssertEqual(app.staticTexts["automation-step-title"].label, "オートメーションを作る")
+        app.terminate()
+        app.launch()
+        let reopened = app.buttons["counter-automation-setup"]
+        for _ in 0..<10 where !reopened.isHittable { app.swipeUp() }
+        reopened.tap()
+        XCTAssertEqual(app.staticTexts["automation-step-title"].label, "オートメーションを作る")
+        for _ in 0..<6 {
+            let next = app.buttons["automation-next"]
+            for _ in 0..<6 where !next.isHittable { app.swipeUp() }
+            XCTAssertTrue(next.isHittable)
+            next.tap()
+            app.swipeDown()
+        }
+        XCTAssertEqual(app.staticTexts["automation-step-title"].label, "実際に動くか試す")
+        capture(app, name: "automation-guide-manual-verification")
+        let tryIt = app.buttons["automation-try"]
+        for _ in 0..<5 where !tryIt.isHittable { app.swipeUp() }
+        tryIt.tap()
+        XCTAssertTrue(app.buttons["pip-start-session"].waitForExistence(timeout: 5))
+    }
+
     func testAllReferenceScreensRenderWithEmptyAndPopulatedFixtures() {
         let screens = ["home", "history", "settings", "counter", "receipt", "statement", "onboarding", "whatif", "measurement"]
         for fixture in ["empty", "populated", "large"] {
