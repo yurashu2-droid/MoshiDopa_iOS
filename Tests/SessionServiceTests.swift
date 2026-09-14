@@ -290,7 +290,7 @@ final class SessionServiceTests: XCTestCase {
         XCTAssertEqual(CMTimeGetSeconds(CMSampleBufferGetDuration(second)), 0.1, accuracy: 0.0001)
         let buffer = try XCTUnwrap(CMSampleBufferGetImageBuffer(second))
         XCTAssertEqual(CVPixelBufferGetWidth(buffer), 640)
-        XCTAssertEqual(CVPixelBufferGetHeight(buffer), 180)
+        XCTAssertEqual(CVPixelBufferGetHeight(buffer), 360)
         XCTAssertNotNil(CVPixelBufferGetIOSurface(buffer))
         func pixels(_ sample: CMSampleBuffer) throws -> Data {
             let image = try XCTUnwrap(CMSampleBufferGetImageBuffer(sample))
@@ -299,6 +299,14 @@ final class SessionServiceTests: XCTestCase {
             return Data(bytes: try XCTUnwrap(CVPixelBufferGetBaseAddress(image)), count: CVPixelBufferGetBytesPerRow(image) * CVPixelBufferGetHeight(image))
         }
         XCTAssertNotEqual(try pixels(first), try pixels(second))
+        let styles = try ["paper", "ink", "frost", "sticker"].map { style in
+            try pixels(renderer.sample(record: record, presentationSeconds: 2.1, style: style))
+        }
+        for left in styles.indices {
+            for right in styles.indices where right > left {
+                XCTAssertNotEqual(styles[left], styles[right], "Each selected style must change the real PiP frame")
+            }
+        }
     }
 
 }

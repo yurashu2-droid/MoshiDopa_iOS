@@ -427,7 +427,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 return
             }
             let frame = try renderer.sample(record: snapshot,
-                presentationSeconds: CMTimeGetSeconds(CMClockGetTime(CMClockGetHostTimeClock())))
+                presentationSeconds: CMTimeGetSeconds(CMClockGetTime(CMClockGetHostTimeClock())), style: displayStyle)
             layer.enqueue(frame)
             let now = ProcessInfo.processInfo.systemUptime
             if snapshot != nil, now - lastFrameLog >= 1 {

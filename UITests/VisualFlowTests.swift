@@ -27,6 +27,27 @@ final class VisualFlowTests: XCTestCase {
         add(attachment)
     }
 
+    func testFourPiPStylesReachRealVideoSurface() {
+        for style in ["paper", "ink", "frost", "sticker"] {
+            let app = launch("counter")
+            let pip = app.buttons["delivery-pip"]
+            for _ in 0..<3 where !pip.isHittable { app.swipeUp() }
+            XCTAssertTrue(pip.waitForExistence(timeout: 3))
+            pip.tap()
+            let choice = app.buttons["counter-style-\(style)"]
+            for _ in 0..<8 where !choice.isHittable { app.swipeUp() }
+            XCTAssertTrue(choice.isHittable)
+            choice.tap()
+            capture(app, name: "pip-style-preview-\(style)")
+            let open = app.buttons["open-pip"]
+            for _ in 0..<8 where !open.isHittable { app.swipeUp() }
+            XCTAssertTrue(open.isHittable)
+            open.tap()
+            XCTAssertTrue(app.buttons["pip-start-session"].waitForExistence(timeout: 5))
+            capture(app, name: "pip-style-real-\(style)")
+        }
+    }
+
     func testAllReferenceScreensRenderWithEmptyAndPopulatedFixtures() {
         let screens = ["home", "history", "settings", "counter", "receipt", "statement", "onboarding", "whatif", "measurement"]
         for fixture in ["empty", "populated", "large"] {

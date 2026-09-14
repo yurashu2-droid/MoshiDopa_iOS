@@ -201,20 +201,11 @@ struct MDCounterView: View {
             Text("Live Activityの面別プレビュー")
                 .font(.system(size: 14, weight: .bold, design: .rounded))
             Text("ロック画面")
-            HStack {
-                Image(systemName: "yensign.circle.fill")
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("もしドパ · \(previewMode.shortTitle)").font(.caption)
-                    Text(MoshiDopaBrand.yen(previewAmount, decimals: 2)).lineLimit(1).minimumScaleFactor(0.4).font(.system(size: 28, weight: .black, design: .monospaced))
-                    Text("9:41更新 · 時給 \(MoshiDopaBrand.yen(data.hourlyRate ?? 1_800))/h")
-                        .font(.caption2).foregroundStyle(MoshiDopaBrand.mutedInk)
-                }
-                Spacer()
+            VStack(alignment: .leading, spacing: 6) {
+                CounterPreview(style: style, delivery: .liveActivity, amount: previewAmount, mode: previewMode)
+                Text("9:41更新 · 時給 \(MoshiDopaBrand.yen(data.hourlyRate ?? 1_800))/h")
+                    .font(.caption2).foregroundStyle(MoshiDopaBrand.mutedInk)
             }
-            .padding(16)
-            .foregroundStyle(style == .ink ? MoshiDopaBrand.paper : MoshiDopaBrand.ink)
-            .background(style == .ink ? MoshiDopaBrand.ink : MoshiDopaBrand.paper,
-                        in: RoundedRectangle(cornerRadius: 22))
             .accessibilityIdentifier("live-preview-lock")
             Text("Dynamic Island · コンパクト")
             HStack {
@@ -263,7 +254,14 @@ struct CounterPreview: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(MoshiDopaBrand.bluePaper.opacity(0.68))
                 .frame(height: delivery == .pip ? 132 : 108)
-            previewSurface
+            if delivery == .pip {
+                Image(uiImage: MoneyFrameRenderer().image(amount: amount, style: style.rawValue, title: activityTitle))
+                    .resizable().aspectRatio(contentMode: .fit)
+                    .frame(width: 210, height: 118)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            } else {
+                previewSurface
+            }
             if delivery == .pip {
                 VStack {
                     HStack {

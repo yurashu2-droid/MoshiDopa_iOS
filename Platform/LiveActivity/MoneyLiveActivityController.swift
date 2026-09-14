@@ -50,7 +50,7 @@ final class MoneyLiveActivityController {
         do {
             activity = try Activity.request(
                 attributes: MoneyActivityAttributes(sessionID: record.id, startedAt: record.startedAt,
-                                                    style: style == "ink" ? "ink" : "paper"),
+                                                    style: ["paper", "ink", "frost", "sticker"].contains(style) ? style : "paper"),
                 content: content(record, isCounting: isCounting), pushType: nil)
             status = "開始受付済み（OS表示は別途確認）"
         } catch {
