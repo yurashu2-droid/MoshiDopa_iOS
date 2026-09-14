@@ -59,6 +59,9 @@ struct AutomationSetupView: View {
                         instruction(3, "\(name)を閉じ、もしドパに戻ります。金額が止まるか確認し、「停止・保存」を押します。")
                         Text("ここまで進めても、設定の成功はまだ確認できていません。実際の開閉で確かめてください。強制終了後は再び待機開始が必要です。")
                             .font(.callout).foregroundStyle(.secondary)
+                        if model.trackingMode != "shortcuts" && !canSetMode {
+                            Text("別の計測方法で計測中です。先に計測画面で停止・保存してください。")
+                        }
                         Button("計測画面で試す") {
                             if canSetMode { model.trackingMode = "shortcuts" }
                             dismiss()

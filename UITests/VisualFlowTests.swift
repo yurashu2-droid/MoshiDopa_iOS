@@ -135,6 +135,9 @@ final class VisualFlowTests: XCTestCase {
         open.tap()
         let start = app.buttons["pip-start-session"]
         XCTAssertTrue(start.waitForExistence(timeout: 5))
+        // The guide persists the user's Shortcuts selection; this test exercises background mode.
+        app.buttons["tracking-mode"].tap()
+        app.buttons["本体の外にいる時間"].tap()
         start.tap()
         let amount = app.staticTexts["pip-current-amount"]
         let armed = NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "待機・一時停止", "¥0.00")

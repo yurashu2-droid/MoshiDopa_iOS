@@ -553,7 +553,7 @@ struct PiPDiagnosticsView: View {
                     Picker("計測方法", selection: $model.trackingMode) {
                         Text("本体の外にいる時間").tag("background")
                         Text("対象アプリの開閉（Shortcuts）").tag("shortcuts")
-                    }.disabled(model.snapshot != nil)
+                    }.disabled(model.snapshot != nil).accessibilityIdentifier("tracking-mode")
                     Text(model.trackingMode == "background"
                          ? "開始時は待機します。このアプリを離れると加算し、戻ると一時停止します。特定のSNSの識別はしません。画面ロックの除外は端末の通知状況に依存します。"
                          : "対象アプリの「開いたとき」に再開、「閉じたとき」に一時停止をShortcutsで設定してください。設定手順は下部の「対象アプリの連携」にあります。")
