@@ -120,6 +120,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
         set { playbackState.setPresentationPaused(newValue) }
     }
     private var lastCheckpoint = -Double.infinity
+    private var lastFrameLog = -Double.infinity
     private var videoIsReadyForDisplay: Bool {
         if #available(iOS 17.4, *) { return layer.isReadyForDisplay }
         // Older iOS exposes rendering status, not the first-frame readiness property.
@@ -183,7 +184,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
         attached = true
         guard timer == nil else { return }
         render()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: MoneyFrameRenderer.frameInterval, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in self?.tick() }
         }
     }
@@ -425,7 +426,11 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             let frame = try renderer.sample(record: snapshot,
                 presentationSeconds: CMTimeGetSeconds(CMClockGetTime(CMClockGetHostTimeClock())))
             layer.enqueue(frame)
-            if snapshot != nil { try log("frame_enqueued", detail: "pipActive=\(controller?.isPictureInPictureActive ?? false); appState=\(UIApplication.shared.applicationState.rawValue); ready=\(videoIsReadyForDisplay); status=\(layer.status.rawValue); bounds=\(layer.bounds)") }
+            let now = ProcessInfo.processInfo.systemUptime
+            if snapshot != nil, now - lastFrameLog >= 1 {
+                lastFrameLog = now
+                try log("frame_enqueued", detail: "sampledLog=true; interval=\(MoneyFrameRenderer.frameInterval); pipActive=\(controller?.isPictureInPictureActive ?? false); appState=\(UIApplication.shared.applicationState.rawValue); ready=\(videoIsReadyForDisplay); status=\(layer.status.rawValue); bounds=\(layer.bounds)")
+            }
         } catch { errorMessage = error.localizedDescription }
     }
 

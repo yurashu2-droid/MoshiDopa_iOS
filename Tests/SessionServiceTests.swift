@@ -287,9 +287,10 @@ final class SessionServiceTests: XCTestCase {
         let second = try renderer.sample(record: record, presentationSeconds: 2)
         XCTAssertTrue(CMSampleBufferDataIsReady(second))
         XCTAssertEqual(CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(second)), 2)
+        XCTAssertEqual(CMTimeGetSeconds(CMSampleBufferGetDuration(second)), 0.1, accuracy: 0.0001)
         let buffer = try XCTUnwrap(CMSampleBufferGetImageBuffer(second))
         XCTAssertEqual(CVPixelBufferGetWidth(buffer), 640)
-        XCTAssertEqual(CVPixelBufferGetHeight(buffer), 360)
+        XCTAssertEqual(CVPixelBufferGetHeight(buffer), 180)
         XCTAssertNotNil(CVPixelBufferGetIOSurface(buffer))
         func pixels(_ sample: CMSampleBuffer) throws -> Data {
             let image = try XCTUnwrap(CMSampleBufferGetImageBuffer(sample))
