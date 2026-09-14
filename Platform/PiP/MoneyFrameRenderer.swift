@@ -11,7 +11,10 @@ final class MoneyFrameRenderer {
         var buffer: CVPixelBuffer?
         let status = CVPixelBufferCreate(kCFAllocatorDefault, Self.width, Self.height,
             kCVPixelFormatType_32BGRA,
-            [kCVPixelBufferCGImageCompatibilityKey as String: true, kCVPixelBufferCGBitmapContextCompatibilityKey as String: true] as CFDictionary,
+            [kCVPixelBufferCGImageCompatibilityKey as String: true,
+             kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
+             kCVPixelBufferIOSurfacePropertiesKey as String: [:] as [String: Any],
+             kCVPixelBufferMetalCompatibilityKey as String: true] as CFDictionary,
             &buffer)
         guard status == kCVReturnSuccess, let buffer else { throw MoneyFrameError.pixelBuffer }
         CVPixelBufferLockBaseAddress(buffer, [])
@@ -37,7 +40,7 @@ final class MoneyFrameRenderer {
             var detailSize: CGFloat = 25
             while (detail as NSString).size(withAttributes: [.font: UIFont.monospacedDigitSystemFont(ofSize: detailSize, weight: .medium)]).width > 576 && detailSize > 12 { detailSize -= 1 }
             draw(detail, rect: CGRect(x: 32, y: 250, width: 576, height: 48), font: .monospacedDigitSystemFont(ofSize: detailSize, weight: .medium))
-            draw("実機検証用 · 表示を閉じても計測は継続", rect: CGRect(x: 32, y: 312, width: 576, height: 30), font: .systemFont(ofSize: 19))
+            draw("もしドパ · 対象時間の金額", rect: CGRect(x: 32, y: 312, width: 576, height: 30), font: .systemFont(ofSize: 19))
         }
         guard let cgImage = image.cgImage else { throw MoneyFrameError.context }
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: CGFloat(Self.width), height: CGFloat(Self.height)))

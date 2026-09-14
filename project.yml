@@ -9,8 +9,8 @@ settings:
     SWIFT_VERSION: '5.0'
     SWIFT_STRICT_CONCURRENCY: targeted
     TARGETED_DEVICE_FAMILY: '1,2'
-    MARKETING_VERSION: '0.2.0'
-    CURRENT_PROJECT_VERSION: '2'
+    MARKETING_VERSION: '0.3.0'
+    CURRENT_PROJECT_VERSION: '3'
     CODE_SIGN_STYLE: Automatic
 targets:
   MoshiDopa:
@@ -19,6 +19,7 @@ targets:
     sources:
       - path: MoshiDopaApp
         excludes: [Resources]
+      - path: Shared
       - path: Core
       - path: Platform
       - path: MoshiDopaApp/Resources
@@ -36,13 +37,37 @@ targets:
         UILaunchScreen: {}
         UIUserInterfaceStyle: Light
         UIBackgroundModes: [audio]
+        NSSupportsLiveActivities: true
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         CFBundleURLTypes:
           - CFBundleURLSchemes: [moshidopa]
     dependencies:
+      - target: MoneyLiveActivityWidget
+        embed: true
       - sdk: libsqlite3.tbd
       - sdk: AVKit.framework
+  MoneyLiveActivityWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Shared
+      - path: LiveActivityWidget
+        excludes: [Info.plist]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.moshidopa.app.liveactivity
+        GENERATE_INFOPLIST_FILE: NO
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+    info:
+      path: LiveActivityWidget/Info.plist
+      properties:
+        CFBundleDisplayName: もしドパ 値札
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
   MoshiDopaTests:
     type: bundle.unit-test
     platform: iOS

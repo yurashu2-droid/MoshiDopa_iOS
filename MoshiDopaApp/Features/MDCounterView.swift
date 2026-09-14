@@ -33,7 +33,7 @@ struct MDCounterView: View {
                 HStack { SampleModeBanner(); Spacer() }
                 Text("値札の設定")
                     .font(.system(size: 34, weight: .black, design: .rounded))
-                Text("方式を選び、対応する見た目と面別プレビューを確認します。選択はこの起動中の見本に反映されます。")
+                Text("方式と見た目を選び、実際の値札を試せます。プレビューの金額は見本です。")
                     .font(.system(size: 16, weight: .medium, design: .rounded))
                     .foregroundStyle(MoshiDopaBrand.mutedInk)
                 deliveryPicker
@@ -166,7 +166,7 @@ struct MDCounterView: View {
                 liveActivityFaces
             }
             LimeButton(action: tryDisplay) {
-                Label(delivery == .pip ? "PiPを表示して試す" : "面別の見本を確認", systemImage: "arrow.up.right.square")
+                Label(delivery == .pip ? "PiPを表示して試す" : "Live Activityを表示して試す", systemImage: "arrow.up.right.square")
             }
             .accessibilityIdentifier("open-pip")
             if let testMessage {
@@ -179,11 +179,13 @@ struct MDCounterView: View {
     }
 
     private func tryDisplay() {
-        if delivery == .pip {
-            onOpenPiP()
-        } else {
-            testMessage = "これはLive Activityの面別見本です。実機ではOSの更新時点・表示寿命・表示面を確認します。"
+        let model = PiPDiagnosticsModel.shared
+        guard model.snapshot == nil || model.delivery == delivery.rawValue else {
+            testMessage = "計測中の表示方式は変更できません。先に停止・保存してください。"
+            return
         }
+        model.configureDisplay(delivery: delivery.rawValue, style: style.rawValue)
+        onOpenPiP()
     }
 
     private func tabAction(_ tab: MDTab) {

@@ -43,7 +43,7 @@ schemeは `MoshiDopa`。Simulatorなら署名不要。実機へ入れるには�
 ```
 
 screen: `home/history/settings/counter/receipt/statement/onboarding/whatif/measurement`。
-fixture: `empty/populated/large`。CIは同じ入力で画面を比較する。値札設定のLive Activityはこの段階では面別プレビューであり、実ActivityKit連携はP3。
+fixture: `empty/populated/large`。CIは同じ入力で画面を比較する。バージョン0.3.0以降は値札設定から実際のActivityKit表示も試せる。通常の履歴・集計画面は引き続き固定見本で、実測記録は実機検証画面内の履歴。最新の修正・導入手順・未検証事項は [external-display-fixes.md](external-display-fixes.md) を参照。
 
 ## 実機で確認すること
 
@@ -56,7 +56,7 @@ fixture: `empty/populated/large`。CIは同じ入力で画面を比較する。�
 2. iPhoneをMacへ接続し、端末の信頼確認・Developer Modeを有効にする。Xcodeの実行先からそのiPhoneを選ぶ。
 3. `MoshiDopa` ターゲットのSigning & Capabilitiesで、利用者のDevelopment TeamとAutomatically manage signingを設定する。既存アプリの更新試験では旧版と同じTeam・bundle IDが必要。別IDを使う場合は旧データ移行の検証にはならない。
 4. `MoshiDopa` schemeをDebugでRunする。Apple側の証明書・端末登録が不足する場合は、そのエラーを解決してから進む。未署名IPAをそのまま転送してもこの手順の代わりにはならない。
-5. 本体の設定画面を下へスクロールしてPiP検証を開く。時給を設定→「計測開始」→本体の金額増加→「PiP開始」→SNSへ移動、の順で試す。通常のサンプル画面は実記録の履歴ではない。
+5. 値札設定で方式を選んで実機検証を開く。時給を設定→「待機開始」→本体では0円で停止していることと映像表示準備を確認→「PiP開始」または「Live Activity開始」→SNSへ移動、の順で試す。本体へ戻ると加算が止まる。対象SNSだけを測る場合はShortcutsの開閉連携を設定する。通常のサンプル画面は実記録の履歴ではない。詳細は [external-display-fixes.md](external-display-fixes.md)。
 6. 本体へ戻り「停止・保存」。検証画面の保存済み履歴を確認し、ログを書き出す。実機試験表のケースごとに録画・ログ・機種・OS・署名条件を残す。
 7. 結果を `docs/pip-device-test.md` の各未実施項目に対応付ける。ビルド成功や本体内の金額増加だけで、背景表示・音声共存を成功に変更しない。
 

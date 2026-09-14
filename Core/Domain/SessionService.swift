@@ -55,6 +55,8 @@ final class SessionService {
     private let monotonic: () -> TimeInterval
     private let wall: () -> Date
     private var anchor: TimeInterval?
+    private var accruedMilliseconds: Int64 = 0
+    var isCounting: Bool { anchor != nil && pendingStop == nil && active != nil }
     private var pendingStop: SessionRecord?
     private(set) var active: SessionRecord?
 
@@ -74,7 +76,7 @@ final class SessionService {
     }
 
     @discardableResult
-    func start(hourlyRate: Double) throws -> SessionRecord {
+    func start(hourlyRate: Double, counting: Bool = true) throws -> SessionRecord {
         guard WageCalculator.isValid(rate: hourlyRate) else { throw SessionError.invalidRate }
         guard active == nil else { throw SessionError.alreadyRunning }
         let startAnchor = monotonic()
@@ -83,17 +85,29 @@ final class SessionService {
             state: .running, revision: 1, endReason: nil)
         try repository.save(record)
         active = record
-        anchor = startAnchor
+        accruedMilliseconds = 0
+        anchor = counting ? startAnchor : nil
         pendingStop = nil
         return record
     }
 
     func snapshot() -> SessionRecord? {
         if let pendingStop { return pendingStop }
-        guard var record = active, let anchor else { return nil }
-        let seconds = max(0, monotonic() - anchor)
-        record.elapsedMilliseconds = Int64(min(Double(Int64.max - 1024), seconds * 1000))
+        guard var record = active else { return nil }
+        let seconds = anchor.map { max(0, monotonic() - $0) } ?? 0
+        record.elapsedMilliseconds = Int64(min(Double(Int64.max - 1024), Double(accruedMilliseconds) + seconds * 1000))
         return record
+    }
+
+    /// Repeated lifecycle/automation events are idempotent. Excluded intervals never accrue.
+    func setCounting(_ counting: Bool) throws {
+        guard pendingStop == nil, var record = snapshot(), counting != isCounting else { return }
+        accruedMilliseconds = record.elapsedMilliseconds
+        anchor = counting ? monotonic() : nil
+        record.revision += 1
+        active = record
+        // Apply the boundary even if persistence fails; retry must not count excluded time.
+        try repository.save(record)
     }
 
     func checkpoint() throws {
@@ -119,6 +133,7 @@ final class SessionService {
             try repository.save(finished)
             self.active = nil
             anchor = nil
+            accruedMilliseconds = 0
             pendingStop = nil
             return finished
         }

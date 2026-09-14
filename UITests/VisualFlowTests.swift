@@ -20,6 +20,13 @@ final class VisualFlowTests: XCTestCase {
         add(attachment)
     }
 
+    private func captureSystemScreen(name: String) {
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func testAllReferenceScreensRenderWithEmptyAndPopulatedFixtures() {
         let screens = ["home", "history", "settings", "counter", "receipt", "statement", "onboarding", "whatif", "measurement"]
         for fixture in ["empty", "populated", "large"] {
@@ -72,10 +79,28 @@ final class VisualFlowTests: XCTestCase {
         XCTAssertTrue(start.waitForExistence(timeout: 5))
         start.tap()
         let amount = app.staticTexts["pip-current-amount"]
-        let increased = NSPredicate(format: "label CONTAINS %@ AND NOT (label CONTAINS %@)", "計測中", "¥0.00")
-        expectation(for: increased, evaluatedWith: amount)
-        waitForExpectations(timeout: 8)
-        capture(app, name: "pip-real-inline-money")
+        let armed = NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "待機・一時停止", "¥0.00")
+        expectation(for: armed, evaluatedWith: amount)
+        waitForExpectations(timeout: 5)
+        XCTAssertTrue(amount.label.contains("待機・一時停止"))
+        XCTAssertTrue(amount.label.contains("¥0.00"))
+
+        XCUIDevice.shared.press(.home)
+        sleep(3)
+        app.activate()
+
+        let pausedAmount = app.staticTexts["pip-current-amount"]
+        let backgroundCounted = NSPredicate(format: "label CONTAINS %@ AND NOT (label CONTAINS %@)", "待機・一時停止", "¥0.00")
+        expectation(for: backgroundCounted, evaluatedWith: pausedAmount)
+        waitForExpectations(timeout: 5)
+        let pausedLabel = pausedAmount.label
+        XCTAssertTrue(pausedLabel.contains("待機・一時停止"))
+        XCTAssertFalse(pausedLabel.contains("¥0.00"))
+        capture(app, name: "pip-real-background-money")
+
+        // Returning to the foreground pauses the default background-only counter.
+        sleep(2)
+        XCTAssertEqual(pausedAmount.label, pausedLabel)
         app.buttons["pip-stop-session"].tap()
         for _ in 0..<5 where !app.staticTexts["保存済み"].firstMatch.exists { app.swipeUp() }
         XCTAssertTrue(app.staticTexts["保存済み"].firstMatch.waitForExistence(timeout: 5))
@@ -164,5 +189,64 @@ final class VisualFlowTests: XCTestCase {
             capture(app, name: "counter-live-activity-surfaces-\(page)")
         }
         XCTAssertTrue(app.otherElements["live-preview-expanded"].exists)
+    }
+
+    func testLiveActivitySelectionOpensConfiguredDiagnostics() {
+        let app = launch("counter")
+        let delivery = app.buttons["delivery-liveActivity"]
+        for _ in 0..<3 where !delivery.isHittable { app.swipeUp() }
+        XCTAssertTrue(delivery.waitForExistence(timeout: 3))
+        delivery.tap()
+
+        let open = app.buttons["open-pip"]
+        for _ in 0..<7 where !open.isHittable { app.swipeUp() }
+        XCTAssertTrue(open.waitForExistence(timeout: 3))
+        open.tap()
+
+        XCTAssertTrue(app.buttons["live-start-window"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["live-authorization"].waitForExistence(timeout: 5))
+    }
+
+    func testLiveActivityStartsAndEndsWhenAuthorized() throws {
+        let app = launch("counter")
+        let delivery = app.buttons["delivery-liveActivity"]
+        for _ in 0..<3 where !delivery.isHittable { app.swipeUp() }
+        XCTAssertTrue(delivery.waitForExistence(timeout: 3))
+        delivery.tap()
+
+        let open = app.buttons["open-pip"]
+        for _ in 0..<7 where !open.isHittable { app.swipeUp() }
+        XCTAssertTrue(open.waitForExistence(timeout: 3))
+        open.tap()
+
+        let authorization = app.staticTexts["live-authorization"]
+        XCTAssertTrue(authorization.waitForExistence(timeout: 5))
+        guard authorization.label.contains("使用可能") else {
+            throw XCTSkip("Live Activity is disabled on this test runtime")
+        }
+
+        app.buttons["pip-start-session"].tap()
+        let start = app.buttons["live-start-window"]
+        XCTAssertTrue(start.waitForExistence(timeout: 5))
+        start.tap()
+
+        let status = app.staticTexts["external-display-status"]
+        let displayed = NSPredicate(format: "label CONTAINS %@", "表示中")
+        expectation(for: displayed, evaluatedWith: status)
+        waitForExpectations(timeout: 8)
+        XCTAssertTrue(status.label.contains("表示中"))
+        capture(app, name: "live-activity-started")
+
+        XCUIDevice.shared.press(.home)
+        sleep(2)
+        captureSystemScreen(name: "live-activity-background")
+        app.activate()
+
+        app.buttons["pip-stop-session"].tap()
+        let ended = NSPredicate(format: "label CONTAINS %@", "終了")
+        expectation(for: ended, evaluatedWith: status)
+        waitForExpectations(timeout: 8)
+        XCTAssertTrue(status.label.contains("終了"))
+        capture(app, name: "live-activity-ended")
     }
 }

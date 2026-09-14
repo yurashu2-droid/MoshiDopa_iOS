@@ -1,5 +1,7 @@
 # P2B native PiP device evidence
 
+Version 0.3.0 changes measurement to armed/paused at start, counts background or explicit Shortcuts target intervals, and adds actual Live Activity. Use [external-display-fixes.md](external-display-fixes.md) for current setup, buttons and acceptance. The older PoC notes below describe version 0.2.0 and do not establish device acceptance. User device logs now confirm PiP start and background enqueues, but report black video: visual device acceptance failed for the old IPA.
+
 Status: implemented PoC source, **not yet verified on a signed device**. Windows source editing, CI compilation, Simulator screenshots and signed-device PiP acceptance are separate evidence. The timer supplies real money frames at a 1 Hz target only while the process receives execution opportunities. No silent audio, private API, or unrestricted background timer is used.
 
 ## Entry and data contract

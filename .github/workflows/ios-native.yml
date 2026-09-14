@@ -28,7 +28,7 @@ jobs:
             echo 'native=true' >> "$GITHUB_OUTPUT"
           else
             git diff --name-only "$BEFORE" HEAD > "$RUNNER_TEMP/changed-paths.txt"
-            if grep -Eq '^(MoshiDopaApp/|Core/|Platform/|Tests/|UITests/|ci/|project\.yml$|\.github/workflows/ios-native\.yml$)' "$RUNNER_TEMP/changed-paths.txt"; then
+            if grep -Eq '^(MoshiDopaApp/|Core/|Platform/|Shared/|LiveActivityWidget/|Tests/|UITests/|ci/|project\.yml$|\.github/workflows/ios-native\.yml$)' "$RUNNER_TEMP/changed-paths.txt"; then
               echo 'native=true' >> "$GITHUB_OUTPUT"
             else
               echo 'native=false' >> "$GITHUB_OUTPUT"
@@ -79,6 +79,9 @@ jobs:
           xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build/device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee artifacts/device-build.log
           mkdir -p build/package/Payload
           cp -R build/device/Build/Products/Release-iphoneos/MoshiDopa.app build/package/Payload/
+          test -x build/package/Payload/MoshiDopa.app/PlugIns/MoneyLiveActivityWidget.appex/MoneyLiveActivityWidget
+          /usr/libexec/PlistBuddy -c 'Print :NSSupportsLiveActivities' build/package/Payload/MoshiDopa.app/Info.plist | grep -qx true
+          /usr/libexec/PlistBuddy -c 'Print :NSExtension:NSExtensionPointIdentifier' build/package/Payload/MoshiDopa.app/PlugIns/MoneyLiveActivityWidget.appex/Info.plist | grep -qx com.apple.widgetkit-extension
           ditto -c -k --sequesterRsrc --keepParent build/package/Payload artifacts/MoshiDopa-unsigned.ipa
       - name: Export test screenshots
         if: always()

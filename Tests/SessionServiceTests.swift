@@ -1,5 +1,6 @@
 import XCTest
 import AVFoundation
+import CoreVideo
 import UIKit
 @testable import MoshiDopa
 
@@ -51,6 +52,105 @@ final class SessionServiceTests: XCTestCase {
         XCTAssertEqual(end.endedAt, wall)
     }
 
+    @MainActor func testAccumulatedCountingIntervalsExcludePausedTime() throws {
+        let repository = TestSessionRepository()
+        var clock = 100.0
+        let service = try SessionService(repository: repository, monotonic: { clock })
+        let started = try service.start(hourlyRate: 3_600, counting: false)
+
+        XCTAssertFalse(service.isCounting)
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 0)
+
+        try service.setCounting(true)
+        clock += 3
+        try service.setCounting(false)
+        XCTAssertFalse(service.isCounting)
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 3_000)
+
+        // Time while paused is excluded from the next interval.
+        clock += 100
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 3_000)
+
+        try service.setCounting(true)
+        clock += 2
+        try service.setCounting(false)
+        let finished = try service.stop(sessionID: started.id)
+
+        XCTAssertEqual(finished.elapsedMilliseconds, 5_000)
+        XCTAssertEqual(finished.amount, 5, accuracy: 0.0000001)
+    }
+
+    @MainActor func testCheckpointDoesNotDoubleCountElapsedTime() throws {
+        let repository = TestSessionRepository()
+        var clock = 40.0
+        let service = try SessionService(repository: repository, monotonic: { clock })
+        let started = try service.start(hourlyRate: 3_600)
+
+        clock += 1
+        try service.checkpoint()
+        let firstCheckpoint = try XCTUnwrap(repository.values[started.id])
+        XCTAssertEqual(firstCheckpoint.elapsedMilliseconds, 1_000)
+        XCTAssertEqual(firstCheckpoint.revision, 2)
+
+        clock += 1
+        try service.checkpoint()
+        let secondCheckpoint = try XCTUnwrap(repository.values[started.id])
+        XCTAssertEqual(secondCheckpoint.elapsedMilliseconds, 2_000)
+        XCTAssertEqual(secondCheckpoint.revision, 3)
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 2_000)
+
+        clock += 1
+        XCTAssertEqual(try service.stop(sessionID: started.id).elapsedMilliseconds, 3_000)
+    }
+
+    @MainActor func testDuplicateCountingEventsAreIdempotent() throws {
+        let repository = TestSessionRepository()
+        var clock = 0.0
+        let service = try SessionService(repository: repository, monotonic: { clock })
+        _ = try service.start(hourlyRate: 3_600, counting: false)
+
+        let writesAfterStart = repository.writes
+        try service.setCounting(false)
+        XCTAssertEqual(repository.writes, writesAfterStart)
+
+        try service.setCounting(true)
+        let writesAfterResume = repository.writes
+        clock += 4
+        try service.setCounting(true)
+        XCTAssertEqual(repository.writes, writesAfterResume)
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 4_000)
+
+        try service.setCounting(false)
+        let writesAfterPause = repository.writes
+        clock += 50
+        try service.setCounting(false)
+        XCTAssertEqual(repository.writes, writesAfterPause)
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 4_000)
+    }
+
+    @MainActor func testFailedCountingTransitionExcludesPausedTimeBeforeRetry() throws {
+        let repository = TestSessionRepository()
+        var clock = 10.0
+        let service = try SessionService(repository: repository, monotonic: { clock })
+        let started = try service.start(hourlyRate: 3_600)
+
+        clock += 5
+        repository.fail = true
+        XCTAssertThrowsError(try service.setCounting(false))
+        XCTAssertFalse(service.isCounting)
+
+        // A failed durable boundary must still stop accrual immediately.
+        clock += 100
+        XCTAssertEqual(service.snapshot()?.elapsedMilliseconds, 5_000)
+
+        repository.fail = false
+        try service.checkpoint()
+        let saved = try XCTUnwrap(repository.values[started.id])
+        XCTAssertEqual(saved.elapsedMilliseconds, 5_000)
+        XCTAssertEqual(saved.revision, 3)
+        XCTAssertFalse(service.isCounting)
+    }
+
     @MainActor func testDuplicateStopDoesNotWriteAgainOrStopNewSession() async throws {
         let repository = TestSessionRepository()
         var clock = 0.0
@@ -81,6 +181,32 @@ final class SessionServiceTests: XCTestCase {
         let saved = try service.stop(sessionID: started.id)
         XCTAssertEqual(saved.elapsedMilliseconds, 10_000)
         XCTAssertEqual(saved.amount, 10)
+        XCTAssertNil(service.active)
+    }
+
+    @MainActor func testPendingStopCannotResumeOrAccrueAfterSaveFailure() throws {
+        let repository = TestSessionRepository()
+        var clock = 0.0
+        let service = try SessionService(repository: repository, monotonic: { clock })
+        let started = try service.start(hourlyRate: 3_600)
+        clock = 3
+
+        repository.fail = true
+        XCTAssertThrowsError(try service.stop(sessionID: started.id))
+        let frozen = try XCTUnwrap(service.snapshot())
+        XCTAssertEqual(frozen.state, .finished)
+        XCTAssertEqual(frozen.elapsedMilliseconds, 3_000)
+        XCTAssertFalse(service.isCounting)
+
+        let writesBeforeResumeAttempt = repository.writes
+        clock = 300
+        try service.setCounting(true)
+        XCTAssertEqual(service.snapshot(), frozen)
+        XCTAssertFalse(service.isCounting)
+        XCTAssertEqual(repository.writes, writesBeforeResumeAttempt)
+
+        repository.fail = false
+        XCTAssertEqual(try service.stop(sessionID: started.id), frozen)
         XCTAssertNil(service.active)
     }
 
@@ -164,6 +290,7 @@ final class SessionServiceTests: XCTestCase {
         let buffer = try XCTUnwrap(CMSampleBufferGetImageBuffer(second))
         XCTAssertEqual(CVPixelBufferGetWidth(buffer), 640)
         XCTAssertEqual(CVPixelBufferGetHeight(buffer), 360)
+        XCTAssertNotNil(CVPixelBufferGetIOSurface(buffer))
         func pixels(_ sample: CMSampleBuffer) throws -> Data {
             let image = try XCTUnwrap(CMSampleBufferGetImageBuffer(sample))
             CVPixelBufferLockBaseAddress(image, .readOnly)
