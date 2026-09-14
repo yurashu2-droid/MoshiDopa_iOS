@@ -120,6 +120,11 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
         set { playbackState.setPresentationPaused(newValue) }
     }
     private var lastCheckpoint = -Double.infinity
+    private var videoIsReadyForDisplay: Bool {
+        if #available(iOS 17.4, *) { return layer.isReadyForDisplay }
+        // Older iOS exposes rendering status, not the first-frame readiness property.
+        return layer.status == .rendering
+    }
 
     override init() {
         super.init()
@@ -139,7 +144,8 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             history = try service!.history()
             try log("initialized", detail: "Running rows recover as interrupted; no cross-process estimate")
         } catch { service = nil; errorMessage = error.localizedDescription }
-        displayObservation = layer.observe(\.isReadyForDisplay, options: [.initial, .new]) { [weak self] _, change in
+        if #available(iOS 17.4, *) {
+          displayObservation = layer.observe(\.isReadyForDisplay, options: [.initial, .new]) { [weak self] _, change in
             let ready = change.newValue ?? false
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -147,6 +153,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 self.perform { try self.log("display_ready", detail: "\(ready)") }
                 if ready { self.completePendingPiP() }
             }
+          }
         }
         if AVPictureInPictureController.isPictureInPictureSupported() {
             controller = AVPictureInPictureController(contentSource: .init(sampleBufferDisplayLayer: layer, playbackDelegate: self))
@@ -215,7 +222,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             let request = UUID()
             pendingPiP = request
             pipStatus = "PiPの映像を準備中"
-            try log("pip_preparing", detail: "ready=\(layer.isReadyForDisplay); bounds=\(layer.bounds); window=\(inlineHost.window != nil)")
+            try log("pip_preparing", detail: "ready=\(videoIsReadyForDisplay); bounds=\(layer.bounds); window=\(inlineHost.window != nil)")
             requested = true
             completePendingPiP()
             Task { @MainActor [weak self] in
@@ -223,7 +230,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 guard let self, self.pendingPiP == request else { return }
                 self.pendingPiP = nil
                 self.pipStatus = "PiP準備失敗。診断ログを確認してください。"
-                self.perform { try self.log("pip_preparation_timeout", detail: "ready=\(self.layer.isReadyForDisplay); status=\(self.layer.status.rawValue)") }
+                self.perform { try self.log("pip_preparation_timeout", detail: "ready=\(self.videoIsReadyForDisplay); status=\(self.layer.status.rawValue)") }
                 self.deactivateAudio()
             }
         }
@@ -231,7 +238,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
 
     private func completePendingPiP() {
         guard pendingPiP != nil, let controller, controller.isPictureInPicturePossible,
-              layer.isReadyForDisplay, inlineHost.window != nil,
+              videoIsReadyForDisplay, inlineHost.window != nil,
               layer.bounds.width > 0, layer.bounds.height > 0 else { return }
         pendingPiP = nil
         perform { try log("pip_user_requested") }
@@ -379,7 +386,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 model: UIDevice.current.model,
                 appVersion: "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown"))",
                 delivery: delivery, style: displayStyle, trackingMode: trackingMode, isCounting: isCounting,
-                displayReady: layer.isReadyForDisplay, pipPossible: controller?.isPictureInPicturePossible ?? false,
+                displayReady: videoIsReadyForDisplay, pipPossible: controller?.isPictureInPicturePossible ?? false,
                 validation: "Device PiP acceptance is unverified until recorded manual test", records: try service.history(),
                 eventJSONLines: String(decoding: try Data(contentsOf: events.url), as: UTF8.self))
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("MoshiDopa-PiP-\(UUID().uuidString).json")
@@ -391,6 +398,8 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
     private func tick(forceCheckpoint: Bool = false) {
         snapshot = service?.snapshot()
         isCounting = service?.isCounting ?? false
+        displayReady = videoIsReadyForDisplay
+        completePendingPiP()
         let now = ProcessInfo.processInfo.systemUptime
         if snapshot?.state == .running, forceCheckpoint || now - lastCheckpoint >= 5 {
             perform {
@@ -416,7 +425,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             let frame = try renderer.sample(record: snapshot,
                 presentationSeconds: CMTimeGetSeconds(CMClockGetTime(CMClockGetHostTimeClock())))
             layer.enqueue(frame)
-            if snapshot != nil { try log("frame_enqueued", detail: "pipActive=\(controller?.isPictureInPictureActive ?? false); appState=\(UIApplication.shared.applicationState.rawValue); ready=\(layer.isReadyForDisplay); status=\(layer.status.rawValue); bounds=\(layer.bounds)") }
+            if snapshot != nil { try log("frame_enqueued", detail: "pipActive=\(controller?.isPictureInPictureActive ?? false); appState=\(UIApplication.shared.applicationState.rawValue); ready=\(videoIsReadyForDisplay); status=\(layer.status.rawValue); bounds=\(layer.bounds)") }
         } catch { errorMessage = error.localizedDescription }
     }
 
