@@ -1,6 +1,6 @@
 # もしドパ iOS
 
-0.3.0 / build 3の計測区間・PiP描画修正と実Live Activity実装、CI結果、実機未確認事項は [外部表示修正記録](docs/external-display-fixes.md) を参照してください。
+0.3.2 / build 5の4種類の値札デザイン、PiPの16:9復帰、計測区間とLive Activityの検証は [外部表示修正記録](docs/external-display-fixes.md) を参照してください。
 
 SwiftUIによる全面刷新を作業ブランチで進めています。[ネイティブ版の開発・CI](docs/native-development.md)、[設計](docs/ios-redesign-plan.md)、[実装進捗](docs/implementation-progress.md)を参照してください。新ターゲットは `project.yml` から生成します。
 

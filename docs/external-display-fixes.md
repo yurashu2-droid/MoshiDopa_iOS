@@ -2,6 +2,12 @@
 
 ## 0.3.2 / build 5: 4デザインの実表示
 
+最終CI [34862945196](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34862945196) / `ffae50847034ac2fabc5ed34b3e8d1b3f509a504` は全ジョブ成功。単体19件、通常UI12件、小画面UI2件が失敗0、iphoneos Releaseも成功。IPAは `artifacts/run-34862945196/builds/MoshiDopa-unsigned.ipa`（19,750,922 bytes、0.3.2 / build 5）。親が内包plist・拡張実行ファイル・拡張Assets.carを確認。builds ZIPのSHA-256 `81b617d2ed567bb67cf118ef8a2873a9fd04542f99d08dd39c5f93e341d4578a` はGitHub digestと一致。署名は未実施。最小PiPの寸法と全4デザインの実機OS表示、SNS共存・連続動作は実機で確認する。
+
+親レビューでLive Activityの選択肢が2種類に限定されていた箇所を修正し、両方式で4種類を選択可能にした。Live Activityのstyleは固定attributesなので、開始後のデザイン変更は停止・保存してから再開する。拡張用素材はCIでhome_mascot_coinだけを専用catalogへコピーし、本体の全素材を重複埋め込みしない。
+
+`fd725e3` の [34860156775](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34860156775) は単体19件・通常UI12件が成功してから、最後の設定修正pushによりcancelled。Releaseビルドはスキップされており、この実行を全CI合格としない。親が同実行のpaper/ink/frost/sticker実インライン映像4枚を確認し、すべて金額が見えること、キャラクターの重なりや文字欠けがないことを確認。Dynamic IslandのOSスクリーンショット `4D6B45E9-EC85-463B-B972-463DAC7E668B.png` にも¥0と計測が見え、旧スクリーンショットの表示欠落から進展した。これはSimulatorの確認であり、17eでDynamic Islandが使える証拠ではない。最後の設定修正を含む `ffae508` の [34862945196](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34862945196) は別途結果を記録する。
+
 実機報告で横長PiPの占有が減らなかったため、映像を従来の640×360（16:9）へ戻す。OSの最小ウインドウ寸法を強制しない。ちぎり値札/インクメーター/フロストラベル/相棒シールを実PiP映像に反映し、設定のPiPプレビューも同じ画像生成関数を使用。全方式で実金額を表示し、0.1秒生成を維持。PiPフロストは不透明な乳白色とグラデーションで表現し、他アプリの背景透過/ぼかしは行わない。相棒シールは既存home_mascot_coinを使う。選択値は既存native.styleのまま診断JSONへ残る。画像テストでは4方式のピクセルの相違、16:9、0.1秒durationを確認し、UIテストで4方式の設定→実インライン映像を撮影する。
 
 ユーザー端末はiPhone 17eで、0.3.0のLive Activityはロック画面に出るという実機報告が得られた。初期表示不能の仮説は訂正する。17eはDynamic Island非搭載のため、他アプリ上にLive Activityを常設できない。前回0.3.1のCI [34842388223](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34842388223) は成功し、IPAを取得済み。0.3.2の新しい検証結果とは区別する。
