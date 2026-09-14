@@ -1,5 +1,7 @@
 # もしドパ iOS
 
+0.3.0 / build 3の計測区間・PiP描画修正と実Live Activity実装、CI結果、実機未確認事項は [外部表示修正記録](docs/external-display-fixes.md) を参照してください。
+
 SwiftUIによる全面刷新を作業ブランチで進めています。[ネイティブ版の開発・CI](docs/native-development.md)、[設計](docs/ios-redesign-plan.md)、[実装進捗](docs/implementation-progress.md)を参照してください。新ターゲットは `project.yml` から生成します。
 
 実際に成功したビルド、画像レビュー、未実施の実機試験は [検証記録](docs/native-verification.md) にまとめています。通常画面の固定サンプルと、PiP検証画面の実計測・保存は別の経路です。

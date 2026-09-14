@@ -42,3 +42,6 @@ run 34784373373のスクロール画像でステータスバー裏の文字を�
 ## 保全
 
 Androidのbaseline 480ファイルのSHA-256とHEADは変更なし。旧iOS main `1fba7b7b0688112eeef24c65c1976bc1ed130870` は保持され、作業ブランチの祖先。旧Expo DBへアクセスする移行・削除処理は未接続。
+# 最新の実機報告対応（0.3.0 / build 3）
+
+[外部表示修正記録](external-display-fixes.md) に最新CIとIPA、親レビューを記録。単体19・通常UI11・小画面UI2件とReleaseビルドが成功。実機PiP映像とLive ActivityのOS表示は未確認。以下の旧検証結果をこの版の実機合格と解釈しない。

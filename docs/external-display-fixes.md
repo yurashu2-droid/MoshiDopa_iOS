@@ -17,7 +17,15 @@
 
 ## 検証と実機手順
 
-CIの結果と新IPAのパスは検証完了後に追記する。Windows上のソース確認だけでビルド・実機合格とはしない。
+Windows上のソース確認だけでビルド・実機合格とはしない。
+
+親レビュー: Sol MediumはLive Activity実装と統合コードの独立レビュー、Luna MAXは計測/映像/画面テストに限定。親は全変更を統合し、ロック解除の再開漏れ、更新/終了taskの競合、保存再試行テストの前提を修正した。CI第1回 [34836521534](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34836521534) / `5c88dac` は親が追加したisReadyForDisplayのiOS 17.4 availability未考慮でコンパイル失敗し、修正pushによりcancelled。対応下限はiOS 17を維持し、17.4未満ではlayer.statusの互換判定を使う。この判定は最初の映像が見えた証拠と同一ではない。
+
+再実行 [34836982479](https://github.com/yurashu2-droid/MoshiDopa_iOS/actions/runs/34836982479) / `cf1b90dc171f4f1facf59bed4f13bee95498e2ed` は全ジョブ成功。Xcode 26.3、iOS 26.2 Simulatorで単体19件、通常画面11件、小画面2件が成功し、iphoneos Releaseビルドも成功。Live Activityの実request/endテストはスキップされず成功した。
+
+IPA: `artifacts/run-34836982479/builds/MoshiDopa-unsigned.ipa`（18,405,850 bytes、0.3.0 / build 3）。親がIPA内のplistと実行ファイルを読み、NSSupportsLiveActivities、WidgetKit拡張とその実行ファイルの埋め込みを確認。取得元builds ZIPのSHA-256は `b4ef1d8dcf64d206f64f353d33120a87e05cdd6a209ef80c68eb1b9a63ebb187` でGitHubのdigestと一致。
+
+親の画像レビュー: `artifacts/run-34836982479/visual/test-attachments/0240DF61-28B2-466A-AB1B-BA28BC03F531.png` では背景移動後に停止した¥1.28のインライン映像が見える。これは実機PiP映像の証明ではない。Live Activity開始画面は表示中だが、`3A7BA1C1-53E5-440A-8F17-2F9FE8F00DE5.png` のホーム画面には金額が見えない。OS上のWidget描画は未確認であり、開始成功だけで表示合格とはしない。CIにはstatus_bar overrideがあり、撮影条件による影響も未検証。WidgetBundleのmainからActivityConfigurationが登録されていることはソース確認済み。OS描画不成立の原因は断定できない。
 
 1. 新IPAを拡張機能を保持して署名・導入する。バージョン0.3.0 / build 3。Sideloadlyなどの「拡張機能を削除」設定は使わない。署名が変わる場合は旧アプリの記録が更新先に引き継がれるか別途確認する。
 2. 値札の設定でPiP、見た目を選んで「PiPを表示して試す」。時給1800、計測方法「本体の外にいる時間」で待機開始。3秒待っても0円のままであることを確認。
