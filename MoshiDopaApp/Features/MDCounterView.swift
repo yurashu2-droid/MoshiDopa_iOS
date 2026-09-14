@@ -23,7 +23,7 @@ struct MDCounterView: View {
     }
 
     private var availableStyles: [MDCounterStyle] {
-        delivery == .pip ? MDCounterStyle.allCases : [.paper, .ink]
+        MDCounterStyle.allCases
     }
 
     var body: some View {
@@ -182,6 +182,10 @@ struct MDCounterView: View {
         let model = PiPDiagnosticsModel.shared
         guard model.snapshot == nil || model.delivery == delivery.rawValue else {
             testMessage = "計測中の表示方式は変更できません。先に停止・保存してください。"
+            return
+        }
+        if model.snapshot != nil, delivery == .liveActivity, model.displayStyle != style.rawValue {
+            testMessage = "Live Activityのデザイン変更は、停止・保存してから開始してください。"
             return
         }
         model.configureDisplay(delivery: delivery.rawValue, style: style.rawValue)
