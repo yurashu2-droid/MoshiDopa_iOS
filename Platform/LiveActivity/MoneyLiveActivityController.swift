@@ -7,6 +7,21 @@ final class MoneyLiveActivityController {
     private var activity: Activity<MoneyActivityAttributes>?
     private(set) var status = "未開始"
 
+    /// ActivityKit acceptance is not confirmation that the OS rendered the extension.
+    var diagnostics: [String: String] {
+        let extensionURL = Bundle.main.builtInPlugInsURL?.appendingPathComponent("MoneyLiveActivityWidget.appex")
+        let extensionBundle = extensionURL.flatMap { Bundle(url: $0) }
+        return [
+            "authorizationEnabled": String(ActivityAuthorizationInfo().areActivitiesEnabled),
+            "status": status,
+            "appBundleID": Bundle.main.bundleIdentifier ?? "missing",
+            "extensionBundleID": extensionBundle?.bundleIdentifier ?? "missing",
+            "extensionExecutableExists": String(extensionBundle?.executableURL.map { FileManager.default.fileExists(atPath: $0.path) } ?? false),
+            "activities": Activity<MoneyActivityAttributes>.activities.map { "\($0.id):\(String(describing: $0.activityState)):session=\($0.attributes.sessionID)" }.joined(separator: ";"),
+            "osRendering": "unverified; ActivityKit does not report visible widget pixels"
+        ]
+    }
+
     enum RequestError: LocalizedError {
         case disabled, foregroundRequired, alreadyActive
         var errorDescription: String? {
@@ -37,7 +52,7 @@ final class MoneyLiveActivityController {
                 attributes: MoneyActivityAttributes(sessionID: record.id, startedAt: record.startedAt,
                                                     style: style == "ink" ? "ink" : "paper"),
                 content: content(record, isCounting: isCounting), pushType: nil)
-            status = "表示中（更新時点の金額）"
+            status = "開始受付済み（OS表示は別途確認）"
         } catch {
             status = "開始失敗：\(error.localizedDescription)"
             throw error
@@ -52,7 +67,7 @@ final class MoneyLiveActivityController {
             return
         }
         await target.update(content(record, isCounting: isCounting))
-        status = isCounting ? "表示中（更新時点の金額）" : "停止中（更新時点の金額）"
+        status = isCounting ? "開始受付済み・更新送信済み（OS表示は別途確認）" : "開始受付済み・計測一時停止（OS表示は別途確認）"
     }
 
     func end(record: SessionRecord) async {

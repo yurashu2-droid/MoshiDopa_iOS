@@ -231,15 +231,20 @@ final class VisualFlowTests: XCTestCase {
         start.tap()
 
         let status = app.staticTexts["external-display-status"]
-        let displayed = NSPredicate(format: "label CONTAINS %@", "表示中")
+        let displayed = NSPredicate(format: "label CONTAINS %@", "開始受付済み")
         expectation(for: displayed, evaluatedWith: status)
         waitForExpectations(timeout: 8)
-        XCTAssertTrue(status.label.contains("表示中"))
+        XCTAssertTrue(status.label.contains("開始受付済み"))
         capture(app, name: "live-activity-started")
 
         XCUIDevice.shared.press(.home)
-        sleep(2)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let systemMoney = springboard.descendants(matching: .any).matching(
+            NSPredicate(format: "label BEGINSWITH %@", "更新時点の金額 ¥")
+        ).firstMatch
+        let moneyVisible = systemMoney.waitForExistence(timeout: 20)
         captureSystemScreen(name: "live-activity-background")
+        XCTAssertTrue(moneyVisible, "ActivityKit request succeeded but no money is exposed by the OS Live Activity. This is not a display pass.")
         app.activate()
 
         app.buttons["pip-stop-session"].tap()

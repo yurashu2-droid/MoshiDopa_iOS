@@ -16,13 +16,15 @@ PY
 )
 xcrun simctl boot "$UDID" || true
 xcrun simctl bootstatus "$UDID" -b
-xcrun simctl status_bar "$UDID" override --time '9:41' --batteryState charged --batteryLevel 100
+xcrun simctl status_bar "$UDID" clear
 TEST_STATUS=0
 xcodebuild -project MoshiDopa.xcodeproj -scheme MoshiDopa -configuration Debug \
   -destination "platform=iOS Simulator,id=$UDID" -derivedDataPath build/simulator \
   -resultBundlePath artifacts/Tests.xcresult -parallel-testing-enabled NO \
   CODE_SIGNING_ALLOWED=NO test 2>&1 | tee artifacts/simulator-tests.log || TEST_STATUS=$?
 printf '%s\n' "$TEST_STATUS" > artifacts/simulator-test-exit-code.txt
+xcrun simctl spawn "$UDID" log show --last 20m --style compact --predicate 'process == "liveactivitiesd" OR process == "chronod" OR process == "MoneyLiveActivityWidget" OR process == "pluginkit"' > artifacts/live-activity-system.log 2>&1 || true
+xcrun simctl status_bar "$UDID" override --time '9:41' --batteryState charged --batteryLevel 100
 APP=build/simulator/Build/Products/Debug-iphonesimulator/MoshiDopa.app
 if [[ ! -x "$APP/MoshiDopa" ]]; then
   echo 'No compiled app executable; skipping install and visual capture.' >&2

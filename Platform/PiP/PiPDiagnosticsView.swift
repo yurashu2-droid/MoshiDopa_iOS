@@ -252,7 +252,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             guard let snapshot else { throw SessionError.missingSession }
             try liveActivity.start(record: snapshot, style: displayStyle, isCounting: isCounting)
             liveStatus = liveActivity.status
-            try log("live_activity_started")
+            try log("live_activity_started", detail: String(describing: liveActivity.diagnostics))
         }
     }
 
@@ -324,6 +324,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
             while let (record, counting) = self.pendingLiveUpdate {
                 self.pendingLiveUpdate = nil
                 await self.liveActivity.update(record: record, isCounting: counting)
+                try? self.log("live_activity_update_completed", record: record, detail: "counting=\(counting); \(self.liveActivity.diagnostics)")
             }
             self.liveStatus = self.liveActivity.status
             self.liveUpdateTask = nil
@@ -379,6 +380,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 let isCounting: Bool
                 let displayReady: Bool
                 let pipPossible: Bool
+                let liveActivity: [String: String]
                 let validation: String
                 let records: [SessionRecord]
                 let eventJSONLines: String
@@ -388,6 +390,7 @@ final class PiPDiagnosticsModel: NSObject, ObservableObject {
                 appVersion: "\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "unknown") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? "unknown"))",
                 delivery: delivery, style: displayStyle, trackingMode: trackingMode, isCounting: isCounting,
                 displayReady: videoIsReadyForDisplay, pipPossible: controller?.isPictureInPicturePossible ?? false,
+                liveActivity: liveActivity.diagnostics,
                 validation: "Device PiP acceptance is unverified until recorded manual test", records: try service.history(),
                 eventJSONLines: String(decoding: try Data(contentsOf: events.url), as: UTF8.self))
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("MoshiDopa-PiP-\(UUID().uuidString).json")
