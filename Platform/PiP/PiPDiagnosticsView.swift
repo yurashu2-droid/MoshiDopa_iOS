@@ -576,7 +576,7 @@ struct PiPDiagnosticsView: View {
                         .font(.caption)
                     Text("映像表示準備: \(model.displayReady ? "完了" : "待機")")
                         .font(.caption).accessibilityIdentifier("pip-display-ready")
-                    Text("PiPは実行時間がある間に1秒間隔で描画します。Live Activityは更新時点の金額で、背景の連続更新はOSが保証しません。表示を閉じても停止・保存は必要です。")
+                    Text("PiPは実行時間がある間に0.1秒間隔で描画します。Live Activityは更新時点の金額で、背景の連続更新はOSが保証しません。表示を閉じても停止・保存は必要です。")
                         .font(.caption)
                 }
                 Section("対象アプリの連携") {

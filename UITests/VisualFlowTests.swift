@@ -44,6 +44,7 @@ final class VisualFlowTests: XCTestCase {
             XCTAssertTrue(open.isHittable)
             open.tap()
             XCTAssertTrue(app.buttons["pip-start-session"].waitForExistence(timeout: 5))
+            sleep(1)
             capture(app, name: "pip-style-real-\(style)")
         }
     }
