@@ -78,7 +78,6 @@ final class VisualFlowTests: XCTestCase {
             for _ in 0..<6 where !next.isHittable { app.swipeUp() }
             XCTAssertTrue(next.isHittable)
             next.tap()
-            app.swipeDown()
         }
         XCTAssertEqual(app.staticTexts["automation-step-title"].label, "実際に動くか試す")
         capture(app, name: "automation-guide-manual-verification")
